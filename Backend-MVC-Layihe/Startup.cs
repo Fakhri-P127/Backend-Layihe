@@ -26,7 +26,10 @@ namespace Backend_MVC_Layihe
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+             .AddNewtonsoftJson(options =>
+             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+         );
             services.AddDbContext<ApplicationDbContext>(opt =>
             {
                 opt.UseSqlServer(_config.GetConnectionString("default"));
@@ -49,6 +52,14 @@ namespace Backend_MVC_Layihe
 
             app.UseEndpoints(endpoints =>
             {
+               endpoints.MapControllerRoute(
+                      name: "areas",
+                      pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
+                    );
+                endpoints.MapControllerRoute(
+                     name: "areas",
+                     pattern: "{area:exists}/{controller}/{action=Index}/{id?}"
+                   );
                 endpoints.MapControllerRoute(
                     "default",
                     "{controller=home}/{action=index}/{id?}");

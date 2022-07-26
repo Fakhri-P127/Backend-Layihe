@@ -1,13 +1,9 @@
 ﻿@model List<Clothes>
-@*@{
-    List<Clothes> clothes = null;
-    ViewData["Title"] = "Index";
-    if(TempData["ClothesOrder"] != null)
-    {
-        var salam = TempData["ClothesOrder"];
-        clothes = JsonConvert.DeserializeObject<List<Clothes>>((string)salam);
-    }
-}*@
+@{
+    List<Color> colors = ViewBag.Colors;
+    List<Size> sizes = ViewBag.Sizes;
+}
+
 
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
@@ -68,36 +64,27 @@
             <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by color</span></h5>
             <div class="bg-light p-4 mb-30">
                 <form>
+                    @{int colorCount = 0;}
+                    @{
+                        colors.ForEach(c => colorCount += c.ClothesColors.Count);
+                    }
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" checked id="color-all">
-                        <label class="custom-control-label" for="price-all">All Color</label>
-                        <span class="badge border font-weight-normal">1000</span>
+                        <input style="width:100%" type="checkbox" class="custom-control-input" checked id="color-all">
+                        <label class="custom-control-label" for="color-all">All Sizes</label>
+                        <span class="badge border font-weight-normal">
+                            @colorCount
+                        </span>
                     </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="color-1">
-                        <label class="custom-control-label" for="color-1">Black</label>
-                        <span class="badge border font-weight-normal">150</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="color-2">
-                        <label class="custom-control-label" for="color-2">White</label>
-                        <span class="badge border font-weight-normal">295</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="color-3">
-                        <label class="custom-control-label" for="color-3">Red</label>
-                        <span class="badge border font-weight-normal">246</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="color-4">
-                        <label class="custom-control-label" for="color-4">Blue</label>
-                        <span class="badge border font-weight-normal">145</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                        <input type="checkbox" class="custom-control-input" id="color-5">
-                        <label class="custom-control-label" for="color-5">Green</label>
-                        <span class="badge border font-weight-normal">168</span>
-                    </div>
+                    @foreach (Color color in colors)
+                    {
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input style="width:100%" type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label">@color.Name</label>
+                            <span class="badge border font-weight-normal">@color.ClothesColors.Count</span>
+                        </div>
+
+                    }
+
                 </form>
             </div>
             <!-- Color End -->
@@ -105,36 +92,24 @@
             <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by size</span></h5>
             <div class="bg-light p-4 mb-30">
                 <form>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" checked id="size-all">
+                    @{int sizeCount = 0;}
+                    @{
+                        sizes.ForEach(s => sizeCount += s.ColorSizes.Count);
+                    }
+                    <div  class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input style="width:100%" type="checkbox" class="custom-control-input" checked>
                         <label class="custom-control-label" for="size-all">All Size</label>
-                        <span class="badge border font-weight-normal">1000</span>
+                        <span class="badge border font-weight-normal">@sizeCount</span>
                     </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="size-1">
-                        <label class="custom-control-label" for="size-1">XS</label>
-                        <span class="badge border font-weight-normal">150</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="size-2">
-                        <label class="custom-control-label" for="size-2">S</label>
-                        <span class="badge border font-weight-normal">295</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="size-3">
-                        <label class="custom-control-label" for="size-3">M</label>
-                        <span class="badge border font-weight-normal">246</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="size-4">
-                        <label class="custom-control-label" for="size-4">L</label>
-                        <span class="badge border font-weight-normal">145</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                        <input type="checkbox" class="custom-control-input" id="size-5">
-                        <label class="custom-control-label" for="size-5">XL</label>
-                        <span class="badge border font-weight-normal">168</span>
-                    </div>
+                    @foreach (Size size in sizes)
+                    {
+                        <div  class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input style="width:100%" type="checkbox" class="custom-control-input" >
+                            <label class="custom-control-label" >@size.Name</label>
+                            <span class="badge border font-weight-normal">@size.ColorSizes.Count</span>
+                        </div>
+                    }
+
                 </form>
             </div>
             <!-- Size End -->
@@ -142,7 +117,7 @@
         <!-- Shop Sidebar End -->
         <!-- Shop Product Start -->
         <div class="col-lg-9 col-md-8">
-            <div class="row pb-3">
+            <div id="products-content" class="row pb-3">
                 <div class="col-12 pb-1">
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <div>
@@ -150,12 +125,15 @@
                             <button class="btn btn-sm btn-light ml-2"><i class="fa fa-bars"></i></button>
                         </div>
                         <div class="ml-2">
-                            <div class="btn-group">
+                            <div id="product-sorting" class="btn-group">
                                 <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Sorting</button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" asp-controller="shop" asp-action="getlatest">Latest</a>
-                                    <a class="dropdown-item" asp-controller="shop" asp-action="GetAlphabeticOrder">A-Z</a>
-                                    <a class="dropdown-item" asp-controller="shop" asp-action="GetReverseAlphabeticOrder">Z-A</a>
+                                    <a id="latest" class="dropdown-item" asp-controller="shop" asp-action="getdatas" asp-route-sortingOrder="@("Latest")">Latest</a>
+                                    <a id="a-z" class="dropdown-item" asp-controller="shop" asp-action="getdatas" asp-route-sortingOrder="@("A-Z")">A-Z</a>
+                                    <a id="z-a" class="dropdown-item" asp-controller="shop" asp-action="getdatas" asp-route-sortingOrder="@("Z-A")">Z-A</a>
+                                    <a id="z-a" class="dropdown-item" asp-controller="shop" asp-action="getdatas" asp-route-sortingOrder="@("Price by ascending")">Price by ascending</a>
+                                    <a id="z-a" class="dropdown-item" asp-controller="shop" asp-action="getdatas" asp-route-sortingOrder="@("Price by descending")">Price by descending</a>
+
                                 </div>
                             </div>
                             <div class="btn-group ml-2">
@@ -169,20 +147,10 @@
                         </div>
                     </div>
                 </div>
-                @await Html.PartialAsync("_ClothesPartialView", Model.Take(9))
+                <div class="row pb-3" id="partial-products-container">
 
-                <!--
-                          @*@if (clothes != null)
-    {*@
-            @*@await Html.PartialAsync("_ClothesPartialView", clothes)*@
-
-            @*}*@
-            @*else
-    {*@
-            @*}*@
-
-            -->
-
+                    @await Html.PartialAsync("_ClothesPartialView", Model.Take(9))
+                </div>
                 <div class="col-12">
                     <nav>
                         <ul class="pagination justify-content-center">
@@ -200,3 +168,29 @@
     </div>
 </div>
 <!-- Shop End -->
+
+@section ShopSorting{
+    <script>
+        const productSortingElement = document.querySelector("#product-sorting");
+        const partialProductContainer = document.querySelector("#partial-products-container");
+        const latest = productSortingElement.querySelector("#latest");
+        const alphabeticOrder = productSortingElement.querySelector("#a-z");
+        const reverseAlphabeticOrder = productSortingElement.querySelector("#z-a");
+
+        productSortingElement.addEventListener("click", (e) => {
+            e.preventDefault();
+            const currentTargetId = e.target.id;
+            console.log(currentTargetId)
+            const currentTargetHref = e.target.getAttribute("href");
+            console.log(currentTargetHref)
+
+            if (currentTargetId === latest.id
+                || currentTargetId === alphabeticOrder.id
+                || currentTargetId === reverseAlphabeticOrder.id)
+            {
+                fetch(currentTargetHref).then(res => res.text())
+                    .then(data => partialProductContainer.innerHTML = data);
+            }
+        })
+    </script>
+}

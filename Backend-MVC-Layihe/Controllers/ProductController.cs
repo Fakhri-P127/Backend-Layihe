@@ -25,7 +25,7 @@ namespace Backend_MVC_Layihe.Controllers
             ProductVM model = new ProductVM
             {
                 Clothes = _context.Clothes
-                .Include(c => c.ClothesImages).Include(c => c.ClothesCategories).ThenInclude(c => c.Category)
+                .Include(c => c.ClothesImages)
                 .Include(c => c.ClothesColors).ThenInclude(c => c.Color)
                 .ThenInclude(c => c.ColorSizes).ThenInclude(c => c.Size)
                 .FirstOrDefault(c => c.Id == id),
@@ -33,16 +33,16 @@ namespace Backend_MVC_Layihe.Controllers
             };
             List<Clothes> clothes = new List<Clothes>();
 
-            foreach (ClothesCategory category in model.Clothes.ClothesCategories)
-            {
+            //foreach (Category category in model.Clothes.Category.Clothes)
+            //{
 
-                clothes =  _context.Clothes.Include(x => x.ClothesCategories)
-                    .Include(x => x.ClothesImages)
-                    .Where(p => p.ClothesCategories
-                    .Any(x => x.CategoryId == category.CategoryId) && p.Id != category.ClothesId).ToList();
+            //    clothes =  _context.Clothes.Include(x => x.Category)
+            //        .Include(x => x.ClothesImages)
+            //        .Where(p => p.Category.Clothes
+            //        .Any(x => x.CategoryId == category.Id) && p.Id != category.ClothesId).ToList();
 
-                model.Clotheses.AddRange(clothes);
-            }
+            //    model.Clotheses.AddRange(clothes);
+            //}
             model.Clotheses = model.Clotheses.Distinct().ToList();
             
             if (model.Clothes is null) return NotFound();

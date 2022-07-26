@@ -20,28 +20,42 @@ namespace Backend_MVC_Layihe.Controllers
         }
         public IActionResult Index()
         {
-            List<Clothes> clothes = _context.Clothes.Include(c => c.ClothesImages).OrderByDescending(c => c.Id).Take(9).ToList();
-            //TempData["ClothesOrder"] = _context.Clothes.Include(c => c.ClothesImages).OrderByDescending(c => c.Id).Take(9).ToList();
+            ViewBag.Colors = _context.Colors.Include(c => c.ClothesColors).ToList();
+            ViewBag.Sizes = _context.Sizes.Include(c => c.ColorSizes).ToList();
+            List<Clothes> clothes = _context.Clothes
+                .Include(c => c.ClothesImages)
+             .Include(c => c.ClothesColors).ThenInclude(c => c.Color).OrderByDescending(c => c.Id).ToList();
+     
             return View(clothes);
         }
+        public IActionResult GetDatas(string sortingOrder)
+        {
+            List<Clothes> clothes = _context.Clothes
+             .Include(c => c.ClothesImages)
+             .Include(c=>c.ClothesColors).ThenInclude(c=>c.Color)
+             .OrderByDescending(c => c.Id).ToList();
+            switch (sortingOrder)
+            {
+                case "A-Z":
+                    clothes = clothes.OrderBy(clothes => clothes.Name).ToList();
+                    break;
+                case "Z-A":
+                    clothes = clothes.OrderByDescending(clothes => clothes.Name).ToList();
+                    break;
+                case "Price by ascending":
+                    clothes = clothes.OrderBy(clothes => clothes.Price).ToList();
+                    break;
+                case "Price by descending":
+                    clothes = clothes.OrderByDescending(clothes => clothes.Price).ToList();
+                    break;
+                default:
+                    clothes = clothes.OrderByDescending(clothes => clothes.Id).ToList();
+                    break;
+            }
+           
+            return PartialView("_ClothesFetchPartialView", clothes);
+        }
 
-        public  IActionResult GetLatest()
-        {
-            //string basketStr = JsonConvert.SerializeObject(_context.Clothes.Include(c => c.ClothesImages).OrderByDescending(c => c.Id).Take(9).ToList());
-            //TempData["ClothesOrder"] = basketStr;
-            TempData["ClothesOrder"] = _context.Clothes.Include(c => c.ClothesImages).OrderByDescending(c => c.Id).Take(9).ToList();
-            return RedirectToAction(nameof(Index));
-        }
-        public async Task<IActionResult> GetAlphabeticOrder()
-        {
-            TempData["ClothesOrder"] = await _context.Clothes.Include(c => c.ClothesImages).OrderBy(c => c.Name).Take(9).ToListAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        public async Task<IActionResult> GetReverseAlphabeticOrder()
-        {
-            TempData["ClothesOrder"] = await _context.Clothes.Include(c => c.ClothesImages).OrderByDescending(c => c.Name).Take(9).ToListAsync();
-            return RedirectToAction(nameof(Index));
-        }
+       
     }
 }

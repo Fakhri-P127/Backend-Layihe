@@ -17,7 +17,7 @@ namespace Backend_MVC_Layihe.DAL
         public DbSet<Clothes> Clothes { get; set; }
         public DbSet<ClothesImage> ClothesImages { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<ClothesCategory> ClothesCategories { get; set; }
+        //public DbSet<ClothesCategory> ClothesCategories { get; set; }
         public DbSet<Color> Colors { get; set; }
         public DbSet<ClothesColor> ClothesColors { get; set; }
         public DbSet<Size> Sizes { get; set; }

@@ -12,6 +12,5 @@ namespace Backend_MVC_Layihe.Models
         public Color Color { get; set; }
         public int SizeId { get; set; }
         public Size Size { get; set; }
-
     }
 }

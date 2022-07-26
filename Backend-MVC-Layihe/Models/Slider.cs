@@ -14,10 +14,10 @@ namespace Backend_MVC_Layihe.Models
         public string Image { get; set; }
         [Required(ErrorMessage ="Please enter the title")]
         public string Title { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please enter the article")]
         public string Article { get; set; }
         public string ButtonUrl { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please enter the order")]
         public byte Order { get; set; }
         [NotMapped]
         public IFormFile Photo { get; set; }

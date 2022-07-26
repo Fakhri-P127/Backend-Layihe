@@ -16,7 +16,9 @@ namespace Backend_MVC_Layihe.Models
         public string Description { get; set; }
         public string ExtraInfo { get; set; }
         public List<ClothesImage> ClothesImages { get; set; }
-        public List<ClothesCategory> ClothesCategories { get; set; }
+        public int? CategoryId { get; set; }
+        public Category Category { get; set; }
+
         public List<ClothesColor> ClothesColors { get; set; }
 
         //hele deqiq bilmirem bunlari

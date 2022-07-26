@@ -1,4 +1,5 @@
 ﻿using Backend_MVC_Layihe.DAL;
+using Backend_MVC_Layihe.Models;
 using Backend_MVC_Layihe.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -24,14 +25,25 @@ namespace Backend_MVC_Layihe.Controllers
             {
                 Sliders = await _context.Sliders.ToListAsync(),
                 Clothes= await _context.Clothes
-                .Include(c=>c.ClothesCategories).ThenInclude(c=>c.Category)
-                .Include(c=>c.ClothesImages)
+                .Include(c => c.ClothesImages)
+                .Include(c=>c.Category)
                 .ToListAsync(),
+                Categories = await _context.Categories.Include(c=>c.Clothes).ToListAsync(),
                 SpecialOffers= await _context.SpecialOffers.ToListAsync()
             };
+            
             return View(model);
         }
 
+        public IActionResult CategoryPage(int? id)
+        {
+            if (id is null || id == 0) return NotFound();
+
+            List<Clothes> clothes = _context.Clothes.Include(c => c.ClothesImages)
+                .Where(c => c.CategoryId == id).ToList();
+
+            return View(clothes);
+        }
         public IActionResult Contact()
         {
             return View();

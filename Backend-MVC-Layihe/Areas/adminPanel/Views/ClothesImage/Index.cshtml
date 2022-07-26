@@ -1,0 +1,65 @@
+﻿@model List<ClothesImage>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="main-panel">
+    <div>
+        <a asp-area="adminPanel" asp-controller="clothesimage" asp-action="Create" class="btn btn-outline-success">Create new image</a>
+    </div>
+    <div class="table-responsive pt-3">
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                    <th>
+                        Image
+                    </th>
+                    <th>
+                        Alternative
+                    </th>
+                    <th>
+                        IsMain
+                    </th>
+                    <th>
+                        Settings
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ClothesImage image in Model.OrderByDescending(x => x.Id))
+                {
+                    <tr>
+                        <td>
+                            <img style="width:150px !important;height:150px;object-fit:contain;" src="~/assets/img/@image.Name" alt="@image.Alternative" />
+                        </td>
+                        <td>@image.Alternative</td>
+                        <td>@image.IsMain</td>
+
+                        <td class="d-flex align-items-center" style="height:200px !important;">
+                            <div class="me-2">
+                                <a asp-area="adminPanel" asp-controller="clothesimage" asp-action="Edit" asp-route-id="@image.Id" class="btn btn-outline-warning">
+                                    <i class="mdi mdi-border-color"></i>
+                                </a>
+                            </div>
+                            <div class="me-2">
+                                <a asp-area="adminPanel" asp-controller="clothesimage" asp-action="Remove" asp-route-id="@image.Id" class="btn btn-outline-danger">
+                                    <i class="mdi mdi-delete"></i>
+                                </a>
+                            </div>
+                            <div>
+                                <a asp-area="adminPanel" asp-controller="clothesimage" asp-action="Detail" asp-route-id="@image.Id" class="btn btn-outline-info">
+                                    <i class="mdi mdi-comment-question-outline"></i>
+                                </a>
+                            </div>
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
