@@ -60,9 +60,9 @@
                 <p class="mb-4">
                     @{
 
-                        if (Model.Clothes.Description.Length > 50)
+                        if (Model.Clothes.Description.Length > 100)
                         {
-                            @Model.Clothes.Description.Substring(0, 50);
+                            @Model.Clothes.Description.Substring(0, 100);
 
                         }
                         else

@@ -21,10 +21,11 @@ namespace Backend_MVC_Layihe.DAL
         public DbSet<Color> Colors { get; set; }
         public DbSet<ClothesColor> ClothesColors { get; set; }
         public DbSet<Size> Sizes { get; set; }
-        public DbSet<ColorSize> ColorSizes { get; set; }
+        //public DbSet<ColorSize> ColorSizes { get; set; }
         public DbSet<Setting> Settings { get; set; }
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<SpecialOffer> SpecialOffers { get; set; }
+        public DbSet<ClothesColorSize> ClothesColorSizes { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

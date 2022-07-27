@@ -20,5 +20,10 @@ namespace Backend_MVC_Layihe.Service
             List<Setting> settings = _context.Settings.ToList();
             return settings;
         }
+        public List<Category> GetCategories()
+        {
+            List<Category> categories = _context.Categories.ToList();
+            return categories;
+        }
     }
 }

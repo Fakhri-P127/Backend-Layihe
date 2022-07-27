@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Backend_MVC_Layihe.Models
 {
-    public class ColorSize:BaseEntity
+    public class ClothesColorSize:BaseEntity
     {
-        public int ColorId { get; set; }
-        public Color Color { get; set; }
+        public int ClothesColorId { get; set; }
+        public ClothesColor ClothesColor{ get; set; }
         public int SizeId { get; set; }
         public Size Size { get; set; }
     }

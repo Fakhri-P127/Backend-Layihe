@@ -87,7 +87,7 @@
             <a class="text-decoration-none" asp-controller="home" asp-action="categoryPage" asp-route-id="@category.Id">
                 <div class="cat-item d-flex align-items-center mb-4">
                     <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="~/assets/img/cat-1.jpg" alt="@category.Name">
+                        <img class="img-fluid" src="~/assets/img/@category.Image" alt="@category.Name">
                     </div>
                     <div class="flex-fill pl-3">
                         <h6>@category.Name</h6>

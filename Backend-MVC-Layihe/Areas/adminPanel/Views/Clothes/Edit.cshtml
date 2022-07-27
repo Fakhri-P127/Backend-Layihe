@@ -1,0 +1,177 @@
+﻿@model Clothes
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="main-panel container mt-3">
+    <div class="d-flex justify-content-between">
+        <h2>Edit new Clothes</h2>
+        <div>
+            <a class="text-secondary text-decoration-none" asp-action="Index">Back to List</a>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-8">
+            <div>
+                <div class="image my-4">
+                    <h3>Main image</h3>
+                    <img style="width:200px;"
+                         src="~/assets/img/@Model.ClothesImages.FirstOrDefault(p => p.IsMain == true)?.Name"
+                         alt="@Model.ClothesImages.FirstOrDefault(p => p.IsMain == true)?.Alternative" />
+                </div>
+                <div id="detailContent" class="d-flex">
+                    @foreach (ClothesImage image in Model.ClothesImages.Where(p => p.IsMain == false))
+                    {
+                        <div id="@image.Id" class="my-4 imageId">
+                            <h3>Detail image</h3>
+                            <small class="removeBtn" style="font-weight:bold;color:crimson;cursor:pointer;">Remove</small>
+                            <div class="image ">
+                                <img style="width:200px;" src="~/assets/img/@image.Name" alt="@image.Alternative" />
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <form method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="MainPhoto" class="control-label"></label>
+                    <input asp-for="MainPhoto" class="form-control" />
+                    <span asp-validation-for="MainPhoto" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DetailPhotos" class="control-label"></label>
+                    <input asp-for="DetailPhotos" class="form-control" />
+                    <span asp-validation-for="DetailPhotos" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DiscountPrice" class="control-label"></label>
+                    <input asp-for="DiscountPrice" class="form-control" />
+                    <span asp-validation-for="DiscountPrice" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ExtraInfo" class="control-label"></label>
+                    <input asp-for="ExtraInfo" class="form-control" />
+                    <span asp-validation-for="ExtraInfo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CategoryId" class="control-label"></label>
+                    <select asp-for="CategoryId" class="form-control" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"));"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ColorIds" class="control-label"></label>
+                    <select asp-for="ColorIds" class="form-control">
+                        @foreach (Color color in ViewBag.Colors)
+                        {
+                            if (Model.ClothesColors.Any(c => c.ColorId == color.Id))
+                            {
+                                <option value="@color.Id" selected>@color.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@color.Id">@color.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SizeIds" class="control-label"></label>
+                    <select asp-for="SizeIds" class="form-control">
+                        @foreach (Size size in ViewBag.Sizes)
+                        {
+                            if (size.ClothesColorSizes.Any(c => c.SizeId == size.Id))
+                            {
+                                <option value="@size.Id" selected>@size.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@size.Id">@size.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Edit" class="btn btn-warning" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@*<div class="form-group">
+    @{
+        List<ClothesColorSize> clothesColorSizes = ViewBag.ClothesColorSizes;
+        Model.ClothesColors.ForEach(c=>c.ClothesColorSizes.)
+    }
+    <label asp-for="SizeIds" class="control-label"></label>
+    <select asp-for="SizeIds" class="form-control">
+        @foreach (var item in ViewBag.Sizes)
+        {
+            Model.ClothesColors.Any(c=>c.ClothesColorSizes)
+        }
+        @foreach (ClothesColorSize clothesColorSize in clothesColorSizes)
+        {
+            List<ClothesColor> cColor = new List<ClothesColor>();
+            cColor = Model.ClothesColors
+                .Where(c => c.ClothesColorSizes.Any(d => d.SizeId == clothesColorSize.SizeId)).ToList();
+
+            foreach (var item in cColor)
+            {
+                if (item.ClothesColorSizes.Any(c => c.SizeId == clothesColorSize.SizeId))
+                {
+                    <option value="@clothesColorSize.Size.Id" selected>@clothesColorSize.Size.Name</option>
+                }
+                else
+                {
+                    <option value="@clothesColorSize.Size.Id">@clothesColorSize.Size.Name</option>
+                }
+            }
+
+        }
+    </select>
+</div>*@
+
+
+@section Scripts{
+    <script>
+
+        const removeBtnElement = document.querySelectorAll(".removeBtn");
+        console.log(removeBtnElement);
+        const detailContentDiv = document.querySelector("#detailContent");
+        console.log(detailContentDiv);
+        const form = document.querySelector("form");
+        removeBtnElement.forEach(btn => btn.addEventListener("click", (e) => {
+
+            const ImageDiv = btn.closest(".imageId");
+            console.log(ImageDiv);
+            const oldId = ImageDiv.id;
+            console.log(oldId);
+
+            let plantImageDiv = document.getElementsByClassName(oldId);
+
+            plantImageDiv = plantImageDiv[0];
+            console.log(plantImageDiv);
+            form.removeChild(plantImageDiv);
+
+            detailContentDiv.removeChild(ImageDiv);
+        }));
+    </script>
+}

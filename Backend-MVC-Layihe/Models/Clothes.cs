@@ -18,14 +18,23 @@ namespace Backend_MVC_Layihe.Models
         public List<ClothesImage> ClothesImages { get; set; }
         public int? CategoryId { get; set; }
         public Category Category { get; set; }
-
         public List<ClothesColor> ClothesColors { get; set; }
 
         //hele deqiq bilmirem bunlari
         [NotMapped]
-        public int SizeId { get; set; }
+        public IFormFile MainPhoto { get; set; }
         [NotMapped]
-        public int ColorId { get; set; }
+        public List<IFormFile> DetailPhotos { get; set; }
+        [NotMapped]
+        public List<int> ImageIds { get; set; }
+        [NotMapped]
+        public List<int> ColorIds { get; set; }
+        [NotMapped]
+        public List<int> SizeIds { get; set; }
+        //[NotMapped]
+        //public int SizeId { get; set; }
+        //[NotMapped]
+        //public int ColorId { get; set; }
 
     }
 }

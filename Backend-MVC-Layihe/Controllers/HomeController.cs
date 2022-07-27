@@ -30,6 +30,7 @@ namespace Backend_MVC_Layihe.Controllers
                 .ToListAsync(),
                 Categories = await _context.Categories.Include(c=>c.Clothes).ToListAsync(),
                 SpecialOffers= await _context.SpecialOffers.ToListAsync()
+
             };
             
             return View(model);

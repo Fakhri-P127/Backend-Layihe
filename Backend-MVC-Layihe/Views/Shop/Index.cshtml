@@ -62,26 +62,29 @@
             <!-- Price End -->
             <!-- Color Start -->
             <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by color</span></h5>
-            <div class="bg-light p-4 mb-30">
+            <div id="color-section" class="bg-light p-4 mb-30">
                 <form>
                     @{int colorCount = 0;}
                     @{
-                        colors.ForEach(c => colorCount += c.ClothesColors.Count);
+                        colors.ForEach(c =>colorCount += c.ClothesColors.Count);
                     }
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+
                         <input style="width:100%" type="checkbox" class="custom-control-input" checked id="color-all">
-                        <label class="custom-control-label" for="color-all">All Sizes</label>
+                        <label style="width:120px" class="custom-control-label" for="color-all">All colors</label>
+                        <a asp-action="getdatas" asp-route-sortingOrder="allColors" style="width:100%;height:20px;"> </a>
                         <span class="badge border font-weight-normal">
-                            @colorCount
+                            @Model.Count
                         </span>
                     </div>
                     @foreach (Color color in colors)
                     {
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input style="width:100%" type="checkbox" class="custom-control-input">
-                            <label class="custom-control-label">@color.Name</label>
-                            <span class="badge border font-weight-normal">@color.ClothesColors.Count</span>
-                        </div>
+                <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                    <input style="width:100%;" type="checkbox" class="custom-control-input">
+                    <label  class="custom-control-label">@color.Name</label>
+                    <a asp-action="getdatas" asp-route-sortingOrder="@color.Name" style="width:100%;height:20px;"> </a>
+                    <span class="badge border font-weight-normal">@color.ClothesColors.Count</span>
+                </div>
 
                     }
 
@@ -90,24 +93,26 @@
             <!-- Color End -->
             <!-- Size Start -->
             <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by size</span></h5>
-            <div class="bg-light p-4 mb-30">
+            <div id="size-section" class="bg-light p-4 mb-30">
                 <form>
-                    @{int sizeCount = 0;}
+                    @*@{int sizeCount = 0;}
                     @{
-                        sizes.ForEach(s => sizeCount += s.ColorSizes.Count);
-                    }
-                    <div  class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        sizes.ForEach(s => sizeCount += s.ClothesColorSizes.Count);
+                    }*@
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                         <input style="width:100%" type="checkbox" class="custom-control-input" checked>
-                        <label class="custom-control-label" for="size-all">All Size</label>
-                        <span class="badge border font-weight-normal">@sizeCount</span>
+                        <label style="width:120px" class="custom-control-label" for="size-all">All Sizes</label>
+                        <a asp-action="getdatas" asp-route-sortingOrder="allSizes" style="width:100%;height:20px;"> </a>
+                        <span class="badge border font-weight-normal">@Model.Count</span>
                     </div>
                     @foreach (Size size in sizes)
                     {
-                        <div  class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input style="width:100%" type="checkbox" class="custom-control-input" >
-                            <label class="custom-control-label" >@size.Name</label>
-                            <span class="badge border font-weight-normal">@size.ColorSizes.Count</span>
-                        </div>
+                <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                    <input style="width:100%" type="checkbox" class="custom-control-input">
+                    <label class="custom-control-label">@size.Name</label>
+                    <a asp-action="getdatas" asp-route-sortingOrder="@size.Name" style="width:100%;height:20px;"> </a>
+                    <span class="badge border font-weight-normal">@size.ClothesColorSizes.Count</span>
+                </div>
                     }
 
                 </form>
@@ -183,14 +188,54 @@
             console.log(currentTargetId)
             const currentTargetHref = e.target.getAttribute("href");
             console.log(currentTargetHref)
-
-            if (currentTargetId === latest.id
+            console.log(e.target, productSortingElement)
+            if (e.target != productSortingElement.querySelector("button")) {
+                fetch(currentTargetHref).then(res => res.text())
+                    .then(data => partialProductContainer.innerHTML = data);
+            }
+            @*if (currentTargetId === latest.id
                 || currentTargetId === alphabeticOrder.id
                 || currentTargetId === reverseAlphabeticOrder.id)
             {
                 fetch(currentTargetHref).then(res => res.text())
                     .then(data => partialProductContainer.innerHTML = data);
-            }
+            }*@
         })
+
+        // Color section
+        const colorSection = document.querySelector("#color-section");
+        const colorElements = colorSection.querySelectorAll("form div a");
+        console.log(colorSection);
+        colorElements.forEach(color => color.addEventListener("click", function (e) {
+            e.preventDefault();
+            console.log(e.target);
+            const colorHrefAttribute = e.target.getAttribute("href");
+            console.log(colorHrefAttribute);
+            const inputElement = color.previousElementSibling.previousElementSibling;
+            
+            colorElements.forEach(clr => clr.previousElementSibling.previousElementSibling.checked = false)
+            inputElement.checked = true;
+            fetch(colorHrefAttribute).then(res => res.text())
+                .then(data => partialProductContainer.innerHTML = data);
+        }))
+
+        @*// Size section
+        const sizeSection = document.querySelector("#size-section");
+        const sizeElements = sizeSection.querySelectorAll("form div a");
+        console.log(sizeElements);
+        sizeElements.forEach(size => size.addEventListener("click", function (e) {
+            e.preventDefault();
+            console.log(e.target);
+            const sizeHrefAttribute = e.target.getAttribute("href");
+            console.log(sizeHrefAttribute);
+            const inputElement = size.previousElementSibling.previousElementSibling;
+
+            sizeElements.forEach(s => s.previousElementSibling.previousElementSibling.checked = false)
+            inputElement.checked = true;
+            fetch(sizeHrefAttribute).then(res => res.text())
+                .then(data => partialProductContainer.innerHTML = data);
+        }))*@
+
+
     </script>
 }

@@ -96,6 +96,28 @@ namespace Backend_MVC_Layihe.Migrations
                     b.ToTable("ClothesColors");
                 });
 
+            modelBuilder.Entity("Backend_MVC_Layihe.Models.ClothesColorSize", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClothesColorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SizeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClothesColorId");
+
+                    b.HasIndex("SizeId");
+
+                    b.ToTable("ClothesColorSizes");
+                });
+
             modelBuilder.Entity("Backend_MVC_Layihe.Models.ClothesImage", b =>
                 {
                     b.Property<int>("Id")
@@ -104,7 +126,9 @@ namespace Backend_MVC_Layihe.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Alternative")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
 
                     b.Property<int>("ClothesId")
                         .HasColumnType("int");
@@ -140,28 +164,6 @@ namespace Backend_MVC_Layihe.Migrations
                         .IsUnique();
 
                     b.ToTable("Colors");
-                });
-
-            modelBuilder.Entity("Backend_MVC_Layihe.Models.ColorSize", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ColorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SizeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ColorId");
-
-                    b.HasIndex("SizeId");
-
-                    b.ToTable("ColorSizes");
                 });
 
             modelBuilder.Entity("Backend_MVC_Layihe.Models.Setting", b =>
@@ -245,13 +247,17 @@ namespace Backend_MVC_Layihe.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Discount")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(40)")
+                        .HasMaxLength(40);
 
                     b.HasKey("Id");
 
@@ -280,26 +286,26 @@ namespace Backend_MVC_Layihe.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Backend_MVC_Layihe.Models.ClothesColorSize", b =>
+                {
+                    b.HasOne("Backend_MVC_Layihe.Models.ClothesColor", "ClothesColor")
+                        .WithMany("ClothesColorSizes")
+                        .HasForeignKey("ClothesColorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Backend_MVC_Layihe.Models.Size", "Size")
+                        .WithMany("ClothesColorSizes")
+                        .HasForeignKey("SizeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Backend_MVC_Layihe.Models.ClothesImage", b =>
                 {
                     b.HasOne("Backend_MVC_Layihe.Models.Clothes", "Clothes")
                         .WithMany("ClothesImages")
                         .HasForeignKey("ClothesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Backend_MVC_Layihe.Models.ColorSize", b =>
-                {
-                    b.HasOne("Backend_MVC_Layihe.Models.Color", "Color")
-                        .WithMany("ColorSizes")
-                        .HasForeignKey("ColorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Backend_MVC_Layihe.Models.Size", "Size")
-                        .WithMany("ColorSizes")
-                        .HasForeignKey("SizeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

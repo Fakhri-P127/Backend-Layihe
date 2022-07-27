@@ -1,0 +1,72 @@
+﻿@model Clothes
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="main-panel container mt-3">
+    <div class="d-flex justify-content-between">
+        <h2>Create new Clothes</h2>
+        <div>
+            <a class="text-secondary text-decoration-none" asp-action="Index">Back to List</a>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-8">
+            <form method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="MainPhoto" class="control-label"></label>
+                    <input asp-for="MainPhoto" class="form-control" />
+                    <span asp-validation-for="MainPhoto" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DetailPhotos" class="control-label"></label>
+                    <input asp-for="DetailPhotos" class="form-control" />
+                    <span asp-validation-for="DetailPhotos" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DiscountPrice" class="control-label"></label>
+                    <input asp-for="DiscountPrice" class="form-control" />
+                    <span asp-validation-for="DiscountPrice" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ExtraInfo" class="control-label"></label>
+                    <input asp-for="ExtraInfo" class="form-control" />
+                    <span asp-validation-for="ExtraInfo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CategoryId" class="control-label"></label>
+                    <select asp-for="CategoryId" class="form-control" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"));"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ColorIds" class="control-label"></label>
+                    <select asp-for="ColorIds" class="form-control" asp-items="@(new SelectList(ViewBag.Colors, "Id", "Name"));"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SizeIds" class="control-label"></label>
+                    <select asp-for="SizeIds" class="form-control" asp-items="@(new SelectList(ViewBag.Sizes, "Id", "Name"));"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

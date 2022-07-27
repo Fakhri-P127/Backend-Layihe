@@ -12,5 +12,7 @@ namespace Backend_MVC_Layihe.Models
         public Clothes Clothes { get; set; }
         public int ColorId { get; set; }
         public Color Color { get; set; }
+        public List<ClothesColorSize> ClothesColorSizes { get; set; }
+
     }
 }

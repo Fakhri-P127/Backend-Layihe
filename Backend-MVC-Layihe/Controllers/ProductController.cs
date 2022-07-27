@@ -27,22 +27,24 @@ namespace Backend_MVC_Layihe.Controllers
                 Clothes = _context.Clothes
                 .Include(c => c.ClothesImages)
                 .Include(c => c.ClothesColors).ThenInclude(c => c.Color)
-                .ThenInclude(c => c.ColorSizes).ThenInclude(c => c.Size)
+                //.ThenInclude(c => c.ColorSizes).ThenInclude(c => c.Size)
                 .FirstOrDefault(c => c.Id == id),
-                Clotheses = new List<Clothes>()
+                Clotheses = new List<Clothes>(),
+                Category = _context.Clothes.Include(c=>c.Category).FirstOrDefault(c=>c.Id==id).Category
+
             };
             List<Clothes> clothes = new List<Clothes>();
 
-            //foreach (Category category in model.Clothes.Category.Clothes)
-            //{
-
-            //    clothes =  _context.Clothes.Include(x => x.Category)
-            //        .Include(x => x.ClothesImages)
-            //        .Where(p => p.Category.Clothes
-            //        .Any(x => x.CategoryId == category.Id) && p.Id != category.ClothesId).ToList();
-
-            //    model.Clotheses.AddRange(clothes);
-            //}
+            foreach (Clothes product in model.Category.Clothes.ToList())
+            {
+                clothes = _context.Clothes.Include(x => x.Category).ThenInclude(c => c.Clothes)
+                    .Include(x => x.ClothesImages)
+                    .Where(p => product.CategoryId == p.CategoryId && p.Id !=id).ToList();
+                    //.Any(x => x.CategoryId == product.CategoryId);
+                    
+                    //&& p.CategoryId != product.CategoryId).ToList();
+                model.Clotheses.AddRange(clothes);
+            }
             model.Clotheses = model.Clotheses.Distinct().ToList();
             
             if (model.Clothes is null) return NotFound();

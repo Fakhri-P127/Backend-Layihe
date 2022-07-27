@@ -10,6 +10,7 @@ namespace Backend_MVC_Layihe.ViewModels
     {
         public Clothes Clothes { get; set; }
         public List<Clothes> Clotheses { get; set; }
+        public Category Category { get; set; }
 
     }
 }
