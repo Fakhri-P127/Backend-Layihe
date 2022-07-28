@@ -49,10 +49,18 @@ namespace Backend_MVC_Layihe.Controllers
                 case "Price by descending":
                     clothes = clothes.OrderByDescending(clothes => clothes.Price).ToList();
                     break;
-                
                 default:
                     clothes = clothes.OrderByDescending(clothes => clothes.Id).ToList();
                     break;
+            }
+            List<Category> categories = _context.Categories.Include(c => c.Clothes).ToList();
+            foreach (Category category in categories)
+            {
+                if (category.Name == sortingOrder)
+                {
+                    categories = categories.Where(c => c.Clothes.Any(d => d.Category.Name == sortingOrder)).ToList();
+                    break;
+                }
             }
             List<Color> colors = _context.Colors.Include(c => c.ClothesColors).ToList();
             foreach (Color color in colors)

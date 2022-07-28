@@ -14,28 +14,42 @@
     <hr />
     <div class="row">
         <div class="col-md-8">
-            <div>
-                <div class="image my-4">
-                    <h3>Main image</h3>
-                    <img style="width:200px;"
-                         src="~/assets/img/@Model.ClothesImages.FirstOrDefault(p => p.IsMain == true)?.Name"
-                         alt="@Model.ClothesImages.FirstOrDefault(p => p.IsMain == true)?.Alternative" />
-                </div>
-                <div id="detailContent" class="d-flex">
-                    @foreach (ClothesImage image in Model.ClothesImages.Where(p => p.IsMain == false))
-                    {
-                        <div id="@image.Id" class="my-4 imageId">
-                            <h3>Detail image</h3>
-                            <small class="removeBtn" style="font-weight:bold;color:crimson;cursor:pointer;">Remove</small>
-                            <div class="image ">
-                                <img style="width:200px;" src="~/assets/img/@image.Name" alt="@image.Alternative" />
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
+
             <form method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div>
+                    <div class="image my-4">
+                        <h3>Main image</h3>
+                        <img style="width:200px;"
+                             src="~/assets/img/@Model.ClothesImages.FirstOrDefault(p => p.IsMain == true)?.Name"
+                             alt="@Model.ClothesImages.FirstOrDefault(p => p.IsMain == true)?.Alternative" />
+                    </div>
+                    <h3>Detail image</h3>
+                    @*<div id="detailContent" class="d-flex">
+                            @foreach (ClothesImage image in Model.ClothesImages.Where(p => p.IsMain == false))
+                            {
+                                <div style="position:relative" id="@image.Id" class="my-4 imageId">
+                                    <small class="removeBtn btn btn-danger text-white" style="font-weight:bold;color:crimson;cursor:pointer;position:absolute;right:5px;">X</small>
+                                    <div class="image ">
+                                        <img style="width:200px;" src="~/assets/img/@image.Name" alt="@image.Alternative" />
+                                    </div>
+                                </div>
+                            }
+                        </div>*@
+                    <div class="image d-flex">
+
+                        @foreach (ClothesImage image in Model.ClothesImages.Where(p => p.IsMain == false))
+                        {
+                            <div style="position:relative;" class="col-sm-3">
+                                <img src="~/assets/img/@image.Name" style="width:100%;height:200px;object-fit:contain">
+                                <input type="hidden" name="ImageIds" value="@image.Id">
+                                <button style="position:absolute; right:5px" type="button" class="btn btn-danger">X</button>
+                                <span class="text-danger" asp-validation-for="ImageIds"></span>
+
+                            </div>
+                        }
+                    </div>
+                </div>
                 <div class="form-group">
                     <label asp-for="MainPhoto" class="control-label"></label>
                     <input asp-for="MainPhoto" class="form-control" />
@@ -75,38 +89,45 @@
                     <label asp-for="CategoryId" class="control-label"></label>
                     <select asp-for="CategoryId" class="form-control" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"));"></select>
                 </div>
-                <div class="form-group">
-                    <label asp-for="ColorIds" class="control-label"></label>
-                    <select asp-for="ColorIds" class="form-control">
-                        @foreach (Color color in ViewBag.Colors)
-                        {
-                            if (Model.ClothesColors.Any(c => c.ColorId == color.Id))
+                @foreach (ClothesColor clothesColor in Model.ClothesColors)
+                {
+                    <div class="form-group">
+                        <label for="ColorId" class="control-label">Colors</label>
+                        <select id="ColorId" name="ColorId" data-val="true" value="ColorId" data-val-required="The ColorIds field is required." class="form-control">
+                            @foreach (Color color in ViewBag.Colors)
                             {
-                                <option value="@color.Id" selected>@color.Name</option>
+                                if (color.Id == clothesColor.Color.Id)
+                                {
+                                    <option selected value="@color.Id">@color.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@color.Id">@color.Name</option>
+                                }
                             }
-                            else
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="SizeIds" class="control-label">Sizes</label>
+                        <select class="form-control" multiple="multiple" name="SizeIds" id="SizeIds">
+                            @foreach (Size size in ViewBag.Sizes)
                             {
-                                <option value="@color.Id">@color.Name</option>
+                                if (clothesColor.ClothesColorSizes.Any(c => c.SizeId == size.Id))
+                                {
+
+                                    <option value="@size.Id" selected>@size.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@size.Id">@size.Name</option>
+                                }
                             }
-                        }
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label asp-for="SizeIds" class="control-label"></label>
-                    <select asp-for="SizeIds" class="form-control">
-                        @foreach (Size size in ViewBag.Sizes)
-                        {
-                            if (size.ClothesColorSizes.Any(c => c.SizeId == size.Id))
-                            {
-                                <option value="@size.Id" selected>@size.Name</option>
-                            }
-                            else
-                            {
-                                <option value="@size.Id">@size.Name</option>
-                            }
-                        }
-                    </select>
-                </div>
+                        </select>
+                    </div>
+                    <button id="check-btn" class="btn btn-outline-info">Check</button>
+
+                }
+
                 <div class="form-group">
                     <input type="submit" value="Edit" class="btn btn-warning" />
                 </div>
@@ -117,61 +138,118 @@
 
 
 @*<div class="form-group">
-    @{
-        List<ClothesColorSize> clothesColorSizes = ViewBag.ClothesColorSizes;
-        Model.ClothesColors.ForEach(c=>c.ClothesColorSizes.)
-    }
-    <label asp-for="SizeIds" class="control-label"></label>
-    <select asp-for="SizeIds" class="form-control">
-        @foreach (var item in ViewBag.Sizes)
-        {
-            Model.ClothesColors.Any(c=>c.ClothesColorSizes)
+        @{
+            List<ClothesColorSize> clothesColorSizes = ViewBag.ClothesColorSizes;
+            Model.ClothesColors.ForEach(c=>c.ClothesColorSizes.)
         }
-        @foreach (ClothesColorSize clothesColorSize in clothesColorSizes)
-        {
-            List<ClothesColor> cColor = new List<ClothesColor>();
-            cColor = Model.ClothesColors
-                .Where(c => c.ClothesColorSizes.Any(d => d.SizeId == clothesColorSize.SizeId)).ToList();
-
-            foreach (var item in cColor)
+        <label asp-for="SizeIds" class="control-label"></label>
+        <select asp-for="SizeIds" class="form-control">
+            @foreach (var item in ViewBag.Sizes)
             {
-                if (item.ClothesColorSizes.Any(c => c.SizeId == clothesColorSize.SizeId))
-                {
-                    <option value="@clothesColorSize.Size.Id" selected>@clothesColorSize.Size.Name</option>
-                }
-                else
-                {
-                    <option value="@clothesColorSize.Size.Id">@clothesColorSize.Size.Name</option>
-                }
+                Model.ClothesColors.Any(c=>c.ClothesColorSizes)
             }
+            @foreach (ClothesColorSize clothesColorSize in clothesColorSizes)
+            {
+                List<ClothesColor> cColor = new List<ClothesColor>();
+                cColor = Model.ClothesColors
+                    .Where(c => c.ClothesColorSizes.Any(d => d.SizeId == clothesColorSize.SizeId)).ToList();
 
-        }
-    </select>
-</div>*@
+                foreach (var item in cColor)
+                {
+                    if (item.ClothesColorSizes.Any(c => c.SizeId == clothesColorSize.SizeId))
+                    {
+                        <option value="@clothesColorSize.Size.Id" selected>@clothesColorSize.Size.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@clothesColorSize.Size.Id">@clothesColorSize.Size.Name</option>
+                    }
+                }
+
+            }
+        </select>
+    </div>*@
 
 
 @section Scripts{
     <script>
+        let btns = document.querySelectorAll(".btn-danger")
 
-        const removeBtnElement = document.querySelectorAll(".removeBtn");
-        console.log(removeBtnElement);
-        const detailContentDiv = document.querySelector("#detailContent");
-        console.log(detailContentDiv);
-        const form = document.querySelector("form");
-        removeBtnElement.forEach(btn => btn.addEventListener("click", (e) => {
+        btns.forEach(b => {
+            b.addEventListener("click", function () {
+                b.parentElement.remove();
+            })
+        })
+    </script>
+}
 
-            const ImageDiv = btn.closest(".imageId");
-            console.log(ImageDiv);
-            const oldId = ImageDiv.id;
-            console.log(oldId);
+@section ColorSize{
+    <script>
 
-            let plantImageDiv = document.getElementsByClassName(oldId);
+    //check
 
-            plantImageDiv = plantImageDiv[0];
-            console.log(plantImageDiv);
-            form.removeChild(plantImageDiv);
+    let allChoosenValues = [];
+        const checkBtn = document.querySelectorAll("#check-btn");
+        checkBtn.forEach(btn => btn.addEventListener("click", (e) => {
 
-            detailContentDiv.removeChild(ImageDiv);
+            let selected = [];
+            const sizeIdsDiv = btn.previousElementSibling;
+            const colorIdDiv = sizeIdsDiv.previousElementSibling;
+
+            const selectColor = colorIdDiv.querySelector("select");
+            const selectSize = sizeIdsDiv.querySelector("select");
+
+            for (let option of selectSize.options) {
+                if (option.selected) {
+                    selected.push(option.value);
+                }
+            }
+
+            selected.unshift(selectColor.value);
+            //hardan split ede bileceyimi bilmek uchun. bunsuz ele verguller olur deye harda bitdiyini bilmek olmur.
+            allChoosenValues.push(selected);
+            allChoosenValues.push(".")
+            let html;
+            // size sechmeyibse check ede bilmesin
+            console.log(selected);
+            //color u verdiyim uchun lengthi default 1 olur.
+            if (selected.length != 1) {
+                html = `<div class="form-group">
+                   <input  name="ClothesColorSizeValues" value="${allChoosenValues}" />
+                </div>`
+
+            } else {
+                html = `<div class="form-group alert alert-danger"> <p class="lead">Please choose at least 1 size</p></div>`
+            }
+            btn.insertAdjacentHTML("beforebegin", html);
+            btn.setAttribute("disabled", "");
+           
         }));
+
+    // add
+
+    @*const addBtn = document.querySelector("#add-btn");
+    addBtn.addEventListener("click", (e) => {
+        const html = `<div class="form-group">
+                    <label for="ColorIds" class="control-label">Colors</label>
+                    <select id="ColorIds" name="ColorIds" data-val="true" data-val-required="The ColorIds field is required." class="form-control">
+                     @foreach (Color color in ViewBag.Colors)
+	                {
+		                 <option value="@color.Id">@color.Name</option>
+	                }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="SizeIds" class="control-label">Sizes</label>
+                    <select  class="form-control" multiple="multiple" name="SizeIds" id="SizeIds">
+                        @foreach (Size size in ViewBag.Sizes)
+                        {
+                                <option value="@size.Id">@size.Name</option>
+                        }
+                    </select>
+                </div>`
+
+        checkBtn.insertAdjacentHTML("beforebegin", html);
+    })*@
     </script>
 }

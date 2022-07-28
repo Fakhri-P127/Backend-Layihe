@@ -26,13 +26,27 @@
             <tbody>
                 @foreach (Clothes clothes in Model.OrderByDescending(x => x.Id))
                 {
-                    List<ClothesColorSize> clothesColorSizes = ViewBag.ClothesColorSizes;
                     string colors = "";
                     string sizes = "";
-                    clothes.ClothesColors.ForEach(c => colors += $"{c.Color.Name},");
-                    clothesColorSizes = clothesColorSizes.Where(c => clothes.ClothesColors.Any(d => d.Id == c.ClothesColorId)).ToList();
-                    clothesColorSizes.ForEach(c => sizes += $"{c.Size.Name},");
+                    int clothesColorLastId = clothes.ClothesColors.LastOrDefault().ColorId;
 
+                    List<ClothesColorSize> clothesColorSizes = ViewBag.ClothesColorSizes;
+                    clothes.ClothesColors.ForEach(c => colors += $"{c.Color.Name}{(clothesColorLastId != c.ColorId ? ",":"")}");
+                    clothesColorSizes = clothesColorSizes
+                        .Where(c => clothes.ClothesColors.Any(d => d.Id == c.ClothesColorId)).ToList();
+
+                    // OrderBy etmeyimin sebebi index de adlari chixaranda random sirada olanda vergul u sona qoyub evvele qoymaya bilir.
+                    int clothesColorSizesLastId = clothesColorSizes.OrderBy(c=>c.SizeId).LastOrDefault().SizeId;
+                    @foreach (Size size in ViewBag.Sizes)
+                    {
+                        if (clothesColorSizes.Any(c=>c.SizeId == size.Id))
+                        {
+                            //sonuncu da vergul qoymamaq uchun
+                            sizes += $"{size.Name}{(clothesColorSizesLastId != size.Id ? "," : "")}";
+
+                        }
+
+                    }
                     <tr>
                         <td>
                             <img style="width:150px !important;height:150px;object-fit:contain;"
@@ -45,6 +59,7 @@
                         <td>@clothes.Category.Name</td>
                         <td>@colors</td>
                         <td>@sizes</td>
+
                         <td class="d-flex align-items-center" style="height:200px !important;">
                             <div class="me-2">
                                 <a asp-area="adminPanel" asp-controller="clothes" asp-action="Edit" asp-route-id="@clothes.Id" class="btn btn-outline-warning">
