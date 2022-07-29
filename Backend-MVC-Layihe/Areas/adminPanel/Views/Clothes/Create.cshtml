@@ -74,8 +74,8 @@
                     </select>
                 </div>
 
-                <button id="check-btn" class="btn btn-outline-info">Check</button>
-                <button id="add-btn" class="btn btn-outline-warning">Add+</button>
+                <button id="check-btn" disabled class="btn btn-outline-info">Submit</button>
+                <button id="add-btn" class="btn btn-outline-warning">Add</button>
 
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-success" />
@@ -87,12 +87,17 @@
 
 @section ColorSize{
     <script>
-
-    //check
+        document.querySelectorAll("#SizeIds").forEach(btn => btn.addEventListener("change", (e) => {
+            console.log("sa")
+            checkBtn.removeAttribute("disabled");
+        }));
+        @*document.body.addEventListener("change")*@
+    //submit
     
     let allChoosenValues = [];
     const checkBtn = document.querySelector("#check-btn");
-    checkBtn.addEventListener("click", (e) => {
+        checkBtn.addEventListener("click", (e) => {
+            e.preventDefault();
         let selected = [];
         const sizeIdsDiv = checkBtn.previousElementSibling;
         const colorIdDiv = sizeIdsDiv.previousElementSibling;
@@ -102,33 +107,40 @@
 
         for (let option of selectSize.options) {
             if (option.selected) {
+                
                 selected.push(option.value);
             }
         }
 
         selected.unshift(selectColor.value);
         //hardan split ede bileceyimi bilmek uchun. bunsuz ele verguller olur deye harda bitdiyini bilmek olmur.
-        allChoosenValues.push(selected);
-        allChoosenValues.push(".")
+      
         let html;
         // size sechmeyibse check ede bilmesin
         console.log(selected);
         //color u verdiyim uchun lengthi default 1 olur.
-        if (selected.length != 1) {
+            if (selected.length != 1) {
+                allChoosenValues.push(selected);
+                allChoosenValues.push(".")
              html = `<div class="form-group">
-                   <input type="hidden" name="ClothesColorSizeValues" value="${allChoosenValues}" />
+                   <input type="" name="ClothesColorSizeValues" value="${allChoosenValues}" />
                 </div>`
-           
-        } else {
-             html = `<div class="form-group alert alert-danger"> <p class="lead">Please choose at least 1 size</p></div>`
-        }
-        checkBtn.insertAdjacentHTML("beforebegin", html);
+                checkBtn.insertAdjacentHTML("beforebegin", html);
+                checkBtn.setAttribute("disabled", "");
+            }
+            @*else {
+                html = `<div class="form-group alert alert-danger"> <p class="lead">Please choose at least 1 size</p></div>`
+                checkBtn.insertAdjacentHTML("beforebegin", html);
+        }*@
+         
+            
     })
 
     // add
     
     const addBtn = document.querySelector("#add-btn");
-    addBtn.addEventListener("click", (e) => {
+        addBtn.addEventListener("click", (e) => {
+            e.preventDefault();
         const html = `<div class="form-group">
                     <label for="ColorIds" class="control-label">Colors</label>
                     <select id="ColorIds" name="ColorIds" data-val="true" data-val-required="The ColorIds field is required." class="form-control">
@@ -148,7 +160,12 @@
                     </select>
                 </div>`
 
-        checkBtn.insertAdjacentHTML("beforebegin", html);
+            checkBtn.insertAdjacentHTML("beforebegin", html);
+          //yeni yaranan sizeId leride gorsun deye
+            document.querySelectorAll("#SizeIds").forEach(btn => btn.addEventListener("change", (e) => {
+                console.log("sa")
+                checkBtn.removeAttribute("disabled");
+            }));
     })
     </script>
 }
