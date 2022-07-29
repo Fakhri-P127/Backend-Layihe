@@ -113,47 +113,6 @@ namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
                 return ErrorMessage("Couldn't load any of the detail images");
             }
 
-            #region relation 
-            // hamisini arraye yighiram, her checkde value elave olunur ve sonuncunu sechirem ki hamisini daxil etdiyini goturum.
-            //string relations = clothes.ClothesColorSizeValues.LastOrDefault();
-            //string[] colorAndSizes = relations.Split(".");
-            //for (int i = 0; i < colorAndSizes.Length-1; i++)
-            //{
-            //    List<string> arrList = colorAndSizes[i].Split(",").ToList();
-
-            //    // ikinci loopda split edende ilk index boshluq olur onun qarshisini almaq uchun yoxlama apariram.
-            //    if(arrList[0] == string.Empty)
-            //    {
-            //        arrList.RemoveAt(0);
-            //    }
-            //    ClothesColor clothesColor = default;
-            //    for (int j = 0; j < arrList.Count-1; j++)
-            //    {
-            //       bool result= int.TryParse(arrList[j], out int colorAndSizeId);
-            //        if (result)
-            //        {
-            //            if (j == 0)
-            //            {
-            //                clothesColor = new ClothesColor
-            //                {
-            //                    ColorId = colorAndSizeId,
-            //                    Clothes = clothes
-            //                };
-            //                _context.ClothesColors.Add(clothesColor);
-            //                continue;
-            //            }
-            //            ClothesColorSize clothesColorSize = new ClothesColorSize
-            //            {
-            //                SizeId = colorAndSizeId,
-            //                ClothesColor = clothesColor
-            //            };
-            //            _context.ClothesColorSizes.Add(clothesColorSize);
-            //        }
-            //    }
-            //}
-            #endregion 
-
-
             SetRelationBetweenClothes(clothes);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -197,12 +156,12 @@ namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
                 return ErrorMessage("You must upload at least 1 detail image", existed);
             }
             if (newClothes.CategoryId is null || newClothes.ColorId == default 
-                || newClothes.SizeIds is null)
+                || newClothes.SizeIds is null || newClothes.ClothesColorSizeValues is null)
             {
                 return ErrorMessage("You must choose at least 1 category, 1 color and 1 size", existed);
             }
 
-            //_context.Entry(existed).CurrentValues.SetValues(newClothes);
+            _context.Entry(existed).CurrentValues.SetValues(newClothes);
 
             TempData["FileName"] = default(string);
             //if the user inputs detail photos
@@ -283,172 +242,37 @@ namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
                     .Alternative = main.Alternative;
             }
 
-            #region relation 
+            #region clear all color and sizes
             string relations = newClothes.ClothesColorSizeValues.LastOrDefault();
-            string[] colorAndSizes = relations.Split(".");
-            for (int i = 0; i < colorAndSizes.Length - 1; i++)
+            string[] colorsizeIds = relations.Split(".");
+            for (int i = 0; i < colorsizeIds.Length - 1; i++)
             {
-                List<string> arrList = colorAndSizes[i].Split(",").ToList();
-                if (arrList[0] == string.Empty)
+                List<string> splittedList = colorsizeIds[i].Split(",").ToList();
+                if (splittedList[0] == string.Empty)
                 {
-                    arrList.RemoveAt(0);
+                    splittedList.RemoveAt(0);
                 }
-                arrList.RemoveAt(arrList.Count - 1);
-                ClothesColor clothesColor = default;
-                for (int j = 0; j < arrList.Count; j++)
+
+                splittedList.RemoveAt(splittedList.Count - 1);
+
+                for (int j = 0; j < splittedList.Count; j++)
                 {
-                    bool result = int.TryParse(arrList[j], out int colorAndSizeId);
-                    if (result)
+                    bool resultInt = int.TryParse(splittedList[j], out int csId);
+                    if (resultInt)
                     {
-                            List<ClothesColorSize> removableSizes = new List<ClothesColorSize>(); 
-                        ClothesColor cColor = _context.ClothesColors.FirstOrDefault(c => c.ColorId == colorAndSizeId);
                         foreach (var item in existed.ClothesColors.ToList())
                         {
-                            if (j == 0)
-                            {
-                                //if (!existed.ClothesColors.Contains(cColor))
-                                //{
-                                //    removableColors.Add(cColor);
-                                //}
-                //existed.PlantCategories.RemoveAll(c => removableCategories
-                //.Any(r => r.CategoryId == c.CategoryId));
-                                if (item.ColorId != colorAndSizeId)
-                                {
-                                    clothesColor = new ClothesColor
-                                    {
-                                        ColorId = colorAndSizeId,
-                                        Clothes = existed
-                                    };
-                                    _context.ClothesColors.Add(clothesColor);
-                                    continue;
-                                }
-                                break;
-                               
-                            }
-                            if (!item.ClothesColorSizes.Any(c => c.SizeId == colorAndSizeId))
-                            {
-                                ClothesColorSize clothesColorSize = new ClothesColorSize
-                                {
-                                    SizeId = colorAndSizeId,
-                                    ClothesColor = item
-                                };
-                                _context.ClothesColorSizes.Add(clothesColorSize);
-                            }
-                            List<string> list = arrList.ToList();
-                            list.RemoveAt(0);
-
-                            foreach (var d in item.ClothesColorSizes)
-                            {
-                                if (!list.Contains(d.SizeId.ToString()))
-                                {
-                                    removableSizes.Add(d);
-                                }
-                            }
-                            //if (item.ClothesColorSizes.Any(c=> !list.Contains(c.SizeId.ToString())))
-                            //{
-                            //    removableSizes.Add(item);
-                            //}
-                            item.ClothesColorSizes.RemoveAll(c => removableSizes.Any(r => r.Id == c.Id));
-
+                            item.ClothesColorSizes.RemoveAll(c => c.SizeId == csId);
+                            _context.ClothesColors.Remove(item);
                         }
-                        //existed.ClothesColors.RemoveAll(c => removableSizes
-                        //.Any(r => r.Id == c.Id));
-
                     }
                 }
             }
-            #endregion 
+            #endregion
+            
+            SetRelationBetweenClothes(newClothes, existed);
 
-            //#region draft
-            //string relations = newClothes.ClothesColorSizeValues.LastOrDefault();
-            //string[] colorAndSizes = relations.Split(".");
-            //for (int i = 0; i < colorAndSizes.Length - 1; i++)
-            //{
-            //    List<string> arrList = colorAndSizes[i].Split(",").ToList();
-
-            //    // ikinci loopda split edende ilk index boshluq olur onun qarshisini almaq uchun yoxlama apariram.
-            //    if (arrList[0] == string.Empty)
-            //    {
-            //        arrList.RemoveAt(0);
-            //    }
-            //    ClothesColor clothesColor = default;
-            //    for (int j = 0; j < arrList.Count - 1; j++)
-            //    {
-            //        bool result = int.TryParse(arrList[j], out int colorAndSizeId);
-            //        if (result)
-            //        {
-            //            //1ci hansi color-a aid oldugudu.
-            //            if (j == 0)
-            //            {
-            //                foreach (var item in existed.ClothesColors)
-            //                {
-            //                    if (item.ColorId == colorAndSizeId)
-            //                    {
-            //                        foreach (var csize in item.ClothesColorSizes)
-            //                        {
-            //                            if (csize.SizeId == colorAndSizeId)
-            //                            {
-            //                                continue;
-            //                            }
-            //                            ClothesColorSize newclothesColorSize = new ClothesColorSize
-            //                            {
-            //                                SizeId = csize.SizeId,
-            //                                ClothesColor = item
-            //                            };
-            //                            _context.ClothesColorSizes.Add(newclothesColorSize);
-            //                        }
-                                  
-            //                    }
-                                
-            //                    clothesColor = new ClothesColor
-            //                    {
-            //                        ColorId = colorAndSizeId,
-            //                        Clothes = existed
-            //                    };
-            //                    _context.ClothesColors.Add(clothesColor);
-            //                    continue;
-            //                }
-            //            }
-            //            //ClothesColorSize clothesColorSize = new ClothesColorSize
-            //            //{
-            //            //    SizeId = colorAndSizeId,
-            //            //    ClothesColor = clothesColor
-            //            //};
-            //            //_context.ClothesColorSizes.Add(clothesColorSize);
-            //        }
-            //    }
-            //}
-            //    #endregion
-                //newClothes.ClothesColorSizeValues
-
-
-                // Editing Category starts
-                //removing categories that doesn't match with CategoryIds
-                //List<PlantCategory> removableCategories = existed.PlantCategories
-                //    .Where(p => !newClothes.CategoryIds.Contains(p.CategoryId)).ToList();
-               
-                //existed.PlantCategories.RemoveAll(c => removableCategories
-                //.Any(r => r.CategoryId == c.CategoryId));
-
-                ////adding categories that doesn't contain CategoryIds
-                //newClothes.CategoryIds.ForEach(async ctgId =>
-                //{
-                //    PlantCategory currCategory = existed.PlantCategories
-                //    .FirstOrDefault(p => p.CategoryId == ctgId);
-
-                //    if (!existed.PlantCategories.Contains(currCategory))
-                //    {
-                //        PlantCategory category = new PlantCategory
-                //        {
-                //            CategoryId = ctgId,
-                //            Plant = existed
-                //        };
-                //        await _context.PlantCategories.AddAsync(category);
-                //    }
-                //});
-                // Editing Category ends
-
-                _context.SaveChanges();
+            _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }
@@ -480,10 +304,10 @@ namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
             return View(existed);
         }
 
-        public void SetRelationBetweenClothes(Clothes clothes)
+        public void SetRelationBetweenClothes(Clothes newClothes,Clothes existed=null)
         {
             // hamisini arraye yighiram, her checkde value elave olunur ve sonuncunu sechirem ki hamisini daxil etdiyini goturum.
-            string relations = clothes.ClothesColorSizeValues.LastOrDefault();
+            string relations = newClothes.ClothesColorSizeValues.LastOrDefault();
             string[] colorAndSizes = relations.Split(".");
             for (int i = 0; i < colorAndSizes.Length - 1; i++)
             {
@@ -502,13 +326,27 @@ namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
                     {
                         if (j == 0)
                         {
-                            clothesColor = new ClothesColor
+                            if(existed is null)
                             {
-                                ColorId = colorAndSizeId,
-                                Clothes = clothes
-                            };
-                            _context.ClothesColors.Add(clothesColor);
-                            continue;
+                                clothesColor = new ClothesColor
+                                {
+                                    ColorId = colorAndSizeId,
+                                    Clothes = newClothes
+                                };
+                                _context.ClothesColors.Add(clothesColor);
+                                continue;
+                            }
+                            else
+                            {
+                                clothesColor = new ClothesColor
+                                {
+                                    ColorId = colorAndSizeId,
+                                    Clothes = existed
+                                };
+                                _context.ClothesColors.Add(clothesColor);
+                                continue;
+                            }
+                           
                         }
                         ClothesColorSize clothesColorSize = new ClothesColorSize
                         {

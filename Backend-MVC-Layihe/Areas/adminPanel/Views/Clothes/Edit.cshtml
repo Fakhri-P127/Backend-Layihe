@@ -125,6 +125,7 @@
                         </select>
                     </div>
                     <button id="check-btn" class="btn btn-outline-info">Submit</button>
+
                 }
 
                 <div class="form-group">
@@ -184,7 +185,7 @@
                 </div>`
 
             } else {
-                html = `<div class="form-group alert alert-danger"> <p class="lead">Please choose at least 1 size</p></div>`
+                html = `<div class="form-group alert alert-danger"> <p class="lead">Please choose at least 1 size.Refresh the site to do it again.</p></div>`
             }
             btn.insertAdjacentHTML("beforebegin", html);
             btn.setAttribute("disabled", "");
