@@ -27,10 +27,11 @@ namespace Backend_MVC_Layihe.Controllers
                 Clothes = _context.Clothes
                 .Include(c => c.ClothesImages)
                 .Include(c => c.ClothesColors).ThenInclude(c => c.Color)
-                //.ThenInclude(c => c.ColorSizes).ThenInclude(c => c.Size)
-                .FirstOrDefault(c => c.Id == id),
+                .FirstOrDefault(c => c.Id == id && c.ClothesColors.Any(c=>c.ClothesId==id)),
                 Clotheses = new List<Clothes>(),
-                Category = _context.Clothes.Include(c=>c.Category).FirstOrDefault(c=>c.Id==id).Category
+                Category = _context.Clothes.Include(c => c.Category).FirstOrDefault(c => c.Id == id).Category,
+                ClothesColorSizes = _context.ClothesColorSizes.Include(c => c.Size).Include(c => c.ClothesColor)
+                .ThenInclude(c => c.Clothes).Where(s => s.ClothesColor.ClothesId == id).ToList()
 
             };
             List<Clothes> clothes = new List<Clothes>();
@@ -40,17 +41,36 @@ namespace Backend_MVC_Layihe.Controllers
                 clothes = _context.Clothes.Include(x => x.Category).ThenInclude(c => c.Clothes)
                     .Include(x => x.ClothesImages)
                     .Where(p => product.CategoryId == p.CategoryId && p.Id !=id).ToList();
-                    //.Any(x => x.CategoryId == product.CategoryId);
                     
-                    //&& p.CategoryId != product.CategoryId).ToList();
                 model.Clotheses.AddRange(clothes);
             }
-            model.Clotheses = model.Clotheses.Distinct().ToList();
+            //model.Clotheses = model.Clotheses.Distinct().ToList();
             
             if (model.Clothes is null) return NotFound();
+
+            //olan datalarimla muqasiye uchun
+            ViewBag.Sizes = _context.Sizes.Include(s => s.ClothesColorSizes).ThenInclude(s => s.ClothesColor)
+                .ThenInclude(s => s.Clothes).ToList();
+            ViewBag.Colors = _context.Colors.Include(c => c.ClothesColors)
+                 .ThenInclude(c => c.ClothesColorSizes).ThenInclude(c => c.Size).ToList();
 
             return View(model);
         }
 
+        public async Task<IActionResult> GetDatas(int? clothesId, int? colorId)
+        {
+            Clothes existed = await _context.Clothes.FirstOrDefaultAsync(c => c.Id == clothesId);
+            Color color = await _context.Colors.Include(c => c.ClothesColors)
+                .FirstOrDefaultAsync(c => c.Id == colorId);
+            if (color is null) return NotFound();
+            ClothesColor clothesColor = await _context.ClothesColors
+                .Include(c=>c.ClothesColorSizes).ThenInclude(c=>c.Size)
+                .FirstOrDefaultAsync(c => c.ColorId == colorId && existed.Id == c.ClothesId);
+            List<ClothesColorSize> clothesColorSize = await _context.ClothesColorSizes.Include(c => c.Size)
+                .Where(c => c.ClothesColorId == clothesColor.Id).ToListAsync();
+
+            return PartialView("_SizesFetchPartialView", clothesColorSize);
+           
+        }
     }
 }

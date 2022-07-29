@@ -70,79 +70,51 @@
                             @Model.Clothes.Description;
                         }
                     }
-
-
                 </p>
-
                 <div class="d-flex mb-4">
-                    <strong class="text-dark mr-3">Colors:</strong>
                     <form>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio"  class="custom-control-input" id="color-1" name="color">
-                            <label class="custom-control-label" for="color-1">Black</label>
+                        <div class="d-flex">
+                            <div class="form-check">
+                                <label for="colors-id">Color</label>
+
+                                <select id="colors-id" asp-for="@Model.Clothes.ColorId" class="form-control">
+                                    @foreach (Color color in ViewBag.Colors)
+                                    {
+                                        if (Model.Clothes.ClothesColors.Any(c => c.ColorId == color.Id))
+                                        {
+                                            <option value="@color.Id">@color.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-check">
+                                <label for="sizes-id">Size</label>
+                                <select id="sizes-id" asp-for="@Model.Clothes.SizeId" class="form-control">
+                                    @await Html.PartialAsync("_SizesFetchPartialView",Model.ClothesColorSizes);
+                                </select>
+                            </div>
                         </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="color-2" name="color">
-                            <label class="custom-control-label" for="color-2">White</label>
-                        </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="color-3" name="color">
-                            <label class="custom-control-label" for="color-3">Red</label>
-                        </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="color-4" name="color">
-                            <label class="custom-control-label" for="color-4">Blue</label>
-                        </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="color-5" name="color">
-                            <label class="custom-control-label" for="color-5">Green</label>
-                        </div>
-                    </form>
-                </div>
-                <div class="d-flex mb-3">
-                    <strong class="text-dark mr-3">Sizes:</strong>
-                    <form>
-
-
-                           @*@foreach (var clothColors in Model.ClothesColors)
-                        {
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input name="SizeId" value="@clothColors.Color.ColorSizes.FirstOrDefault().Size.Id" class="custom-control-input">
-                                <label class="custom-control-label">@clothColors.Color.ColorSizes.FirstOrDefault().Size.Name></label>
-                            </div>*@
-
-                    @*foreach (var item in clothColors.Color.ColorSizes)
-    {
-        <div class="custom-control custom-radio custom-control-inline">
-            <input name="SizeId" value="@item.Size.Id" class="custom-control-input">
-            <label class="custom-control-label" for="size-1">@item.Size.Name</label>
-        </div>
-    }*@
-
-                            @*}*@
-                            
-
-
-                    </form>
-                </div>
-                <div class="d-flex align-items-center mb-4 pt-2">
-                    <div class="input-group quantity mr-3" style="width: 130px;">
-                        <div class="input-group-btn">
-                            <button class="btn btn-primary btn-minus">
-                                <i class="fa fa-minus"></i>
+                        <div class="d-flex align-items-center mb-4 pt-2">
+                            <div class="input-group quantity mr-3" style="width: 130px;">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-primary btn-minus">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                                <input  asp-for="@Model.Clothes.Quantity" type="text" id="quantityInput" class="form-control bg-secondary border-0 text-center" value="1">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-primary btn-plus">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary px-3">
+                                <i class="fa fa-shopping-cart mr-1"></i> Add To
+                                Cart
                             </button>
                         </div>
-                        <input type="text" class="form-control bg-secondary border-0 text-center" value="1">
-                        <div class="input-group-btn">
-                            <button class="btn btn-primary btn-plus">
-                                <i class="fa fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary px-3">
-                        <i class="fa fa-shopping-cart mr-1"></i> Add To
-                        Cart
-                    </button>
+                    </form>
+
                 </div>
                 <div class="d-flex pt-2">
                     <strong class="text-dark mr-2">Share on:</strong>
@@ -277,10 +249,45 @@
 <div class="container-fluid py-5">
     <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">You May Also Like</span></h2>
     <div class="row px-xl-5">
-        
-                
             @await Html.PartialAsync("_ClothesPartialView",Model.Clotheses)
-        
     </div>
 </div>
 <!-- Products End -->
+
+<script>
+    const colorsIdDiv = document.querySelector("#colors-id");
+    const sizesIdDiv = document.querySelector("#sizes-id");
+    const selectedColor = colorsIdDiv.value;
+    const quantity = document.querySelector("#quantityInput")
+        fetch(`https://localhost:44395/product/getdatas?clothesId=@Model.Clothes.Id&colorId=${selectedColor}`)
+        .then(res => res.text()).then(data => sizesIdDiv.innerHTML = data)
+
+    colorsIdDiv.addEventListener("change", function(e) {
+        const selectedColor = e.target.value;
+        fetch(`https://localhost:44395/product/getdatas?clothesId=@Model.Clothes.Id&colorId=${selectedColor}`)
+            .then(res => res.text()).then(data => sizesIdDiv.innerHTML = data)
+    });
+
+    const btnPlus = document.querySelector(".btn-plus");
+    const btnMinus = document.querySelector(".btn-minus");
+
+    btnPlus.addEventListener("click", (e) => {
+        e.preventDefault();
+        @*console.log(quantity)
+        console.log(quantity.value)*@
+        @*const quantityValue = quantity.value++;*@
+        quantity.value = Number(quantity.value);
+        console.log(quantity.value);
+
+    })
+
+    btnMinus.addEventListener("click", (e) => {
+        e.preventDefault();
+        @*console.log(quantity)
+        console.log(quantity.value)*@
+        @*quantity.value--;*@
+        @*const quantityValue = quantity.value--;*@
+        quantity.value = Number(quantity.value);
+        console.log(quantity.value);
+    })
+</script>

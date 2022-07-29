@@ -18,11 +18,26 @@ namespace Backend_MVC_Layihe.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int? categoryId)
         {
             ViewBag.Colors = _context.Colors.Include(c => c.ClothesColors).ToList();
             ViewBag.Sizes = _context.Sizes.Include(c => c.ClothesColorSizes)
                 .ThenInclude(c=>c.ClothesColor).ThenInclude(c=>c.Clothes).ToList();
+            if(categoryId != null || categoryId != 0)
+            {
+                Category category = await _context.Categories
+                .Include(c => c.Clothes).ThenInclude(c=>c.ClothesImages).FirstOrDefaultAsync(c => c.Id == categoryId);
+                if(category != null)
+                {
+                    if(category.Clothes.Count() == 0)
+                    {
+                        ViewBag.Msg = "There's no products in this category";
+                        //return View(category.Clothes);
+                    }
+                    return View(category.Clothes);
+                  
+                }
+            }
             List<Clothes> clothes = _context.Clothes
                 .Include(c => c.ClothesImages)
              .Include(c => c.ClothesColors).ThenInclude(c => c.Color).OrderByDescending(c => c.Id).ToList();
@@ -53,15 +68,7 @@ namespace Backend_MVC_Layihe.Controllers
                     clothes = clothes.OrderByDescending(clothes => clothes.Id).ToList();
                     break;
             }
-            List<Category> categories = _context.Categories.Include(c => c.Clothes).ToList();
-            foreach (Category category in categories)
-            {
-                if (category.Name == sortingOrder)
-                {
-                    categories = categories.Where(c => c.Clothes.Any(d => d.Category.Name == sortingOrder)).ToList();
-                    break;
-                }
-            }
+        
             List<Color> colors = _context.Colors.Include(c => c.ClothesColors).ToList();
             foreach (Color color in colors)
             {
@@ -75,29 +82,8 @@ namespace Backend_MVC_Layihe.Controllers
                     clothes = clothes.OrderByDescending(c=>c.Id).ToList();
                     break;
                 }
-            }
-            //List<Size> sizes = _context.Sizes.Include(c => c.ColorSizes).ToList();
-            //List<ClothesColor> clothesColor = new List<ClothesColor>();
-            //foreach (Size size in sizes)
-            //{
-            //    foreach (var item in clothes)
-            //    {
-            //        clothesColor.AddRange(item.ClothesColors.Where(c => c.Color.ColorSizes.Any(x => x.Size.Name == sortingOrder)).ToList());
-
-            //    }
-            //    if (size.Name == sortingOrder)
-            //    {
-            //        //clothes = clothes.Where(c=> c.ClothesColors.Any(d=>d.Id== clothesColor.)
-            //        //clothes = clothes.Where(c => c.ClothesColors.Any(d => d.Color.ColorSizes.Any(x=>x.Size.Name == sortingOrder)).ToList();
-            //        break;
-            //    }
-            //    else if (sortingOrder == "allColors")
-            //    {
-            //        clothes = clothes.OrderByDescending(c => c.Id).ToList();
-            //        break;
-            //    }
-            //}
-            return PartialView("_ClothesFetchPartialView", clothes);
+            }     
+            return PartialView("_ClothesPartialView", clothes);
         }
 
        

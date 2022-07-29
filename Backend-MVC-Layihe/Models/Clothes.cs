@@ -27,14 +27,15 @@ namespace Backend_MVC_Layihe.Models
         public List<IFormFile> DetailPhotos { get; set; }
         [NotMapped]
         public List<int> ImageIds { get; set; }
-        //[NotMapped]
-        //public List<int> ColorIds { get; set; }
         [NotMapped]
         public List<int> SizeIds { get; set; }
-        //[NotMapped]
-        //public int SizeId { get; set; }
+        [NotMapped]
+        public int SizeId { get; set; }
         [NotMapped]
         public int ColorId { get; set; }
+        [NotMapped]
+        public int Quantity { get; set; }
+
         [NotMapped]
         public List<string> ClothesColorSizeValues { get; set; }
     }

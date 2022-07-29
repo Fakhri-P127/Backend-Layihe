@@ -1,0 +1,6 @@
+﻿@model List<ClothesColorSize>
+
+@foreach (ClothesColorSize clothesColorSize in Model)
+{
+        <option value="@clothesColorSize.SizeId">@clothesColorSize.Size.Name</option>
+}
