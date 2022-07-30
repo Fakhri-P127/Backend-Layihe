@@ -133,8 +133,6 @@
                             <div id="product-sorting" class="btn-group">
                                 <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Sorting</button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a id="latest" class="dropdown-item" asp-controller="product" asp-action="getdatas" asp-route-clothesId="4" asp-route-colorId="2">Latest</a>
-
                                     <a id="latest" class="dropdown-item" asp-controller="shop" asp-action="getdatas" asp-route-sortingOrder="@("Latest")">Latest</a>
                                     <a id="a-z" class="dropdown-item" asp-controller="shop" asp-action="getdatas" asp-route-sortingOrder="@("A-Z")">A-Z</a>
                                     <a id="z-a" class="dropdown-item" asp-controller="shop" asp-action="getdatas" asp-route-sortingOrder="@("Z-A")">Z-A</a>
@@ -188,9 +186,9 @@
     <script>
         const productSortingElement = document.querySelector("#product-sorting");
         const partialProductContainer = document.querySelector("#partial-products-container");
-        const latest = productSortingElement.querySelector("#latest");
+        @*const latest = productSortingElement.querySelector("#latest");
         const alphabeticOrder = productSortingElement.querySelector("#a-z");
-        const reverseAlphabeticOrder = productSortingElement.querySelector("#z-a");
+        const reverseAlphabeticOrder = productSortingElement.querySelector("#z-a");*@
 
         productSortingElement.addEventListener("click", (e) => {
             e.preventDefault();

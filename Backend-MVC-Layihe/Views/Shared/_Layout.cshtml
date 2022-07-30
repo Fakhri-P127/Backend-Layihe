@@ -24,6 +24,8 @@
     <link href="~/assets/lib/animate/animate.min.css" rel="stylesheet">
     <link href="~/assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
+    <link href="~/assets/css/stylePronia.css" rel="stylesheet">
+
     <!-- Customized Bootstrap Stylesheet -->
     <link href="~/assets/css/style.css" rel="stylesheet">
 </head>
@@ -45,8 +47,18 @@
                     <div class="btn-group">
                         <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <button class="dropdown-item" type="button">Sign in</button>
-                            <button class="dropdown-item" type="button">Sign up</button>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a class="dropdown-item" type="button" >@User.Identity.Name</a>
+                                <a class="dropdown-item" type="button" asp-controller="account" asp-action="logout">Logout</a>
+
+                            }
+                            else
+                            {
+                                <a class="dropdown-item" type="button" asp-controller="account" asp-action="login">Sign in</a>
+                                <a class="dropdown-item" type="button" asp-controller="account" asp-action="register">Sign up</a>
+                            }
+
                         </div>
                     </div>
                     <div class="btn-group mx-2">
@@ -117,7 +129,7 @@
                     <div class="navbar-nav w-100">
                         @foreach (Category category in layoutService.GetCategories())
                         {
-                            <a asp-controller="home" asp-action="categoryPage" asp-route-id="@category.Id"
+                            <a  asp-controller="shop" asp-action="index" asp-route-categoryId="@category.Id"
                                class="nav-item nav-link">@category.Name</a>
                         }
                     </div>
@@ -151,9 +163,9 @@
                                 @Html.Raw(layoutService.GetSettings().FirstOrDefault(l => l.Key.Trim().ToLower() == "wishlisticon")?.Value)
                                 <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
                             </a>
-                            <a href="" class="btn px-0 ml-3">
+                            <a asp-controller="order" asp-action="cart" class="btn px-0 ml-3">
                                 @Html.Raw(layoutService.GetSettings().FirstOrDefault(l => l.Key.Trim().ToLower() == "carticon")?.Value)
-                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
+                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">@await layoutService.GetCartCount()</span>
                             </a>
                         </div>
                     </div>
@@ -257,7 +269,8 @@
     <script src="~/assets/mail/jqBootstrapValidation.min.js"></script>
     <script src="~/assets/mail/contact.js"></script>
 
- @RenderSection("ShopSorting", false);
+    @RenderSection("ShopSorting", false);
+    @RenderSection("ProductDetail", false);
     <!-- Template Javascript -->
     <script src="~/assets/js/main.js"></script>
 </body>

@@ -1,8 +1,10 @@
 using Backend_MVC_Layihe.DAL;
+using Backend_MVC_Layihe.Models;
 using Backend_MVC_Layihe.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,6 +37,24 @@ namespace Backend_MVC_Layihe
                 opt.UseSqlServer(_config.GetConnectionString("default"));
             });
             services.AddScoped<LayoutService>();
+            services.AddHttpContextAccessor();
+
+            services.AddIdentity<AppUser, IdentityRole>(opt =>
+            {
+                opt.Password.RequireDigit = true;
+                opt.Password.RequireUppercase = false;
+                opt.Password.RequiredLength = 8;
+                opt.Password.RequiredUniqueChars = 1;
+                opt.Password.RequireNonAlphanumeric = false;
+
+                opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                opt.Lockout.MaxFailedAccessAttempts = 5;
+                opt.Lockout.AllowedForNewUsers = true;
+
+                opt.User.RequireUniqueEmail = false;
+                opt.User.AllowedUserNameCharacters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890";
+            }).AddDefaultTokenProviders().AddEntityFrameworkStores<ApplicationDbContext>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,6 +83,7 @@ namespace Backend_MVC_Layihe
                 endpoints.MapControllerRoute(
                     "default",
                     "{controller=home}/{action=index}/{id?}");
+
                 endpoints.MapControllerRoute(
                 "default",
                 "{controller}/{action=index}/{id?}");

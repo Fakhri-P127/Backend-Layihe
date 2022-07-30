@@ -21,20 +21,34 @@ using Backend_MVC_Layihe.ViewModels;
 #nullable disable
 #nullable restore
 #line 2 "C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\Views\_ViewImports.cshtml"
-using Backend_MVC_Layihe.Models;
+using Backend_MVC_Layihe.ViewModels.Cart;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 3 "C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\Views\_ViewImports.cshtml"
+using Backend_MVC_Layihe.Models;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 4 "C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\Views\_ViewImports.cshtml"
+using Backend_MVC_Layihe.ViewModels.Account;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 5 "C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\Views\_ViewImports.cshtml"
 using Newtonsoft.Json;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"457ad541f6365f879d0408d14176a9bbe46268fb", @"/Views/Home/Contact.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"46516354065fa2b428bc33712ed33a2dae0a6b02", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"c0d4ca94a8013697373ec71c45dfc13307502328", @"/Views/_ViewImports.cshtml")]
     public class Views_Home_Contact : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("name", new global::Microsoft.AspNetCore.Html.HtmlString("sentMessage"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -95,7 +109,7 @@ using Newtonsoft.Json;
             <div class=""contact-form bg-light p-30"">
                 <div id=""success""></div>
                 ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "457ad541f6365f879d0408d14176a9bbe46268fb5568", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "457ad541f6365f879d0408d14176a9bbe46268fb6001", async() => {
                 WriteLiteral(@"
                     <div class=""control-group"">
                         <input type=""text"" class=""form-control"" id=""name"" placeholder=""Your Name""

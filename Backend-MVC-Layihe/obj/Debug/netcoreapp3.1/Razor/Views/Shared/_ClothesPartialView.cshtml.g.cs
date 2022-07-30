@@ -21,20 +21,34 @@ using Backend_MVC_Layihe.ViewModels;
 #nullable disable
 #nullable restore
 #line 2 "C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\Views\_ViewImports.cshtml"
-using Backend_MVC_Layihe.Models;
+using Backend_MVC_Layihe.ViewModels.Cart;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 3 "C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\Views\_ViewImports.cshtml"
+using Backend_MVC_Layihe.Models;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 4 "C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\Views\_ViewImports.cshtml"
+using Backend_MVC_Layihe.ViewModels.Account;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 5 "C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\Views\_ViewImports.cshtml"
 using Newtonsoft.Json;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"b57817cf4cb02724cebf91da70fa8f41492a554f", @"/Views/Shared/_ClothesPartialView.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"46516354065fa2b428bc33712ed33a2dae0a6b02", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"c0d4ca94a8013697373ec71c45dfc13307502328", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared__ClothesPartialView : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("img-fluid w-100"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -76,7 +90,7 @@ using Newtonsoft.Json;
 #line hidden
 #nullable disable
             WriteLiteral("    <div class=\"col-lg-3 col-md-4 col-sm-6 pb-1\">\r\n        <div class=\"product-item bg-light mb-4\">\r\n            <div class=\"product-img position-relative overflow-hidden\">\r\n                ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "b57817cf4cb02724cebf91da70fa8f41492a554f5692", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "b57817cf4cb02724cebf91da70fa8f41492a554f6125", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -118,7 +132,7 @@ AddHtmlAttributeValue("", 368, clothes.ClothesImages.FirstOrDefault(c=>c.IsMain=
             BeginWriteAttribute("href", " href=\"", 766, "\"", 773, 0);
             EndWriteAttribute();
             WriteLiteral("><i class=\"fa fa-sync-alt\"></i></a>\r\n                    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b57817cf4cb02724cebf91da70fa8f41492a554f8673", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b57817cf4cb02724cebf91da70fa8f41492a554f9106", async() => {
                 WriteLiteral("<i class=\"fa fa-search\"></i>");
             }
             );
@@ -152,7 +166,7 @@ AddHtmlAttributeValue("", 368, clothes.ClothesImages.FirstOrDefault(c=>c.IsMain=
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                </div>\r\n            </div>\r\n            <div class=\"text-center py-4\">\r\n                ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b57817cf4cb02724cebf91da70fa8f41492a554f11347", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b57817cf4cb02724cebf91da70fa8f41492a554f11780", async() => {
 #nullable restore
 #line 16 "C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\Views\Shared\_ClothesPartialView.cshtml"
                                                                                                                                     Write(clothes.Name);

@@ -1,4 +1,5 @@
 ﻿using Backend_MVC_Layihe.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Backend_MVC_Layihe.DAL
 {
-    public class ApplicationDbContext:DbContext
+    public class ApplicationDbContext:IdentityDbContext<AppUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):base(options)
         {
@@ -17,15 +18,15 @@ namespace Backend_MVC_Layihe.DAL
         public DbSet<Clothes> Clothes { get; set; }
         public DbSet<ClothesImage> ClothesImages { get; set; }
         public DbSet<Category> Categories { get; set; }
-        //public DbSet<ClothesCategory> ClothesCategories { get; set; }
         public DbSet<Color> Colors { get; set; }
         public DbSet<ClothesColor> ClothesColors { get; set; }
         public DbSet<Size> Sizes { get; set; }
-        //public DbSet<ColorSize> ColorSizes { get; set; }
         public DbSet<Setting> Settings { get; set; }
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<SpecialOffer> SpecialOffers { get; set; }
         public DbSet<ClothesColorSize> ClothesColorSizes { get; set; }
+        public DbSet<CartItem> BasketItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

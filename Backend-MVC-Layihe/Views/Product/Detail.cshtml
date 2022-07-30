@@ -28,7 +28,7 @@
                     @foreach (ClothesImage clothesImage in Model.Clothes.ClothesImages)
                     {
                         <div class="carousel-item @(count == 0 ? "active":"" )">
-                            <img class="w-100 h-100" src="~/assets/img/@clothesImage.Name" alt="@clothesImage.Alternative">
+                            <img style="width:500px !important;height:500px !important;" src="~/assets/img/@clothesImage.Name" alt="@clothesImage.Alternative">
                         </div>
                         @(count=1);
                     }
@@ -63,7 +63,6 @@
                         if (Model.Clothes.Description.Length > 100)
                         {
                             @Model.Clothes.Description.Substring(0, 100);
-
                         }
                         else
                         {
@@ -72,12 +71,12 @@
                     }
                 </p>
                 <div class="d-flex mb-4">
-                    <form>
+                    <form method="post" enctype="multipart/form-data">
                         <div class="d-flex">
                             <div class="form-check">
                                 <label for="colors-id">Color</label>
 
-                                <select id="colors-id" asp-for="@Model.Clothes.ColorId" class="form-control">
+                                <select id="colors-id" name="ColorId" class="form-control">
                                     @foreach (Color color in ViewBag.Colors)
                                     {
                                         if (Model.Clothes.ClothesColors.Any(c => c.ColorId == color.Id))
@@ -89,7 +88,7 @@
                             </div>
                             <div class="form-check">
                                 <label for="sizes-id">Size</label>
-                                <select id="sizes-id" asp-for="@Model.Clothes.SizeId" class="form-control">
+                                <select id="sizes-id" name="SizeId" class="form-control">
                                     @await Html.PartialAsync("_SizesFetchPartialView",Model.ClothesColorSizes);
                                 </select>
                             </div>
@@ -101,14 +100,15 @@
                                         <i class="fa fa-minus"></i>
                                     </button>
                                 </div>
-                                <input  asp-for="@Model.Clothes.Quantity" type="text" id="quantityInput" class="form-control bg-secondary border-0 text-center" value="1">
+                                <input name="Quantity" min="1" max="10" id="quantityInput" class="form-control bg-secondary border-0 text-center" value="1">
                                 <div class="input-group-btn">
                                     <button class="btn btn-primary btn-plus">
                                         <i class="fa fa-plus"></i>
                                     </button>
                                 </div>
                             </div>
-                            <button class="btn btn-primary px-3">
+                            <!--asp action da metodu yaz-->
+                            <button type="submit" class="btn btn-primary px-3">
                                 <i class="fa fa-shopping-cart mr-1"></i> Add To
                                 Cart
                             </button>
@@ -249,12 +249,16 @@
 <div class="container-fluid py-5">
     <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">You May Also Like</span></h2>
     <div class="row px-xl-5">
-            @await Html.PartialAsync("_ClothesPartialView",Model.Clotheses)
+            @await Html.PartialAsync("_ClothesPartialView",Model.Clotheses.Take(4))
     </div>
 </div>
 <!-- Products End -->
 
-<script>
+
+@section ProductDetail{ 
+    <script>
+
+    //for color and size
     const colorsIdDiv = document.querySelector("#colors-id");
     const sizesIdDiv = document.querySelector("#sizes-id");
     const selectedColor = colorsIdDiv.value;
@@ -268,26 +272,51 @@
             .then(res => res.text()).then(data => sizesIdDiv.innerHTML = data)
     });
 
+    //for quantity
     const btnPlus = document.querySelector(".btn-plus");
     const btnMinus = document.querySelector(".btn-minus");
 
     btnPlus.addEventListener("click", (e) => {
         e.preventDefault();
-        @*console.log(quantity)
-        console.log(quantity.value)*@
-        @*const quantityValue = quantity.value++;*@
-        quantity.value = Number(quantity.value);
-        console.log(quantity.value);
+        if (quantity.value >= 9) {
+            btnPlus.setAttribute("disabled", "");
+        }
+        if (quantity.value >= 1) {
+            btnMinus.removeAttribute("disabled");
+        }
+        // elnen boyuk reqem yazsaq default olaraq azaltsin
+        if (quantity.value >= 10) {
+            quantity.value = 9;
+        }
+        // elnen kichik reqem yazsaq default olaraq artirsin
+        if (quantity.value <= 1) {
+            quantity.value = 1;
+        }
+        quantity.value = ++quantity.value;
+        quantity.setAttribute("value", quantity.value);
 
     })
 
     btnMinus.addEventListener("click", (e) => {
         e.preventDefault();
-        @*console.log(quantity)
-        console.log(quantity.value)*@
-        @*quantity.value--;*@
-        @*const quantityValue = quantity.value--;*@
-        quantity.value = Number(quantity.value);
-        console.log(quantity.value);
+        if (quantity.value <= 2) {
+            btnMinus.setAttribute("disabled", "");
+            
+        }
+        if (quantity.value <= 10) {
+            btnPlus.removeAttribute("disabled");
+        }
+        if (quantity.value >= 10) {
+            quantity.value = 10;
+        }
+
+        if (quantity.value <= 1) {
+            quantity.value = 2;
+        }
+        
+        quantity.value = --quantity.value;
+        quantity.setAttribute("value", quantity.value);
+       
     })
-</script>
+    </script>
+}

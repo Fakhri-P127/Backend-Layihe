@@ -21,20 +21,34 @@ using Backend_MVC_Layihe.ViewModels;
 #nullable disable
 #nullable restore
 #line 2 "C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\Views\_ViewImports.cshtml"
-using Backend_MVC_Layihe.Models;
+using Backend_MVC_Layihe.ViewModels.Cart;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 3 "C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\Views\_ViewImports.cshtml"
+using Backend_MVC_Layihe.Models;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 4 "C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\Views\_ViewImports.cshtml"
+using Backend_MVC_Layihe.ViewModels.Account;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 5 "C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\Views\_ViewImports.cshtml"
 using Newtonsoft.Json;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"7b1e198317590d17558677f47c32c65dcf733b7d", @"/Views/Shared/_SizesFetchPartialView.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"46516354065fa2b428bc33712ed33a2dae0a6b02", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"c0d4ca94a8013697373ec71c45dfc13307502328", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared__SizesFetchPartialView : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<List<ClothesColorSize>>
     {
         #line hidden
@@ -71,7 +85,7 @@ using Newtonsoft.Json;
 #line hidden
 #nullable disable
             WriteLiteral("        ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7b1e198317590d17558677f47c32c65dcf733b7d3716", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7b1e198317590d17558677f47c32c65dcf733b7d4149", async() => {
 #nullable restore
 #line 5 "C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\Views\Shared\_SizesFetchPartialView.cshtml"
                                             Write(clothesColorSize.Size.Name);

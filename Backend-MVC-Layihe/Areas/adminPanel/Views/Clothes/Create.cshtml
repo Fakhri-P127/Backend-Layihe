@@ -74,8 +74,8 @@
                     </select>
                 </div>
 
-                <button id="check-btn" disabled class="btn btn-outline-info">Submit</button>
-                <button id="add-btn" class="btn btn-outline-warning">Add</button>
+                <button id="submit-btn" disabled class="btn btn-outline-info">Submit</button>
+                <button id="add-btn" class="btn btn-outline-warning">Add another color</button>
 
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-success" />
@@ -87,19 +87,19 @@
 
 @section ColorSize{
     <script>
+        const addBtn = document.querySelector("#add-btn");
+        addBtn.setAttribute("disabled", "");
         document.querySelectorAll("#SizeIds").forEach(btn => btn.addEventListener("change", (e) => {
-            console.log("sa")
-            checkBtn.removeAttribute("disabled");
+            submitBtn.removeAttribute("disabled");
         }));
-        @*document.body.addEventListener("change")*@
+
     //submit
-    
     let allChoosenValues = [];
-    const checkBtn = document.querySelector("#check-btn");
-        checkBtn.addEventListener("click", (e) => {
+    const submitBtn = document.querySelector("#submit-btn");
+        submitBtn.addEventListener("click", (e) => {
             e.preventDefault();
         let selected = [];
-        const sizeIdsDiv = checkBtn.previousElementSibling;
+        const sizeIdsDiv = submitBtn.previousElementSibling;
         const colorIdDiv = sizeIdsDiv.previousElementSibling;
 
         const selectColor = colorIdDiv.querySelector("select");
@@ -123,24 +123,25 @@
                 allChoosenValues.push(selected);
                 allChoosenValues.push(".")
              html = `<div class="form-group">
-                   <input type="" name="ClothesColorSizeValues" value="${allChoosenValues}" />
+                   <input type="hidden" name="ClothesColorSizeValues" value="${allChoosenValues}" />
                 </div>`
-                checkBtn.insertAdjacentHTML("beforebegin", html);
-                checkBtn.setAttribute("disabled", "");
+                submitBtn.insertAdjacentHTML("beforebegin", html);
+                submitBtn.setAttribute("disabled", "");
             }
             @*else {
                 html = `<div class="form-group alert alert-danger"> <p class="lead">Please choose at least 1 size</p></div>`
                 checkBtn.insertAdjacentHTML("beforebegin", html);
         }*@
          
-            
+            addBtn.removeAttribute("disabled");
+           
     })
 
     // add
-    
-    const addBtn = document.querySelector("#add-btn");
         addBtn.addEventListener("click", (e) => {
             e.preventDefault();
+            addBtn.setAttribute("disabled", "");
+
         const html = `<div class="form-group">
                     <label for="ColorIds" class="control-label">Colors</label>
                     <select id="ColorIds" name="ColorIds" data-val="true" data-val-required="The ColorIds field is required." class="form-control">
@@ -160,11 +161,11 @@
                     </select>
                 </div>`
 
-            checkBtn.insertAdjacentHTML("beforebegin", html);
+            submitBtn.insertAdjacentHTML("beforebegin", html);
           //yeni yaranan sizeId leride gorsun deye
             document.querySelectorAll("#SizeIds").forEach(btn => btn.addEventListener("change", (e) => {
-                console.log("sa")
-                checkBtn.removeAttribute("disabled");
+               
+                submitBtn.removeAttribute("disabled");
             }));
     })
     </script>

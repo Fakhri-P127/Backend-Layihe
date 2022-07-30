@@ -40,16 +40,19 @@ namespace Backend_MVC_Layihe.Controllers
             }
             List<Clothes> clothes = _context.Clothes
                 .Include(c => c.ClothesImages)
-             .Include(c => c.ClothesColors).ThenInclude(c => c.Color).OrderByDescending(c => c.Id).ToList();
+             .Include(c => c.ClothesColors).ThenInclude(c => c.Color).OrderByDescending(c => c.Id).Take(8).ToList();
      
             return View(clothes);
         }
         public IActionResult GetDatas(string sortingOrder)
         {
+
             List<Clothes> clothes = _context.Clothes
              .Include(c => c.ClothesImages)
              .Include(c=>c.ClothesColors).ThenInclude(c=>c.Color)
              .OrderByDescending(c => c.Id).ToList();
+
+            //sorting
             switch (sortingOrder)
             {
                 case "A-Z":
@@ -59,16 +62,17 @@ namespace Backend_MVC_Layihe.Controllers
                     clothes = clothes.OrderByDescending(clothes => clothes.Name).ToList();
                     break;
                 case "Price by ascending":
-                    clothes = clothes.OrderBy(clothes => clothes.Price).ToList();
+                    clothes = clothes.OrderBy(clothes => clothes.DiscountPrice).ToList();
                     break;
                 case "Price by descending":
-                    clothes = clothes.OrderByDescending(clothes => clothes.Price).ToList();
+                    clothes = clothes.OrderByDescending(clothes => clothes.DiscountPrice).ToList();
                     break;
                 default:
                     clothes = clothes.OrderByDescending(clothes => clothes.Id).ToList();
                     break;
             }
         
+            //sorting for colors
             List<Color> colors = _context.Colors.Include(c => c.ClothesColors).ToList();
             foreach (Color color in colors)
             {
@@ -83,7 +87,7 @@ namespace Backend_MVC_Layihe.Controllers
                     break;
                 }
             }     
-            return PartialView("_ClothesPartialView", clothes);
+            return PartialView("_ClothesPartialView", clothes.Take(8).ToList());
         }
 
        

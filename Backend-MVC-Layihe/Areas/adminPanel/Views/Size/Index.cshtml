@@ -1,0 +1,62 @@
+﻿@model List<Size>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="main-panel">
+    <div>
+        <a asp-area="adminPanel" asp-controller="Size" asp-action="Create" class="btn btn-outline-success">Create new size</a>
+    </div>
+    <div class="table-responsive pt-3">
+        <table class="table table-dark">
+            <thead>
+                <tr>
+
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Name
+                    </th>
+
+                    <th>
+                        Settings
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Size size in Model.OrderByDescending(x => x.Id))
+                {
+                    <tr>
+
+                        <td> @size.Id </td>
+
+                        <td>@size.Name</td>
+
+                        <td class="d-flex ">
+                            <div class="me-2">
+                                <a asp-area="adminPanel" asp-controller="size" asp-action="Edit" asp-route-id="@size.Id" class="btn btn-outline-warning">
+                                    <i class="mdi mdi-border-color"></i>
+                                </a>
+                            </div>
+                            <div class="me-2">
+                                <a asp-area="adminPanel" asp-controller="size" asp-action="Remove" asp-route-id="@size.Id" class="btn btn-outline-danger">
+                                    <i class="mdi mdi-delete"></i>
+                                </a>
+                            </div>
+                            <div>
+                                <a asp-area="adminPanel" asp-controller="size" asp-action="Detail" asp-route-id="@size.Id" class="btn btn-outline-info">
+                                    <i class="mdi mdi-comment-question-outline"></i>
+                                </a>
+                            </div>
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+</div>

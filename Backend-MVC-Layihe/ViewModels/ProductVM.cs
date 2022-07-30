@@ -11,12 +11,15 @@ namespace Backend_MVC_Layihe.ViewModels
     {
         public Clothes Clothes { get; set; }
         public List<Clothes> Clotheses { get; set; }
-        public Category Category { get; set; }
         public List<ClothesColorSize> ClothesColorSizes { get; set; }
+        //public Category Category { get; set; }
         //[NotMapped]
         //public int ColorId { get; set; }
         //[NotMapped]
         //public int SizeId { get; set; }
+        //[NotMapped]
+        //public byte Quantity { get; set; }
+
 
     }
 }

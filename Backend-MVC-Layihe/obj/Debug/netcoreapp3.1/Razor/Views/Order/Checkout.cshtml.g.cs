@@ -21,20 +21,34 @@ using Backend_MVC_Layihe.ViewModels;
 #nullable disable
 #nullable restore
 #line 2 "C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\Views\_ViewImports.cshtml"
-using Backend_MVC_Layihe.Models;
+using Backend_MVC_Layihe.ViewModels.Cart;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 3 "C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\Views\_ViewImports.cshtml"
+using Backend_MVC_Layihe.Models;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 4 "C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\Views\_ViewImports.cshtml"
+using Backend_MVC_Layihe.ViewModels.Account;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 5 "C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\Views\_ViewImports.cshtml"
 using Newtonsoft.Json;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"0dc0cfb035d8547dcf6def879c8ab453b52c2431", @"/Views/Order/Checkout.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"46516354065fa2b428bc33712ed33a2dae0a6b02", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"c0d4ca94a8013697373ec71c45dfc13307502328", @"/Views/_ViewImports.cshtml")]
     public class Views_Order_Checkout : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         #line hidden
@@ -121,7 +135,7 @@ using Newtonsoft.Json;
                         <label>Country</label>
                         <select class=""custom-select"">
                             ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0dc0cfb035d8547dcf6def879c8ab453b52c24316076", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0dc0cfb035d8547dcf6def879c8ab453b52c24316509", async() => {
                 WriteLiteral("United States");
             }
             );
@@ -138,7 +152,7 @@ using Newtonsoft.Json;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                            ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0dc0cfb035d8547dcf6def879c8ab453b52c24317380", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0dc0cfb035d8547dcf6def879c8ab453b52c24317813", async() => {
                 WriteLiteral("Afghanistan");
             }
             );
@@ -152,7 +166,7 @@ using Newtonsoft.Json;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                            ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0dc0cfb035d8547dcf6def879c8ab453b52c24318371", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0dc0cfb035d8547dcf6def879c8ab453b52c24318804", async() => {
                 WriteLiteral("Albania");
             }
             );
@@ -166,7 +180,7 @@ using Newtonsoft.Json;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                            ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0dc0cfb035d8547dcf6def879c8ab453b52c24319358", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0dc0cfb035d8547dcf6def879c8ab453b52c24319791", async() => {
                 WriteLiteral("Algeria");
             }
             );
@@ -243,7 +257,7 @@ using Newtonsoft.Json;
                             <label>Country</label>
                             <select class=""custom-select"">
                                 ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0dc0cfb035d8547dcf6def879c8ab453b52c243114054", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0dc0cfb035d8547dcf6def879c8ab453b52c243114487", async() => {
                 WriteLiteral("United States");
             }
             );
@@ -260,7 +274,7 @@ using Newtonsoft.Json;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                                ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0dc0cfb035d8547dcf6def879c8ab453b52c243115363", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0dc0cfb035d8547dcf6def879c8ab453b52c243115796", async() => {
                 WriteLiteral("Afghanistan");
             }
             );
@@ -274,7 +288,7 @@ using Newtonsoft.Json;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                                ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0dc0cfb035d8547dcf6def879c8ab453b52c243116359", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0dc0cfb035d8547dcf6def879c8ab453b52c243116792", async() => {
                 WriteLiteral("Albania");
             }
             );
@@ -288,7 +302,7 @@ using Newtonsoft.Json;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                                ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0dc0cfb035d8547dcf6def879c8ab453b52c243117351", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0dc0cfb035d8547dcf6def879c8ab453b52c243117784", async() => {
                 WriteLiteral("Algeria");
             }
             );

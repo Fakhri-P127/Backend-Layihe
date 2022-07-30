@@ -91,41 +91,48 @@
                 </div>
                 @foreach (ClothesColor clothesColor in Model.ClothesColors)
                 {
-                    <div class="form-group">
-                        <label for="ColorId" class="control-label">Colors</label>
-                        <select id="ColorId" name="ColorId" data-val="true" value="ColorId" data-val-required="The ColorIds field is required." class="form-control">
-                            @foreach (Color color in ViewBag.Colors)
+            <div>
+                <div class="form-group">
+                    <label for="ColorId" class="control-label">Colors</label>
+                    <select id="ColorId" name="ColorId" data-val="true" value="ColorId" data-val-required="The ColorIds field is required." class="form-control">
+                        @foreach (Color color in ViewBag.Colors)
+                        {
+                            if (color.Id == clothesColor.Color.Id)
                             {
-                                if (color.Id == clothesColor.Color.Id)
-                                {
-                                    <option selected value="@color.Id">@color.Name</option>
-                                }
-                                else
-                                {
-                                    <option value="@color.Id">@color.Name</option>
-                                }
+                                <option selected value="@color.Id">@color.Name</option>
                             }
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="SizeIds" class="control-label">Sizes</label>
-                        <select class="form-control" multiple="multiple" name="SizeIds" id="SizeIds">
-                            @foreach (Size size in ViewBag.Sizes)
+                            else
                             {
-                                if (clothesColor.ClothesColorSizes.Any(c => c.SizeId == size.Id))
-                                {
-
-                                    <option value="@size.Id" selected>@size.Name</option>
-                                }
-                                else
-                                {
-                                    <option value="@size.Id">@size.Name</option>
-                                }
+                                <option value="@color.Id">@color.Name</option>
                             }
-                        </select>
-                    </div>
-                    <button id="check-btn" class="btn btn-outline-info">Submit</button>
+                        }
+                    </select>
+                </div>
 
+                <div class="form-group">
+                    <label for="SizeIds" class="control-label">Sizes</label>
+                    <select class="form-control" multiple="multiple" name="SizeIds" id="SizeIds">
+                        @foreach (Size size in ViewBag.Sizes)
+                        {
+                            if (clothesColor.ClothesColorSizes.Any(c => c.SizeId == size.Id))
+                            {
+
+                                <option value="@size.Id" selected>@size.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@size.Id">@size.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                
+                    <button id="submit-btn" class="btn btn-outline-info">Submit</button>
+                    <button id="add-btn" class="btn btn-outline-success">Add another color</button>
+                    <button id="remove-btn" class="btn btn-outline-danger">Remove</button>
+                
+               
+            </div>
                 }
 
                 <div class="form-group">
@@ -146,24 +153,47 @@
                 b.parentElement.remove();
             })
         })
+        
     </script>
 }
 
 @section ColorSize{
     <script>
+        let addBtns = document.querySelectorAll("#add-btn");
+        addBtns.forEach(btn => btn.setAttribute("disabled", ""))
+    //submit
+        let allChoosenValues = [];
+        let submitBtns = document.querySelectorAll("#submit-btn");
+        let colorsRemove = document.querySelectorAll("#remove-btn")
 
-    //check
+        colorsRemove.forEach(btn => {
+            btn.addEventListener("click", function (e) {
+                e.preventDefault();
+                btn.previousElementSibling.previousElementSibling.previousElementSibling.remove();
+                btn.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.remove();
+            })
+        })
 
-    let allChoosenValues = [];
-        const checkBtn = document.querySelectorAll("#check-btn");
-        checkBtn.forEach(btn => btn.addEventListener("click", (e) => {
+
+        document.addEventListener("click", (e) => {
+             submitBtns = document.querySelectorAll("#submit-btn");
+            addBtns = document.querySelectorAll("#add-btn");
+            colorsRemove = document.querySelectorAll("#remove-btn")
+        })
+
+        //submits
+        submitBtns.forEach(btn => btn.addEventListener("click", (e) => {
             e.preventDefault();
             let selected = [];
             const sizeIdsDiv = btn.previousElementSibling;
             const colorIdDiv = sizeIdsDiv.previousElementSibling;
-
+            const currRemoveBtn = e.target.nextElementSibling.nextElementSibling;
+            const currAddBtn = e.target.nextElementSibling;
             const selectColor = colorIdDiv.querySelector("select");
             const selectSize = sizeIdsDiv.querySelector("select");
+
+            @*currRemoveBtn.setAttribute("disabled", "");*@
+            currAddBtn.removeAttribute("disabled");
 
             for (let option of selectSize.options) {
                 if (option.selected) {
@@ -188,17 +218,15 @@
                 html = `<div class="form-group alert alert-danger"> <p class="lead">Please choose at least 1 size.Refresh the site to do it again.</p></div>`
             }
             btn.insertAdjacentHTML("beforebegin", html);
-            btn.setAttribute("disabled", "");
-           
+
         }));
 
-    // add
-
-    @*const addBtn = document.querySelector("#add-btn");
-        addBtn.addEventListener("click", (e) => {
+        //adds
+         addBtns.forEach(btn => btn.addEventListener("click", (e) => {
             e.preventDefault();
-
-        const html = `<div class="form-group">
+            const currSubmitBtn = e.target.previousElementSibling;
+            const currRemoveBtn = e.target.nextElementSibling;
+            const html = `<div class="form-group">
                     <label for="ColorIds" class="control-label">Colors</label>
                     <select id="ColorIds" name="ColorIds" data-val="true" data-val-required="The ColorIds field is required." class="form-control">
                      @foreach (Color color in ViewBag.Colors)
@@ -214,10 +242,11 @@
                         {
                                 <option value="@size.Id">@size.Name</option>
                         }
-                    </select>
-                </div>`
+                    </select>`
 
-        addBtn.insertAdjacentHTML("beforebegin", html);
-    })*@
+            currSubmitBtn.insertAdjacentHTML("beforebegin", html);
+            btn.setAttribute("disabled", "");
+             currRemoveBtn.removeAttribute("disabled");
+        }));
     </script>
 }

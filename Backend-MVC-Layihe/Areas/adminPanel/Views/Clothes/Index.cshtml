@@ -28,24 +28,24 @@
                 {
                     string colors = "";
                     string sizes = "";
-                    @*int clothesColorLastId = clothes.ClothesColors.LastOrDefault().ColorId;*@
+                    int clothesColorLastId = clothes.ClothesColors.LastOrDefault().ColorId;
 
                     List<ClothesColorSize> clothesColorSizes = ViewBag.ClothesColorSizes;
-                    @*clothes.ClothesColors.ForEach(c => colors += $"{c.Color.Name}{(clothesColorLastId != c.ColorId ? ",":"")}");*@
-                clothes.ClothesColors.ForEach(c => colors += $"{c.Color.Name},");
+                    clothes.ClothesColors.ForEach(c => colors += $"{c.Color.Name}{(clothesColorLastId != c.ColorId ? ",":"")}");
+                @*clothes.ClothesColors.ForEach(c => colors += $"{c.Color.Name},");*@
 
                 clothesColorSizes = clothesColorSizes
                         .Where(c => clothes.ClothesColors.Any(d => d.Id == c.ClothesColorId)).ToList();
 
                 // OrderBy etmeyimin sebebi index de adlari chixaranda random sirada olanda vergul u sona qoyub evvele qoymaya bilir.
-                @*int clothesColorSizesLastId = clothesColorSizes.OrderBy(c=>c.SizeId).LastOrDefault().SizeId;*@
+                int clothesColorSizesLastId = clothesColorSizes.OrderBy(c=>c.SizeId).LastOrDefault().SizeId;
                     @foreach (Size size in ViewBag.Sizes)
                     {
                         if (clothesColorSizes.Any(c=>c.SizeId == size.Id))
                         {
                             //sonuncu da vergul qoymamaq uchun
-                            @*sizes += $"{size.Name}{(clothesColorSizesLastId != size.Id ? "," : "")}";*@
-                            sizes += $"{size.Name},";
+                            sizes += $"{size.Name}{(clothesColorSizesLastId != size.Id ? "," : "")}";
+                            @*sizes += $"{size.Name},";*@
 
                         }
 

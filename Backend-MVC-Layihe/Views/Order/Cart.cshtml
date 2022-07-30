@@ -1,9 +1,14 @@
-﻿
+﻿@model CartVM
 @{
     ViewData["Title"] = "Cart";
+    List<Color> colors = ViewBag.Colors;
+    List<Size> sizes = ViewBag.Sizes;
 }
 
-
+@if(TempData["Message"] != null)
+            {
+                <div  class="alert alert-danger">@TempData["Message"]</div>
+            }
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
     <div class="row px-xl-5">
@@ -21,125 +26,67 @@
 <div class="container-fluid">
     <div class="row px-xl-5">
         <div class="col-lg-8 table-responsive mb-5">
+            @if(ViewBag.Empty is null)
+            {
             <table class="table table-light table-borderless table-hover text-center mb-0">
                 <thead class="thead-dark">
                     <tr>
                         <th>Products</th>
                         <th>Price</th>
+                        <th>Color</th>
+                        <th>Size</th>
                         <th>Quantity</th>
                         <th>Total</th>
                         <th>Remove</th>
                     </tr>
                 </thead>
                 <tbody class="align-middle">
+                    @foreach (CartItemVM cartItem in Model.CartItemVMs)
+                    {
                     <tr>
-                        <td class="align-middle"><img src="~/assets/img/product-1.jpg" alt="" style="width: 50px;"> Product Name</td>
-                        <td class="align-middle">$150</td>
                         <td class="align-middle">
-                            <div class="input-group quantity mx-auto" style="width: 100px;">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-primary btn-minus">
-                                        <i class="fa fa-minus"></i>
-                                    </button>
+                            <img src="~/assets/img/@cartItem.Clothes.ClothesImages.FirstOrDefault(c=>c.IsMain==true)?.Name"
+                                 alt="@cartItem.Clothes.ClothesImages.FirstOrDefault(c=>c.IsMain==true)?.Alternative" style="width: 50px;"> <a class="text-decoration-none text-muted" asp-controller="product" asp-action="detail" asp-route-id="@cartItem.Clothes.Id">@cartItem.Clothes.Name</a>
+                            </td>
+                            <td class="align-middle">$@cartItem.Clothes.DiscountPrice</td>
+                            <td >
+                                <img style="width: 50px !important; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; " src="~/assets/img/colors/@(colors.FirstOrDefault(c => c.Id == cartItem.ColorId)?.Name.Trim().ToLower()).jpg" /> 
+                            </td>
+                            <td>@sizes.FirstOrDefault(s => s.Id == cartItem.SizeId).Name</td>
+                            <td class="align-middle">
+                                <div class="input-group quantity mx-auto" style="width: 100px;">
+                                    <div class="input-group-btn">
+                                        <a asp-action="QuantityMinus" asp-route-id="@cartItem.Clothes.Id" 
+                                           asp-route-colorId="@cartItem.ColorId" asp-route-sizeId="@cartItem.SizeId"
+                                           class="btn btn-sm btn-primary btn-minus">
+                                            <i class="fa fa-minus"></i>
+                                        </a>
+                                    </div>
+                                    <input id="quantityInput" type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="@cartItem.Quantity">
+                                    <div class="input-group-btn">
+                                        <a asp-action="QuantityPlus" asp-route-id="@cartItem.Clothes.Id"
+                                            asp-route-colorId="@cartItem.ColorId" asp-route-sizeId="@cartItem.SizeId"
+                                           class="btn btn-sm btn-primary btn-plus">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                    </div>
                                 </div>
-                                <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="1">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-primary btn-plus">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="align-middle">$150</td>
-                        <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td class="align-middle"><img src="~/assets/img/product-2.jpg" alt="" style="width: 50px;"> Product Name</td>
-                        <td class="align-middle">$150</td>
-                        <td class="align-middle">
-                            <div class="input-group quantity mx-auto" style="width: 100px;">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-primary btn-minus">
-                                        <i class="fa fa-minus"></i>
-                                    </button>
-                                </div>
-                                <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="1">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-primary btn-plus">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="align-middle">$150</td>
-                        <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td class="align-middle"><img src="~/assets/img/product-3.jpg" alt="" style="width: 50px;"> Product Name</td>
-                        <td class="align-middle">$150</td>
-                        <td class="align-middle">
-                            <div class="input-group quantity mx-auto" style="width: 100px;">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-primary btn-minus">
-                                        <i class="fa fa-minus"></i>
-                                    </button>
-                                </div>
-                                <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="1">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-primary btn-plus">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="align-middle">$150</td>
-                        <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td class="align-middle"><img src="~/assets/img/product-4.jpg" alt="" style="width: 50px;"> Product Name</td>
-                        <td class="align-middle">$150</td>
-                        <td class="align-middle">
-                            <div class="input-group quantity mx-auto" style="width: 100px;">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-primary btn-minus">
-                                        <i class="fa fa-minus"></i>
-                                    </button>
-                                </div>
-                                <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="1">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-primary btn-plus">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="align-middle">$150</td>
-                        <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td class="align-middle"><img src="~/assets/img/product-5.jpg" alt="" style="width: 50px;"> Product Name</td>
-                        <td class="align-middle">$150</td>
-                        <td class="align-middle">
-                            <div class="input-group quantity mx-auto" style="width: 100px;">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-primary btn-minus">
-                                        <i class="fa fa-minus"></i>
-                                    </button>
-                                </div>
-                                <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="1">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-primary btn-plus">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="align-middle">$150</td>
-                        <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
-                    </tr>
+                            </td>
+                            <td class="align-middle">$@(cartItem.Quantity*cartItem.Clothes.DiscountPrice)</td>
+                            <td class="align-middle"><a asp-action="RemoveItem" asp-route-id="@cartItem.Clothes.Id"
+                                                        asp-route-colorId="@cartItem.ColorId" asp-route-sizeId="@cartItem.SizeId" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
+                        </tr>
+                    }
+
                 </tbody>
             </table>
+            }
+            else
+            {
+                <div class="alert alert-info">@ViewBag.Empty</div>
+            }
         </div>
+
         <div class="col-lg-4">
             <form class="mb-30" action="">
                 <div class="input-group">
@@ -150,26 +97,78 @@
                 </div>
             </form>
             <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Cart Summary</span></h5>
-            <div class="bg-light p-30 mb-5">
-                <div class="border-bottom pb-2">
-                    <div class="d-flex justify-content-between mb-3">
-                        <h6>Subtotal</h6>
-                        <h6>$150</h6>
+            @if (ViewBag.Empty is null)
+            {
+                decimal shippinCost = 14 * Model.CartItemVMs.Count;
+
+                <div class="bg-light p-30 mb-5">
+                    <div class="border-bottom pb-2">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h6>Subtotal</h6>
+                            <h6>$@Model.TotalPrice</h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">Shipping</h6>
+                            <h6 class="font-weight-medium">$@shippinCost</h6>
+                        </div>
                     </div>
-                    <div class="d-flex justify-content-between">
-                        <h6 class="font-weight-medium">Shipping</h6>
-                        <h6 class="font-weight-medium">$10</h6>
+                    <div class="pt-2">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5>Total</h5>
+                            <h5>$@(Model.TotalPrice+shippinCost)</h5>
+                        </div>
+                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
                     </div>
                 </div>
-                <div class="pt-2">
-                    <div class="d-flex justify-content-between mt-2">
-                        <h5>Total</h5>
-                        <h5>$160</h5>
+            }
+            else
+            {
+                <div class="bg-light p-30 mb-5">
+                    <div class="border-bottom pb-2">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h6>Subtotal</h6>
+                            <h6>$0.00</h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">Shipping</h6>
+                            <h6 class="font-weight-medium">$0.00</h6>
+                        </div>
                     </div>
-                    <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
+                    <div class="pt-2">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5>Total</h5>
+                            <h5>$0.00</h5>
+                        </div>
+                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
+                    </div>
                 </div>
-            </div>
+            }
+
         </div>
     </div>
 </div>
 <!-- Cart End -->
+
+<script>
+    const btnPlus = document.querySelectorAll(".btn-plus");
+    let quantityInputs = document.querySelectorAll("#quantityInput");
+    @*if (quantityInput.value >= 10) {
+        btn
+    }*@
+    @*console.log(quantityInputs)*@
+    let isHigher = false;
+    let higherValueInput;
+    quantityInputs.forEach(c => {
+        if (Number(c.value) >= 10) {
+            isHigher = true;
+            higherValueInput = c;
+            @*c.setAttribute("disabled", "");*@
+        }
+    });
+    console.log(isHigher);
+    console.log(higherValueInput);
+    @*if (isHigher) {
+
+    }*@
+   
+</script>
