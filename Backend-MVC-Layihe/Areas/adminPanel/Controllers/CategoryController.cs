@@ -26,9 +26,15 @@ namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
             _env = env;
         }
         
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            List<Category> categories = _context.Categories.Include(c => c.Clothes).ToList();
+            byte ItemsPerPage = 6;
+            ViewBag.CurrPage = page;
+            ViewBag.TotalPage = Math.Ceiling((decimal)_context.Categories.Count() / ItemsPerPage);
+
+            List<Category> categories = _context.Categories.Include(c => c.Clothes)
+                .OrderByDescending(c => c.Id).Skip((page - 1) * ItemsPerPage)
+                .Take(ItemsPerPage).ToList();
             return View(categories);
         }
 

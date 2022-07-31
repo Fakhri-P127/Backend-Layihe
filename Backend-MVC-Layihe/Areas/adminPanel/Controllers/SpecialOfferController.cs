@@ -23,9 +23,15 @@ namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
             _context = context;
             _env = env;
         }
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            List<SpecialOffer> specialOffers = _context.SpecialOffers.ToList();
+            byte ItemsPerPage = 4;
+            ViewBag.CurrPage = page;
+            ViewBag.TotalPage = Math.Ceiling((decimal)_context.SpecialOffers.Count() / ItemsPerPage);
+
+            List<SpecialOffer> specialOffers = _context.SpecialOffers
+                .OrderByDescending(c => c.Id).Skip((page-1)*ItemsPerPage)
+                .Take(ItemsPerPage).ToList();
             return View(specialOffers);
         }
 
@@ -75,16 +81,6 @@ namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
             if (existed is null) return NotFound();
 
             if (!ModelState.IsValid) return View(existed);
-
-            #region Shekil silinse extra check up
-            // hech bir shekilin olmamagini yoxlayir(belke image i remove elave etdim)
-            //if(newSpecialOffer.Photo is null)
-            //{
-            //    ModelState.AddModelError("Photo", "You need to upload one image to create specialOffer
-            //    ");
-            //    return View(existed);
-            //}
-            #endregion
 
             if (newSpecialOffer.Photo is null)
             {

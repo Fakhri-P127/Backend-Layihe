@@ -121,7 +121,6 @@ namespace Backend_MVC_Layihe.Controllers
                         continue;
                     }
                     
-                    //Clothes existedClothes = await _context.Clothes.FirstOrDefaultAsync(p => p.Id == cookieItem.Id);
                     ClothesColor clothesColor = await _context.ClothesColors.Include(c => c.Clothes)
                .Include(c => c.ClothesColorSizes)
               .FirstOrDefaultAsync(c => c.ClothesId == cookieItem.Id
@@ -135,7 +134,7 @@ namespace Backend_MVC_Layihe.Controllers
                         Quantity = cookieItem.Quantity,
                         Clothes = clothesColor.Clothes,
                         AppUser = user,
-                        Price = clothesColor.Clothes.Price,
+                        Price = (decimal)(clothesColor.Clothes.DiscountId == null? clothesColor.Clothes.Price : clothesColor.Clothes.DiscountPrice),
                         ColorId=cookieItem.ColorId,
                         SizeId=cookieItem.SizeId
                     };

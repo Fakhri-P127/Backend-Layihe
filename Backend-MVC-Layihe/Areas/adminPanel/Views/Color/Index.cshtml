@@ -13,8 +13,9 @@
                 <tr>
 
                     <th>
-                        Id
+                        Image
                     </th>
+
                     <th>
                         Name
                     </th>
@@ -29,8 +30,10 @@
                 @foreach (Color color in Model.OrderByDescending(x => x.Id))
                 {
                     <tr>
-
-                        <td>@color.Id</td>
+                        <td>
+                            <img style="width:50px !important" src="~/assets/img/colors/@color.Image"
+                                 alt="@color.Name" />
+                        </td>
 
                         <td>@color.Name</td>
 
@@ -58,5 +61,24 @@
             </tbody>
         </table>
     </div>
+    <div class="col-12">
+        <nav>
+            <ul class="pagination justify-content-center">
+                @if (ViewBag.CurrPage > 1)
+                {
+                    <li class="page-item"><a class="page-link" asp-action="index" asp-route-page="@(ViewBag.CurrPage-1)">Previous</a></li>
+                }
 
+                @for (int i = 1; i < ViewBag.TotalPage; i++)
+                {
+                    <li class="page-item"><a class="page-link" asp-action="index" asp-route-page="@i">@i</a></li>
+                }
+
+                @if (ViewBag.CurrPage < ViewBag.TotalPage)
+                {
+                    <li class="page-item"><a class="page-link" asp-action="index" asp-route-page="@(ViewBag.CurrPage+1)">Next</a></li>
+                }
+            </ul>
+        </nav>
+    </div>
 </div>

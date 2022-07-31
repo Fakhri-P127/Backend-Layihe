@@ -37,23 +37,27 @@
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="DiscountPrice" class="control-label"></label>
-                    <input asp-for="DiscountPrice" class="form-control" />
-                    <span asp-validation-for="DiscountPrice" class="text-danger"></span>
-                </div>
-                <div class="form-group">
                     <label asp-for="Description" class="control-label"></label>
                     <input asp-for="Description" class="form-control" />
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="ExtraInfo" class="control-label"></label>
-                    <input asp-for="ExtraInfo" class="form-control" />
-                    <span asp-validation-for="ExtraInfo" class="text-danger"></span>
+                    <label asp-for="ClothesInformationId" class="control-label"></label>
+                    <select asp-for="ClothesInformationId" class="form-control" asp-items="@(new SelectList(ViewBag.ClothesInformations, "Id", "Definition"));"></select>
                 </div>
                 <div class="form-group">
                     <label asp-for="CategoryId" class="control-label"></label>
                     <select asp-for="CategoryId" class="form-control" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"));"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DiscountId" class="control-label"></label>
+                    <select asp-for="DiscountId" class="form-control">
+                        <option value="">No Discount</option>
+                        @foreach (Discount discount in ViewBag.Discounts)
+                        {
+                            <option value="@discount.Id">@discount.PercentKey</option>
+                        }
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="ColorId" class="control-label">Colors</label>
@@ -128,11 +132,7 @@
                 submitBtn.insertAdjacentHTML("beforebegin", html);
                 submitBtn.setAttribute("disabled", "");
             }
-            @*else {
-                html = `<div class="form-group alert alert-danger"> <p class="lead">Please choose at least 1 size</p></div>`
-                checkBtn.insertAdjacentHTML("beforebegin", html);
-        }*@
-         
+           
             addBtn.removeAttribute("disabled");
            
     })

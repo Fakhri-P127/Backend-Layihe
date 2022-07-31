@@ -1,0 +1,37 @@
+﻿@model Backend_MVC_Layihe.Models.Discount
+
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<div class="main-panel">
+
+
+
+    <h1>Detail</h1>
+
+    <div>
+        <h4>Discount</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.PercentKey)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PercentKey)
+            </dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.PercentValue)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PercentValue)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>

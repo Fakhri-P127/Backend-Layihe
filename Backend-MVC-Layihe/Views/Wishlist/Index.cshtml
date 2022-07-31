@@ -1,0 +1,63 @@
+﻿@model List<WishlistItem>
+
+<div class="main-panel container">
+
+    <div class="row mt-3">
+        @if (TempData["Empty"] is null)
+        {
+            @foreach (WishlistItem item in Model)
+            {
+                <div class="col-3">
+                    <div style="position:relative;" class="card">
+                        <a asp-action="removeWishlist" asp-route-id="@item.ClothesId" style="position:absolute;right:5px;" class="btn btn-outline-danger">X</a>
+                        <img style="height:280px !important" src="~/assets/img/@item.Clothes.ClothesImages.FirstOrDefault(c => c.IsMain == true)?.Name"
+                             class="card-img-top" alt="@item.Clothes.ClothesImages.FirstOrDefault(c => c.IsMain == true)?.Alternative">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Clothes.Name</h5>
+                            <p class="card-text">
+                                @if (item.Clothes.Description.Length > 50)
+                                {
+                                    @item.Clothes.Description.Substring(0, 50)
+                                }
+                                else
+                                {
+                                    @item.Clothes.Description
+                                }
+                            </p>
+                            <a asp-controller="product" asp-action="detail" asp-route-id="@item.ClothesId" class="btn btn-primary">Go to product</a>
+
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+
+        }
+        else
+        {
+            <div class="alert alert-danger">@TempData["Empty"]</div>
+        }
+
+    </div>
+    <div class="col-12">
+        <nav>
+            <ul class="pagination justify-content-center">
+                @if (ViewBag.CurrPage > 1)
+                {
+                    <li class="page-item"><a class="page-link" asp-action="index" asp-route-page="@(ViewBag.CurrPage-1)">Previous</a></li>
+                }
+
+                @for (int i = 1; i < ViewBag.TotalPage; i++)
+                {
+                    <li class="page-item"><a class="page-link" asp-action="index" asp-route-page="@i">@i</a></li>
+                }
+
+                @if (ViewBag.CurrPage < ViewBag.TotalPage)
+                {
+                    <li class="page-item"><a class="page-link" asp-action="index" asp-route-page="@(ViewBag.CurrPage+1)">Next</a></li>
+                }
+            </ul>
+        </nav>
+    </div>
+</div>

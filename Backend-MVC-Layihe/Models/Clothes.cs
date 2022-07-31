@@ -12,15 +12,17 @@ namespace Backend_MVC_Layihe.Models
     {
         public string Name { get; set; }
         public decimal Price { get; set; }
-        public decimal DiscountPrice { get; set; }
         public string Description { get; set; }
-        public string ExtraInfo { get; set; }
+        public int? ClothesInformationId { get; set; }
+        public ClothesInformation ClothesInformation { get; set; }
         public List<ClothesImage> ClothesImages { get; set; }
         public int? CategoryId { get; set; }
         public Category Category { get; set; }
         public List<ClothesColor> ClothesColors { get; set; }
+        public int? DiscountId { get; set; }
+        public Discount Discount { get; set; }
+        public decimal? DiscountPrice { get; set; }
 
-        //hele deqiq bilmirem bunlari
         [NotMapped]
         public IFormFile MainPhoto { get; set; }
         [NotMapped]
@@ -31,11 +33,6 @@ namespace Backend_MVC_Layihe.Models
         public int ColorId { get; set; }
         [NotMapped]
         public List<int> SizeIds { get; set; }
-        //[NotMapped]
-        //public int SizeId { get; set; }
-        //[NotMapped]
-        //public byte Quantity { get; set; }
-
         [NotMapped]
         public List<string> ClothesColorSizeValues { get; set; }
     }

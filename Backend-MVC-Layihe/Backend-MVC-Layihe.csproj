@@ -32,6 +32,14 @@
     <Compile Remove="Migrations\20220726075922_UpdatedRelationsWithClothesAndCategory.Designer.cs" />
     <Compile Remove="Migrations\20220726080101_UpdatedRelationsWithClothesAndCategoryTables.cs" />
     <Compile Remove="Migrations\20220726080101_UpdatedRelationsWithClothesAndCategoryTables.Designer.cs" />
+    <Compile Remove="Migrations\20220731125300_CreatedClothesInformationTableAndAddedRelationsForIt.cs" />
+    <Compile Remove="Migrations\20220731125300_CreatedClothesInformationTableAndAddedRelationsForIt.Designer.cs" />
+    <Compile Remove="Migrations\20220731170057_hi.cs" />
+    <Compile Remove="Migrations\20220731170057_hi.Designer.cs" />
+    <Compile Remove="Migrations\20220731173347_AddedAnnotationsForSettingTable.cs" />
+    <Compile Remove="Migrations\20220731173347_AddedAnnotationsForSettingTable.Designer.cs" />
+    <Compile Remove="Migrations\20220731180643_s.cs" />
+    <Compile Remove="Migrations\20220731180643_s.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

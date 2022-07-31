@@ -25,9 +25,14 @@ namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
             _context = context;
             _env = env;
         }
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            List<Slider> sliders = _context.Sliders.ToList();
+            byte ItemsPerPage = 4;
+            ViewBag.CurrPage = page;
+            ViewBag.TotalPage = Math.Ceiling((decimal)_context.Sliders.Count() / ItemsPerPage);
+
+            List<Slider> sliders = _context.Sliders.OrderByDescending(c => c.Id)
+                .Skip((page-1)*ItemsPerPage).Take(ItemsPerPage).ToList();
             return View(sliders);
         }
 
@@ -79,15 +84,6 @@ namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
             if (existed is null) return NotFound();
 
             if (!ModelState.IsValid) return View(existed);
-
-            #region Shekil silinse extra check up
-            // hech bir shekilin olmamagini yoxlayir(belke image i remove elave etdim)
-            //if(newSlider.Photo is null)
-            //{
-            //    ModelState.AddModelError("Photo", "You need to upload one image to create slider");
-            //    return View(existed);
-            //}
-            #endregion
 
             if (newSlider.Photo is null)
             {

@@ -18,8 +18,12 @@ namespace Backend_MVC_Layihe.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index(int? categoryId)
+        public async Task<IActionResult> Index(int? categoryId, int page = 1)
         {
+            byte ItemsPerPage = 8;
+            ViewBag.CurrPage = page;
+            ViewBag.TotalPage = Math.Ceiling((decimal)_context.Clothes.Count() / ItemsPerPage);
+
             ViewBag.Colors = _context.Colors.Include(c => c.ClothesColors).ToList();
             ViewBag.Sizes = _context.Sizes.Include(c => c.ClothesColorSizes)
                 .ThenInclude(c=>c.ClothesColor).ThenInclude(c=>c.Clothes).ToList();
@@ -32,7 +36,6 @@ namespace Backend_MVC_Layihe.Controllers
                     if(category.Clothes.Count() == 0)
                     {
                         ViewBag.Msg = "There's no products in this category";
-                        //return View(category.Clothes);
                     }
                     return View(category.Clothes);
                   
@@ -40,13 +43,13 @@ namespace Backend_MVC_Layihe.Controllers
             }
             List<Clothes> clothes = _context.Clothes
                 .Include(c => c.ClothesImages)
-             .Include(c => c.ClothesColors).ThenInclude(c => c.Color).OrderByDescending(c => c.Id).Take(8).ToList();
+             .Include(c => c.ClothesColors).ThenInclude(c => c.Color).OrderByDescending(c => c.Id)
+             .Skip((page - 1) * ItemsPerPage).Take(ItemsPerPage).ToList();
      
             return View(clothes);
         }
         public IActionResult GetDatas(string sortingOrder)
         {
-
             List<Clothes> clothes = _context.Clothes
              .Include(c => c.ClothesImages)
              .Include(c=>c.ClothesColors).ThenInclude(c=>c.Color)
@@ -62,10 +65,10 @@ namespace Backend_MVC_Layihe.Controllers
                     clothes = clothes.OrderByDescending(clothes => clothes.Name).ToList();
                     break;
                 case "Price by ascending":
-                    clothes = clothes.OrderBy(clothes => clothes.DiscountPrice).ToList();
+                    clothes = clothes.OrderBy(clothes => clothes.Price).ToList();
                     break;
                 case "Price by descending":
-                    clothes = clothes.OrderByDescending(clothes => clothes.DiscountPrice).ToList();
+                    clothes = clothes.OrderByDescending(clothes => clothes.Price).ToList();
                     break;
                 default:
                     clothes = clothes.OrderByDescending(clothes => clothes.Id).ToList();
@@ -87,7 +90,7 @@ namespace Backend_MVC_Layihe.Controllers
                     break;
                 }
             }     
-            return PartialView("_ClothesPartialView", clothes.Take(8).ToList());
+            return PartialView("_ClothesPartialView", clothes.OrderByDescending(c=>c.Id).Take(8).ToList());
         }
 
        

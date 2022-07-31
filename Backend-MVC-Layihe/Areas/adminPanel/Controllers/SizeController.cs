@@ -20,9 +20,14 @@ namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            List<Size> sizes = _context.Sizes.ToList();
+            byte ItemsPerPage = 6;
+            ViewBag.CurrPage = page;
+            ViewBag.TotalPage = Math.Ceiling((decimal)_context.Sizes.Count() / ItemsPerPage);
+
+            List<Size> sizes = _context.Sizes.OrderByDescending(c => c.Id)
+                .Skip((page-1)*ItemsPerPage).Take(ItemsPerPage).ToList();
             return View(sizes);
         }
         [Authorize(Roles = "Admin")]

@@ -95,14 +95,11 @@
             <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by size</span></h5>
             <div id="size-section" class="bg-light p-4 mb-30">
                 <form>
-                    @*@{int sizeCount = 0;}
-                    @{
-                        sizes.ForEach(s => sizeCount += s.ClothesColorSizes.Count);
-                    }*@
+                   
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                         <input style="width:100%" type="checkbox" class="custom-control-input" checked>
                         <label style="width:120px" class="custom-control-label" for="size-all">All Sizes</label>
-                        <a asp-action="getdatas" asp-route-sortingOrder="allSizes" style="width:100%;height:20px;"> </a>
+                        <a style="width:100%;height:20px;"> </a>
                         <span class="badge border font-weight-normal">@(Model.Count != 0 ? Model.Count : 0)</span>
                     </div>
                     @foreach (Size size in sizes)
@@ -110,7 +107,7 @@
                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                     <input style="width:100%" type="checkbox" class="custom-control-input">
                     <label class="custom-control-label">@size.Name</label>
-                    <a asp-action="getdatas" asp-route-sortingOrder="@size.Name" style="width:100%;height:20px;"> </a>
+                    <a style="width:100%;height:20px;"> </a>
                     <span class="badge border font-weight-normal">@size.ClothesColorSizes.Count</span>
                 </div>
                     }
@@ -155,11 +152,13 @@
                 <div class="row w-100 pb-3" id="partial-products-container">
                     @if (ViewBag.Msg is null)
                     {
-                        @await Html.PartialAsync("_ClothesPartialView", Model.Take(9))
-                        
-                    }else{
+                        @await Html.PartialAsync("_ClothesPartialView", Model)
+
+                    }
+                    else
+                    {
                         <div class="d-flex w-100 justify-content-center">
-                        <h3 class="text-danger">@ViewBag.Msg</h3>
+                            <h3 class="text-danger">@ViewBag.Msg</h3>
 
                         </div>
                     }
@@ -167,11 +166,20 @@
                 <div class="col-12">
                     <nav>
                         <ul class="pagination justify-content-center">
-                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                            @if (ViewBag.CurrPage > 1)
+                            {
+                                <li class="page-item"><a class="page-link" asp-action="index" asp-route-page="@(ViewBag.CurrPage-1)">Previous</a></li>
+                            }
+
+                            @for (int i = 1; i < ViewBag.TotalPage; i++)
+                            {
+                                <li class="page-item"><a class="page-link" asp-action="index" asp-route-page="@i">@i</a></li>
+                            }
+
+                            @if (ViewBag.CurrPage < ViewBag.TotalPage)
+                            {
+                                <li class="page-item"><a class="page-link" asp-action="index" asp-route-page="@(ViewBag.CurrPage+1)">Next</a></li>
+                            }
                         </ul>
                     </nav>
                 </div>
@@ -186,10 +194,7 @@
     <script>
         const productSortingElement = document.querySelector("#product-sorting");
         const partialProductContainer = document.querySelector("#partial-products-container");
-        @*const latest = productSortingElement.querySelector("#latest");
-        const alphabeticOrder = productSortingElement.querySelector("#a-z");
-        const reverseAlphabeticOrder = productSortingElement.querySelector("#z-a");*@
-
+      
         productSortingElement.addEventListener("click", (e) => {
             e.preventDefault();
             const currentTargetId = e.target.id;
@@ -203,13 +208,6 @@
                 fetch(currentTargetHref).then(res => res.text())
                     .then(data => partialProductContainer.innerHTML = data);
             }
-            @*if (currentTargetId === latest.id
-                || currentTargetId === alphabeticOrder.id
-                || currentTargetId === reverseAlphabeticOrder.id)
-            {
-                fetch(currentTargetHref).then(res => res.text())
-                    .then(data => partialProductContainer.innerHTML = data);
-            }*@
         })
 
         // Color section
@@ -228,24 +226,6 @@
             fetch(colorHrefAttribute).then(res => res.text())
                 .then(data => partialProductContainer.innerHTML = data);
         }))
-
-        @*// Size section
-        const sizeSection = document.querySelector("#size-section");
-        const sizeElements = sizeSection.querySelectorAll("form div a");
-        console.log(sizeElements);
-        sizeElements.forEach(size => size.addEventListener("click", function (e) {
-            e.preventDefault();
-            console.log(e.target);
-            const sizeHrefAttribute = e.target.getAttribute("href");
-            console.log(sizeHrefAttribute);
-            const inputElement = size.previousElementSibling.previousElementSibling;
-
-            sizeElements.forEach(s => s.previousElementSibling.previousElementSibling.checked = false)
-            inputElement.checked = true;
-            fetch(sizeHrefAttribute).then(res => res.text())
-                .then(data => partialProductContainer.innerHTML = data);
-        }))*@
-
 
     </script>
 }

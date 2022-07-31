@@ -45,7 +45,9 @@ namespace Backend_MVC_Layihe.Controllers
                     TotalPrice = default
                 };
                 user.CartItems.ForEach(item => order.TotalPrice += item.Price * item.Quantity);
-            
+
+            ViewBag.Colors = await _context.Colors.ToListAsync();
+            ViewBag.Sizes = await _context.Sizes.ToListAsync();
             return View(order);
         }
 
@@ -62,6 +64,7 @@ namespace Backend_MVC_Layihe.Controllers
                 ModelState.AddModelError(string.Empty, "There's no items to buy");
                 return View(order);
             }
+
             order.CartItems = user.CartItems;
             order.AppUser = user;
             order.Date = DateTime.Now;
@@ -75,19 +78,21 @@ namespace Backend_MVC_Layihe.Controllers
             await _context.Orders.AddAsync(order);
             user.CartItems = new List<CartItem>();
             await _context.SaveChangesAsync();
-
             TempData["OrderSucc"] = "Purchase has been successfull";
             return RedirectToAction("Index", "Home");
         }
         public async Task<IActionResult> Cart()
         {
-            CartVM cart = new CartVM();
-                cart.CartItemVMs = new List<CartItemVM>();
-                cart.TotalPrice = 0;
+            CartVM cart = new CartVM
+            {
+                CartItemVMs = new List<CartItemVM>(),
+                TotalPrice = 0
+            };
 
             if (User.Identity.IsAuthenticated && User.IsInRole("Member"))
             {
                 AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+                if (user is null) return NotFound();
                 user.CartItems = await _context.CartItems
                     .Include(b => b.AppUser).Include(b => b.Clothes)
                     .Where(b => b.AppUserId == user.Id ).ToListAsync();
@@ -119,12 +124,14 @@ namespace Backend_MVC_Layihe.Controllers
                     };
                   
                     cart.CartItemVMs.Add(cartItem);
-                    cart.TotalPrice += clothesColor.Clothes.DiscountPrice * currCartItem.Quantity;
+                    decimal Price = (decimal)(clothesColor.Clothes.DiscountId == null ? clothesColor.Clothes.Price : clothesColor.Clothes.DiscountPrice);
+                    cart.TotalPrice += Price * currCartItem.Quantity;
                 }
 
             }
             else
             {
+                if(User.IsInRole("Moderator") || User.IsInRole("Admin")) return NotFound();
                 string cartCookieStr = HttpContext.Request.Cookies["Cart"];
                 // Login olan shexs moderator ya da admindise o da bu if shertine dushecek
                 if (string.IsNullOrEmpty(cartCookieStr))
@@ -149,7 +156,9 @@ namespace Backend_MVC_Layihe.Controllers
                         Quantity = cookieItem.Quantity
                     };
                     cart.CartItemVMs.Add(cartItem);
-                    cart.TotalPrice += clothes.DiscountPrice * cookieItem.Quantity;
+                    decimal Price = (decimal)(clothes.DiscountId == null ? clothes.Price : clothes.DiscountPrice);
+
+                    cart.TotalPrice += Price * cookieItem.Quantity;
                 }
             }
            
@@ -189,8 +198,6 @@ namespace Backend_MVC_Layihe.Controllers
                 _context.CartItems.Remove(cartItem);
                 await _context.SaveChangesAsync();
 
-                
-               
             }
             else
             {
@@ -209,7 +216,10 @@ namespace Backend_MVC_Layihe.Controllers
                  && c.ClothesColorSizes.Any(c => c.SizeId == existedCookieItem.SizeId));
 
                 cartCookie.CartCookieItemVMs.Remove(existedCookieItem);
-                cartCookie.TotalPrice -= existedCookieItem.Quantity * clothesColor.Clothes.DiscountPrice;
+
+                decimal Price = (decimal)(clothesColor.Clothes.DiscountId == null ? clothesColor.Clothes.Price : clothesColor.Clothes.DiscountPrice);
+
+                cartCookie.TotalPrice -= existedCookieItem.Quantity * Price;
                 cartCookieStr = JsonConvert.SerializeObject(cartCookie);
                 HttpContext.Response.Cookies.Append("Cart", cartCookieStr);
                 string sizeName = clothesColor.ClothesColorSizes.FirstOrDefault(c => c.SizeId == existedCookieItem.SizeId).Size.Name;
@@ -217,7 +227,6 @@ namespace Backend_MVC_Layihe.Controllers
                 TempData["Message"] = $"Product name:{clothesColor.Clothes.Name}/  Color:{clothesColor.Color.Name}/  Size:{sizeName}  has been removed";
 
             }
-
 
             return RedirectToAction(nameof(Cart));
         }
@@ -268,7 +277,9 @@ namespace Backend_MVC_Layihe.Controllers
                    && c.ClothesColorSizes.Any(c => c.SizeId == existedCookieItem.SizeId));
 
                 existedCookieItem.Quantity++;
-                cartCookie.TotalPrice += clothesColor.Clothes.DiscountPrice;
+                decimal Price = (decimal)(clothesColor.Clothes.DiscountId == null ? clothesColor.Clothes.Price : clothesColor.Clothes.DiscountPrice);
+
+                cartCookie.TotalPrice += Price;
 
                 cartCookieStr = JsonConvert.SerializeObject(cartCookie);
                 HttpContext.Response.Cookies.Append("Cart", cartCookieStr);
@@ -333,16 +344,18 @@ namespace Backend_MVC_Layihe.Controllers
                  && c.ColorId == existedCookieItem.ColorId
                  && c.ClothesColorSizes.Any(c => c.SizeId == existedCookieItem.SizeId));
 
+                decimal Price = (decimal)(clothesColor.Clothes.DiscountId == null ? clothesColor.Clothes.Price : clothesColor.Clothes.DiscountPrice);
                 //sayi sifir olursa basketden silsin
                 if (existedCookieItem.Quantity > 1)
                 {
                     existedCookieItem.Quantity--;
-                    cartCookie.TotalPrice -= clothesColor.Clothes.DiscountPrice;
+                    // mence cookie nin totalprice ini hesablamaqin bir menasi yoxdu amma yenede 
+                    cartCookie.TotalPrice -= Price;
                 }
                 else
                 {
                     cartCookie.CartCookieItemVMs.Remove(existedCookieItem);
-                    cartCookie.TotalPrice -= existedCookieItem.Quantity * clothesColor.Clothes.DiscountPrice;
+                    cartCookie.TotalPrice -= existedCookieItem.Quantity * Price;
                     string sizeName = clothesColor.ClothesColorSizes
                         .FirstOrDefault(c => c.SizeId == existedCookieItem.SizeId).Size.Name;
 
@@ -358,5 +371,6 @@ namespace Backend_MVC_Layihe.Controllers
         }
 
       
+
     }
 }

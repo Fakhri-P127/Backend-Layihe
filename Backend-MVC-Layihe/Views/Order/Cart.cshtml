@@ -50,9 +50,9 @@
                             <img src="~/assets/img/@cartItem.Clothes.ClothesImages.FirstOrDefault(c=>c.IsMain==true)?.Name"
                                  alt="@cartItem.Clothes.ClothesImages.FirstOrDefault(c=>c.IsMain==true)?.Alternative" style="width: 50px;"> <a class="text-decoration-none text-muted" asp-controller="product" asp-action="detail" asp-route-id="@cartItem.Clothes.Id">@cartItem.Clothes.Name</a>
                             </td>
-                            <td class="align-middle">$@cartItem.Clothes.DiscountPrice</td>
+                            <td class="align-middle">$@(cartItem.Clothes.DiscountId == null ? @cartItem.Clothes.Price : @cartItem.Clothes.DiscountPrice)</td>
                             <td >
-                                <img style="width: 50px !important; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; " src="~/assets/img/colors/@(colors.FirstOrDefault(c => c.Id == cartItem.ColorId)?.Name.Trim().ToLower()).jpg" /> 
+                                <img style="width: 50px !important; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; " src="~/assets/img/colors/@(colors.FirstOrDefault(c => c.Id == cartItem.ColorId)?.Image)" alt="@colors.FirstOrDefault(c => c.Id == cartItem.ColorId)?.Name" /> 
                             </td>
                             <td>@sizes.FirstOrDefault(s => s.Id == cartItem.SizeId).Name</td>
                             <td class="align-middle">
@@ -74,7 +74,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="align-middle">$@(cartItem.Quantity*cartItem.Clothes.DiscountPrice)</td>
+                            <td class="align-middle">$@(cartItem.Quantity * (cartItem.Clothes.DiscountId == null ? cartItem.Clothes.Price : cartItem.Clothes.DiscountPrice))</td>
                             <td class="align-middle"><a asp-action="RemoveItem" asp-route-id="@cartItem.Clothes.Id"
                                                         asp-route-colorId="@cartItem.ColorId" asp-route-sizeId="@cartItem.SizeId" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
                         </tr>

@@ -195,3 +195,17 @@ C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netc
 C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Views\Account\Login.cshtml.g.cs
 C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Areas\adminPanel\Views\Message\Index.cshtml.g.cs
 C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Areas\adminPanel\Views\Message\Details.cshtml.g.cs
+C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Views\Wishlist\Index.cshtml.g.cs
+C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Areas\adminPanel\Views\Discount\Create.cshtml.g.cs
+C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Areas\adminPanel\Views\Discount\Detail.cshtml.g.cs
+C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Areas\adminPanel\Views\Discount\Edit.cshtml.g.cs
+C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Areas\adminPanel\Views\Discount\Index.cshtml.g.cs
+C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Areas\adminPanel\Views\ClothesInformation\Index.cshtml.g.cs
+C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Areas\adminPanel\Views\ClothesInformation\Create.cshtml.g.cs
+C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Areas\adminPanel\Views\ClothesInformation\Detail.cshtml.g.cs
+C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Areas\adminPanel\Views\ClothesInformation\Edit.cshtml.g.cs
+C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Areas\adminPanel\Views\Setting\Create.cshtml.g.cs
+C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Areas\adminPanel\Views\Setting\Detail.cshtml.g.cs
+C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Areas\adminPanel\Views\Setting\Edit.cshtml.g.cs
+C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Areas\adminPanel\Views\Setting\Index.cshtml.g.cs
+C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Areas\adminPanel\Views\Clothes\Detail.cshtml.g.cs

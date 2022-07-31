@@ -15,7 +15,7 @@
                     <th>Image</th>
                     <th>Title</th>
                     <th>Price</th>
-                    <th>Discount Price</th>
+                    <th>Discount</th>
                     <th>Category</th>
                     <th>Colors</th>
                     <th>Sizes</th>
@@ -24,29 +24,26 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (Clothes clothes in Model.OrderByDescending(x => x.Id))
+                @foreach (Clothes clothes in Model)
                 {
                     string colors = "";
                     string sizes = "";
                     int clothesColorLastId = clothes.ClothesColors.LastOrDefault().ColorId;
 
                     List<ClothesColorSize> clothesColorSizes = ViewBag.ClothesColorSizes;
-                    clothes.ClothesColors.ForEach(c => colors += $"{c.Color.Name}{(clothesColorLastId != c.ColorId ? ",":"")}");
-                @*clothes.ClothesColors.ForEach(c => colors += $"{c.Color.Name},");*@
+                    clothes.ClothesColors.ForEach(c => colors += $"{c.Color.Name}{(clothesColorLastId != c.ColorId ? "," : "")}");
 
-                clothesColorSizes = clothesColorSizes
-                        .Where(c => clothes.ClothesColors.Any(d => d.Id == c.ClothesColorId)).ToList();
+                    clothesColorSizes = clothesColorSizes
+                            .Where(c => clothes.ClothesColors.Any(d => d.Id == c.ClothesColorId)).ToList();
 
-                // OrderBy etmeyimin sebebi index de adlari chixaranda random sirada olanda vergul u sona qoyub evvele qoymaya bilir.
-                int clothesColorSizesLastId = clothesColorSizes.OrderBy(c=>c.SizeId).LastOrDefault().SizeId;
+                    // OrderBy etmeyimin sebebi index de adlari chixaranda random sirada olanda vergul u sona qoyub evvele qoymaya bilir.
+                    int clothesColorSizesLastId = clothesColorSizes.OrderBy(c => c.SizeId).LastOrDefault().SizeId;
                     @foreach (Size size in ViewBag.Sizes)
                     {
-                        if (clothesColorSizes.Any(c=>c.SizeId == size.Id))
+                        if (clothesColorSizes.Any(c => c.SizeId == size.Id))
                         {
                             //sonuncu da vergul qoymamaq uchun
                             sizes += $"{size.Name}{(clothesColorSizesLastId != size.Id ? "," : "")}";
-                            @*sizes += $"{size.Name},";*@
-
                         }
 
                     }
@@ -57,8 +54,10 @@
                                  alt="@clothes.ClothesImages.FirstOrDefault(c=>c.IsMain==true).Alternative" />
                         </td>
                         <td>@clothes.Name</td>
-                        <td>@clothes.Price</td>
-                        <td>@clothes.DiscountPrice</td>
+                        <td>@(clothes.DiscountId == null ? clothes.Price : clothes.DiscountPrice)</td>
+                        <td>
+                            @(clothes.DiscountId == null ? "No Discount" : clothes.Discount.PercentKey)
+                        </td>
                         <td>@clothes.Category.Name</td>
                         <td>@colors</td>
                         <td>@sizes</td>
@@ -86,6 +85,25 @@
             </tbody>
         </table>
     </div>
+    <div class="col-12">
+        <nav>
+            <ul class="pagination justify-content-center">
+                @if (ViewBag.CurrPage > 1)
+                {
+                    <li class="page-item"><a class="page-link" asp-action="index" asp-route-page="@(ViewBag.CurrPage-1)">Previous</a></li>
+                }
 
+                @for (int i = 1; i < ViewBag.TotalPage; i++)
+                {
+                <li class="page-item"><a class="page-link" asp-action="index" asp-route-page="@i">@i</a></li>
+                }
+               
+                @if (ViewBag.CurrPage < ViewBag.TotalPage)
+                {
+                <li class="page-item"><a class="page-link" asp-action="index" asp-route-page="@(ViewBag.CurrPage+1)">Next</a></li>
+                }
+            </ul>
+        </nav>
+    </div>
 </div>
 

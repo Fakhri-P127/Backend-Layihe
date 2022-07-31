@@ -17,9 +17,15 @@ namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            List<Message> message = _context.Messages.ToList();
+            byte ItemsPerPage = 4;
+            ViewBag.CurrPage = page;
+            ViewBag.TotalPage = Math.Ceiling((decimal)_context.Messages.Count() / ItemsPerPage);
+
+            List<Message> message = _context.Messages
+               .OrderByDescending(c => c.Id).Skip((page-1)*ItemsPerPage)
+               .Take(ItemsPerPage).ToList();
 
             return View(message);
         }

@@ -64,5 +64,25 @@ namespace Backend_MVC_Layihe.Service
             }
            
         }
+        public async Task<int> GetWishlistCount()
+        {
+            if (_http.HttpContext.User.Identity.IsAuthenticated && _http.HttpContext.User.IsInRole("Member"))
+            {
+                AppUser user = await _userManager.FindByNameAsync(_http.HttpContext.User.Identity.Name);
+                user.WishlistItems = await _context.WishlistItems.Include(c => c.AppUser).Include(c => c.Clothes)
+                    .Where(c => c.AppUserId == user.Id).ToListAsync();
+
+                if (user.WishlistItems is null)
+                {
+                    user.WishlistItems = new List<WishlistItem>();
+                }
+                return user.WishlistItems.Count;
+            }
+            else
+            {
+                return 0;
+            }
+
+        }
     }
 }

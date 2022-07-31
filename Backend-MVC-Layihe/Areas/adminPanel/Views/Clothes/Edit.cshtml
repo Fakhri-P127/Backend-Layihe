@@ -26,16 +26,16 @@
                     </div>
                     <h3>Detail image</h3>
                     @*<div id="detailContent" class="d-flex">
-                            @foreach (ClothesImage image in Model.ClothesImages.Where(p => p.IsMain == false))
-                            {
-                                <div style="position:relative" id="@image.Id" class="my-4 imageId">
-                                    <small class="removeBtn btn btn-danger text-white" style="font-weight:bold;color:crimson;cursor:pointer;position:absolute;right:5px;">X</small>
-                                    <div class="image ">
-                                        <img style="width:200px;" src="~/assets/img/@image.Name" alt="@image.Alternative" />
-                                    </div>
-                                </div>
-                            }
-                        </div>*@
+                @foreach (ClothesImage image in Model.ClothesImages.Where(p => p.IsMain == false))
+                {
+                    <div style="position:relative" id="@image.Id" class="my-4 imageId">
+                        <small class="removeBtn btn btn-danger text-white" style="font-weight:bold;color:crimson;cursor:pointer;position:absolute;right:5px;">X</small>
+                        <div class="image ">
+                            <img style="width:200px;" src="~/assets/img/@image.Name" alt="@image.Alternative" />
+                        </div>
+                    </div>
+                }
+            </div>*@
                     <div class="image d-flex">
 
                         @foreach (ClothesImage image in Model.ClothesImages.Where(p => p.IsMain == false))
@@ -71,68 +71,72 @@
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="DiscountPrice" class="control-label"></label>
-                    <input asp-for="DiscountPrice" class="form-control" />
-                    <span asp-validation-for="DiscountPrice" class="text-danger"></span>
-                </div>
-                <div class="form-group">
                     <label asp-for="Description" class="control-label"></label>
                     <input asp-for="Description" class="form-control" />
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="ExtraInfo" class="control-label"></label>
-                    <input asp-for="ExtraInfo" class="form-control" />
-                    <span asp-validation-for="ExtraInfo" class="text-danger"></span>
+                    <label asp-for="ClothesInformationId" class="control-label"></label>
+                    <select asp-for="ClothesInformationId" class="form-control" asp-items="@(new SelectList(ViewBag.ClothesInformations, "Id", "Definition"));"></select>
                 </div>
                 <div class="form-group">
                     <label asp-for="CategoryId" class="control-label"></label>
                     <select asp-for="CategoryId" class="form-control" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"));"></select>
                 </div>
+                <div class="form-group">
+                    <label asp-for="DiscountId" class="control-label"></label>
+                    <select asp-for="DiscountId" class="form-control">
+                        <option value="">No Discount</option>
+                        @foreach (Discount discount in ViewBag.Discounts)
+                        {
+                            <option value="@discount.Id">@discount.PercentKey</option>
+                        }
+                    </select>
+                </div>
                 @foreach (ClothesColor clothesColor in Model.ClothesColors)
                 {
-            <div>
-                <div class="form-group">
-                    <label for="ColorId" class="control-label">Colors</label>
-                    <select id="ColorId" name="ColorId" data-val="true" value="ColorId" data-val-required="The ColorIds field is required." class="form-control">
-                        @foreach (Color color in ViewBag.Colors)
-                        {
-                            if (color.Id == clothesColor.Color.Id)
-                            {
-                                <option selected value="@color.Id">@color.Name</option>
-                            }
-                            else
-                            {
-                                <option value="@color.Id">@color.Name</option>
-                            }
-                        }
-                    </select>
-                </div>
+                    <div>
+                        <div class="form-group">
+                            <label for="ColorId" class="control-label">Colors</label>
+                            <select id="ColorId" name="ColorId" data-val="true" value="ColorId" data-val-required="The ColorIds field is required." class="form-control">
+                                @foreach (Color color in ViewBag.Colors)
+                                {
+                                    if (color.Id == clothesColor.Color.Id)
+                                    {
+                                        <option selected value="@color.Id">@color.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@color.Id">@color.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
 
-                <div class="form-group">
-                    <label for="SizeIds" class="control-label">Sizes</label>
-                    <select class="form-control" multiple="multiple" name="SizeIds" id="SizeIds">
-                        @foreach (Size size in ViewBag.Sizes)
-                        {
-                            if (clothesColor.ClothesColorSizes.Any(c => c.SizeId == size.Id))
-                            {
+                        <div class="form-group">
+                            <label for="SizeIds" class="control-label">Sizes</label>
+                            <select class="form-control" multiple="multiple" name="SizeIds" id="SizeIds">
+                                @foreach (Size size in ViewBag.Sizes)
+                                {
+                                    if (clothesColor.ClothesColorSizes.Any(c => c.SizeId == size.Id))
+                                    {
 
-                                <option value="@size.Id" selected>@size.Name</option>
-                            }
-                            else
-                            {
-                                <option value="@size.Id">@size.Name</option>
-                            }
-                        }
-                    </select>
-                </div>
-                
-                    <button id="submit-btn" class="btn btn-outline-info">Submit</button>
-                    <button id="add-btn" class="btn btn-outline-success">Add another color</button>
-                    <button id="remove-btn" class="btn btn-outline-danger">Remove</button>
-                
-               
-            </div>
+                                        <option value="@size.Id" selected>@size.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@size.Id">@size.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <button id="submit-btn" class="btn btn-outline-info">Submit</button>
+                        <button id="add-btn" class="btn btn-success">Add another color</button>
+                        <button id="remove-btn" class="btn btn-outline-danger">Remove</button>
+
+
+                    </div>
                 }
 
                 <div class="form-group">
@@ -211,7 +215,7 @@
             //color u verdiyim uchun lengthi default 1 olur.
             if (selected.length != 1) {
                 html = `<div class="form-group">
-                   <input  name="ClothesColorSizeValues" value="${allChoosenValues}" />
+                   <input type="hidden" name="ClothesColorSizeValues" value="${allChoosenValues}" />
                 </div>`
 
             } else {

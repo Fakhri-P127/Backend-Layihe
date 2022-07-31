@@ -162,14 +162,17 @@ namespace Backend_MVC_Layihe.Migrations
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ClothesInformationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("DiscountPrice")
-                        .HasColumnType("decimal(6,2)");
+                    b.Property<int?>("DiscountId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("ExtraInfo")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal?>("DiscountPrice")
+                        .HasColumnType("decimal(6,2)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -180,6 +183,10 @@ namespace Backend_MVC_Layihe.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("ClothesInformationId");
+
+                    b.HasIndex("DiscountId");
 
                     b.ToTable("Clothes");
                 });
@@ -256,12 +263,36 @@ namespace Backend_MVC_Layihe.Migrations
                     b.ToTable("ClothesImages");
                 });
 
+            modelBuilder.Entity("Backend_MVC_Layihe.Models.ClothesInformation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AdditionalInfo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Definition")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClothesInformations");
+                });
+
             modelBuilder.Entity("Backend_MVC_Layihe.Models.Color", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -274,6 +305,26 @@ namespace Backend_MVC_Layihe.Migrations
                         .IsUnique();
 
                     b.ToTable("Colors");
+                });
+
+            modelBuilder.Entity("Backend_MVC_Layihe.Models.Discount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("PercentKey")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<decimal>("PercentValue")
+                        .HasColumnType("decimal(6,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Discounts");
                 });
 
             modelBuilder.Entity("Backend_MVC_Layihe.Models.Message", b =>
@@ -354,16 +405,17 @@ namespace Backend_MVC_Layihe.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Key")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Key")
-                        .IsUnique()
-                        .HasFilter("[Key] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Settings");
                 });
@@ -442,6 +494,28 @@ namespace Backend_MVC_Layihe.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SpecialOffers");
+                });
+
+            modelBuilder.Entity("Backend_MVC_Layihe.Models.WishlistItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ClothesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("ClothesId");
+
+                    b.ToTable("WishlistItems");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -597,6 +671,14 @@ namespace Backend_MVC_Layihe.Migrations
                     b.HasOne("Backend_MVC_Layihe.Models.Category", "Category")
                         .WithMany("Clothes")
                         .HasForeignKey("CategoryId");
+
+                    b.HasOne("Backend_MVC_Layihe.Models.ClothesInformation", "ClothesInformation")
+                        .WithMany("Clothes")
+                        .HasForeignKey("ClothesInformationId");
+
+                    b.HasOne("Backend_MVC_Layihe.Models.Discount", "Discount")
+                        .WithMany("Clothes")
+                        .HasForeignKey("DiscountId");
                 });
 
             modelBuilder.Entity("Backend_MVC_Layihe.Models.ClothesColor", b =>
@@ -643,6 +725,19 @@ namespace Backend_MVC_Layihe.Migrations
                     b.HasOne("Backend_MVC_Layihe.Models.AppUser", "AppUser")
                         .WithMany("Orders")
                         .HasForeignKey("AppUserId");
+                });
+
+            modelBuilder.Entity("Backend_MVC_Layihe.Models.WishlistItem", b =>
+                {
+                    b.HasOne("Backend_MVC_Layihe.Models.AppUser", "AppUser")
+                        .WithMany("WishlistItems")
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("Backend_MVC_Layihe.Models.Clothes", "Clothes")
+                        .WithMany()
+                        .HasForeignKey("ClothesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -13,6 +13,7 @@ namespace Backend_MVC_Layihe.Models
         public string Lastname { get; set; }
         public List<CartItem> CartItems { get; set; }
         public List<Order> Orders { get; set; }
+        public List<WishlistItem> WishlistItems { get; set; }
 
     }
 }

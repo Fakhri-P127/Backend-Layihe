@@ -17,6 +17,7 @@ namespace Backend_MVC_Layihe.DAL
 
         public DbSet<Clothes> Clothes { get; set; }
         public DbSet<ClothesImage> ClothesImages { get; set; }
+        public DbSet<ClothesInformation> ClothesInformations { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Color> Colors { get; set; }
         public DbSet<ClothesColor> ClothesColors { get; set; }
@@ -28,7 +29,8 @@ namespace Backend_MVC_Layihe.DAL
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Message> Messages { get; set; }
-
+        public DbSet<Discount> Discounts { get; set; }
+        public DbSet<WishlistItem> WishlistItems { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

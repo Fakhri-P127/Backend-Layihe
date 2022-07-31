@@ -25,9 +25,17 @@ namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
             _context = context;
             _env = env;
         }
-        public IActionResult Index()
+
+        // bu controller menasizdi vaxtinda niye yazmisham bilmirem, elim gelmedi silmeye
+        public IActionResult Index(int page = 1)
         {
-            List<ClothesImage> clothesImages = _context.ClothesImages.Include(c => c.Clothes).ToList();
+            byte ItemsPerPage = 4;
+            ViewBag.CurrPage = page;
+            ViewBag.TotalPage = Math.Ceiling((decimal)_context.ClothesImages.Count() / ItemsPerPage);
+
+            List<ClothesImage> clothesImages = _context.ClothesImages.Include(c => c.Clothes)
+                   .OrderByDescending(c => c.Id).Skip((page - 1) * ItemsPerPage)
+                   .Take(ItemsPerPage).ToList();
             return View(clothesImages);
         }
 

@@ -32,38 +32,57 @@
             <tbody>
                 @foreach (SpecialOffer specialOffer in Model.OrderByDescending(x => x.Id))
                 {
-                <tr>
-                    <td>
-                        <img style="width:150px !important;height:150px;object-fit:contain;" src="~/assets/img/@specialOffer.Image" alt="@specialOffer.Title" />
-                    </td>
-                    <td>@specialOffer.Title</td>
-                    <td>@specialOffer.Discount</td>
-                    <td>@specialOffer.ButtonUrl</td>
+                    <tr>
+                        <td>
+                            <img style="width:150px !important;height:150px;object-fit:contain;" src="~/assets/img/@specialOffer.Image" alt="@specialOffer.Title" />
+                        </td>
+                        <td>@specialOffer.Title</td>
+                        <td>@specialOffer.Discount</td>
+                        <td>@specialOffer.ButtonUrl</td>
 
-                    <td class="d-flex align-items-center" style="height:200px !important;">
-                        <div class="me-2">
-                            <a asp-area="adminPanel" asp-controller="specialOffer" asp-action="Edit" asp-route-id="@specialOffer.Id" class="btn btn-outline-warning">
-                                <i class="mdi mdi-border-color"></i>
-                            </a>
-                        </div>
-                        <div class="me-2">
-                            <a asp-area="adminPanel" asp-controller="specialOffer" asp-action="Remove" asp-route-id="@specialOffer.Id" class="btn btn-outline-danger">
-                                <i class="mdi mdi-delete"></i>
-                            </a>
-                        </div>
-                        <div>
-                            <a asp-area="adminPanel" asp-controller="specialOffer" asp-action="Detail" asp-route-id="@specialOffer.Id" class="btn btn-outline-info">
-                                <i class="mdi mdi-comment-question-outline"></i>
-                            </a>
-                        </div>
-                    </td>
+                        <td class="d-flex align-items-center" style="height:200px !important;">
+                            <div class="me-2">
+                                <a asp-area="adminPanel" asp-controller="specialOffer" asp-action="Edit" asp-route-id="@specialOffer.Id" class="btn btn-outline-warning">
+                                    <i class="mdi mdi-border-color"></i>
+                                </a>
+                            </div>
+                            <div class="me-2">
+                                <a asp-area="adminPanel" asp-controller="specialOffer" asp-action="Remove" asp-route-id="@specialOffer.Id" class="btn btn-outline-danger">
+                                    <i class="mdi mdi-delete"></i>
+                                </a>
+                            </div>
+                            <div>
+                                <a asp-area="adminPanel" asp-controller="specialOffer" asp-action="Detail" asp-route-id="@specialOffer.Id" class="btn btn-outline-info">
+                                    <i class="mdi mdi-comment-question-outline"></i>
+                                </a>
+                            </div>
+                        </td>
 
-                </tr>
+                    </tr>
                 }
 
             </tbody>
         </table>
     </div>
+    <div class="col-12">
+        <nav>
+            <ul class="pagination justify-content-center">
+                @if (ViewBag.CurrPage > 1)
+                {
+                    <li class="page-item"><a class="page-link" asp-action="index" asp-route-page="@(ViewBag.CurrPage-1)">Previous</a></li>
+                }
 
+                @for (int i = 1; i < ViewBag.TotalPage; i++)
+                {
+                    <li class="page-item"><a class="page-link" asp-action="index" asp-route-page="@i">@i</a></li>
+                }
+
+                @if (ViewBag.CurrPage < ViewBag.TotalPage)
+                {
+                    <li class="page-item"><a class="page-link" asp-action="index" asp-route-page="@(ViewBag.CurrPage+1)">Next</a></li>
+                }
+            </ul>
+        </nav>
+    </div>
 </div>
 

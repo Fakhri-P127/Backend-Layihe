@@ -48,7 +48,7 @@ namespace Backend_MVC_Layihe.Controllers
 
             if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
             {
-                ModelState.AddModelError(string.Empty,"....");
+                ModelState.AddModelError(string.Empty,"Only Member and guests are allowed to send emails.");
                 return View();
             }
             _context.Messages.Add(message);

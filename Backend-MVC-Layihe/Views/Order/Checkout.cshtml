@@ -2,6 +2,8 @@
 @{
     ViewData["Title"] = "Checkout";
     int allProductQuantity = 0;
+    List<Color> colors = ViewBag.Colors;
+    List<Size> sizes = ViewBag.Sizes;
 }
 
 <!-- Breadcrumb Start -->
@@ -62,8 +64,13 @@
                     {
                         allProductQuantity += cartItem.Quantity;
                         <div class="d-flex justify-content-between">
-                            <p>@cartItem.Clothes.Name x @cartItem.Quantity</p>
-                            <p>$@(cartItem.Price * cartItem.Quantity)</p>
+                            <p>
+                                @cartItem.Clothes.Name x @cartItem.Quantity &ensp; <img style="width: 25px !important; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;"
+                                                                                        src="~/assets/img/colors/@colors.FirstOrDefault(c=>c.Id==cartItem.ColorId)?.Image"
+                                                                                        alt="@colors.FirstOrDefault(c=>c.Id==cartItem.ColorId)?.Name" />
+                                &ensp; @sizes.FirstOrDefault(s => s.Id == cartItem.SizeId)?.Name
+                            </p>
+                            <p>$@((cartItem.Clothes.DiscountId == null ? cartItem.Clothes.Price : cartItem.Clothes.DiscountPrice) * cartItem.Quantity)</p>
                         </div>
                     }
 

@@ -1,0 +1,37 @@
+﻿@model Backend_MVC_Layihe.Models.ClothesInformation
+
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<div class="main-panel">
+
+
+
+    <h1>Detail</h1>
+
+    <div>
+        <h4>Clothes info</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.AdditionalInfo)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.AdditionalInfo)
+            </dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Definition)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Definition)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>

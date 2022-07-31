@@ -29,7 +29,7 @@ namespace Backend_MVC_Layihe.Controllers
 
             ProductVM model = new ProductVM
             {
-                Clothes = await _context.Clothes.Include(c=>c.ClothesImages)
+                Clothes = await _context.Clothes.Include(c=>c.ClothesImages).Include(c=>c.ClothesInformation)
                 .Include(c=>c.ClothesColors).ThenInclude(c=>c.ClothesColorSizes)
                 .FirstOrDefaultAsync(c => c.Id == id),
                 Clotheses = new List<Clothes>(),
@@ -65,6 +65,7 @@ namespace Backend_MVC_Layihe.Controllers
         [HttpPost]
         [AutoValidateAntiforgeryToken]
         [ActionName("Detail")]
+        // parametrde Clothes(ya da ProductVM) i de cagirib not mapped deyerlerini goturmek olardi amma random bu yolu tapdim deye maraqli geldi :D
         public async Task<IActionResult> AddCart(int? id, int ColorId, int SizeId, byte Quantity)
         {
             if (id is null || id == 0) return NotFound();
@@ -75,6 +76,7 @@ namespace Backend_MVC_Layihe.Controllers
             };
             if (model.Clothes is null) return NotFound();
 
+            decimal Price = (decimal)(model.Clothes.DiscountId == null ? model.Clothes.Price : model.Clothes.DiscountPrice);
 
             if (User.Identity.IsAuthenticated && User.IsInRole("Member"))
             {
@@ -88,9 +90,7 @@ namespace Backend_MVC_Layihe.Controllers
                     .Include(c => c.Clothes).ThenInclude(c => c.ClothesImages)
                     .FirstOrDefaultAsync(c => c.ClothesId == id &&
                     user.Id == c.AppUserId && c.ColorId == ColorId && c.SizeId == SizeId);
-                //Clothes clothes = await _context.Clothes.Include(c => c.ClothesImages)
-                //    .FirstOrDefaultAsync(c => c.Id == id );
-
+               
                 if (cartItem is null)
                 {
                     cartItem = new CartItem
@@ -98,7 +98,7 @@ namespace Backend_MVC_Layihe.Controllers
                         AppUser = user,
                         Clothes = model.Clothes,
                         Quantity = Quantity,
-                        Price = model.Clothes.DiscountPrice,
+                        Price = Price,
                         ColorId = ColorId,
                         SizeId = SizeId,
                     };
@@ -113,6 +113,7 @@ namespace Backend_MVC_Layihe.Controllers
             }
             else
             {
+                if (User.IsInRole("Moderator") || User.IsInRole("Admin")) return NotFound();
                 CartCookieVM cartCookie;
                 string cartCookieStr = HttpContext.Request.Cookies["Cart"];
 
@@ -131,16 +132,8 @@ namespace Backend_MVC_Layihe.Controllers
                     };
                     cartCookie.CartCookieItemVMs.Add(cartCookieItem);
 
-                    //if(model.Clothes.DiscountPrice is null)
-                    //{
-                    cartCookie.TotalPrice = model.Clothes.DiscountPrice * Quantity;
-                    //}
-                    //else
-                    //{
-                    //    cartCookie.TotalPrice = (decimal)(model.Clothes.Price/model.Clothes.DiscountPrice * Quantity);
-
-                    //}
-                    //cartCookie.TotalPrice = model.Clothes.Price * cartCookieItem.Quantity;
+                    cartCookie.TotalPrice = Price * Quantity;
+                   
                 }
                 // if cookie has items
                 else
@@ -160,13 +153,13 @@ namespace Backend_MVC_Layihe.Controllers
                             SizeId = SizeId
                         };
                         cartCookie.CartCookieItemVMs.Add(cartCookieItem);
-                        cartCookie.TotalPrice += model.Clothes.DiscountPrice * Quantity;
+                        cartCookie.TotalPrice += Price * Quantity;
                     }
                     // if item exists in cart
                     else
                     {
                         existedCookieItem.Quantity += Quantity;
-                        cartCookie.TotalPrice += model.Clothes.DiscountPrice * Quantity;
+                        cartCookie.TotalPrice += Price * Quantity;
                     }
                 }
 
@@ -179,12 +172,13 @@ namespace Backend_MVC_Layihe.Controllers
         }
 
 
-        public IActionResult ShowBasket()
+        public IActionResult ShowCartCookie()
         {
             if (HttpContext.Request.Cookies["Cart"] is null) return NotFound();
             CartCookieVM cart = JsonConvert.DeserializeObject<CartCookieVM>(HttpContext.Request.Cookies["Cart"]);
             return Json(cart);
         }
+
 
         // Fetch method for size sorting in product detail
         public async Task<IActionResult> GetDatas(int? clothesId, int? colorId)
