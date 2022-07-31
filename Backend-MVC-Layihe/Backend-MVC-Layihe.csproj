@@ -80,6 +80,7 @@
   <ItemGroup>
     <Folder Include="Areas\adminPanel\Data\" />
     <Folder Include="Areas\adminPanel\Models\" />
+    <Folder Include="wwwroot\assets\mail\" />
   </ItemGroup>
 
 </Project>

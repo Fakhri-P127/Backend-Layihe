@@ -1,5 +1,6 @@
 ﻿using Backend_MVC_Layihe.DAL;
 using Backend_MVC_Layihe.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,6 +11,8 @@ using System.Threading.Tasks;
 namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
 {
     [Area("adminPanel")]
+    [Authorize(Roles = "Moderator,Admin")]
+
     public class ColorController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -23,12 +26,14 @@ namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
             List<Color> colors = _context.Colors.ToList();
             return View(colors);
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
         [HttpPost]
         [AutoValidateAntiforgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(Color color)
         {
             if (!ModelState.IsValid) return View();
@@ -77,6 +82,7 @@ namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Remove(int? id)
         {
             if (id is null || id == 0) return NotFound();

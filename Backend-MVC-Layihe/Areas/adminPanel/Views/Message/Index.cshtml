@@ -1,0 +1,60 @@
+﻿@model List<Backend_MVC_Layihe.Models.Message>
+
+@{
+    ViewData["Title"] = "MessageBox";
+}
+
+<div class="main-panel container mt-4">
+
+    <h3>MessageBox</h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Username
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Subject
+                </th>
+                <th>
+                    Message
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subject)
+                    </td>
+                    <td>
+                        @if (item.MessageText.Length > 100)
+                        {
+                            @item.MessageText.Substring(0, 100);
+                        }
+                        else
+                        {
+                            @item.MessageText
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

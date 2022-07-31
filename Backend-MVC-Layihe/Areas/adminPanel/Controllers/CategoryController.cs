@@ -1,6 +1,7 @@
 ﻿using Backend_MVC_Layihe.DAL;
 using Backend_MVC_Layihe.Models;
 using Backend_MVC_Layihe.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
 {
     [Area("adminPanel")]
+    [Authorize(Roles ="Moderator,Admin")]
     public class CategoryController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -30,7 +32,7 @@ namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
             return View(categories);
         }
 
-
+        [Authorize(Roles ="Admin")]
         public ActionResult Create()
         {
             return View();
@@ -38,6 +40,7 @@ namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult> Create(Category category)
         {
             if (!ModelState.IsValid) return View();
@@ -107,6 +110,7 @@ namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Remove(int? id)
         {
             if (id is null || id == 0) return NotFound();

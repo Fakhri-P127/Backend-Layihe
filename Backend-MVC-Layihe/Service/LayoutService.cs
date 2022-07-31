@@ -37,17 +37,17 @@ namespace Backend_MVC_Layihe.Service
 
         public async Task<int> GetCartCount()
         {
-            if (_http.HttpContext.User.Identity.IsAuthenticated)
+            if (_http.HttpContext.User.Identity.IsAuthenticated && _http.HttpContext.User.IsInRole("Member"))
             {
                 AppUser user = await _userManager.FindByNameAsync(_http.HttpContext.User.Identity.Name);
-                user.BasketItems = await _context.BasketItems.Include(c => c.AppUser).Include(c => c.Clothes)
+                user.CartItems = await _context.CartItems.Include(c => c.AppUser).Include(c => c.Clothes)
                     .Where(c => c.AppUserId == user.Id).ToListAsync();
 
-                if(user.BasketItems is null)
+                if(user.CartItems is null)
                 {
-                    user.BasketItems = new List<CartItem>();
+                    user.CartItems = new List<CartItem>();
                 }
-                return user.BasketItems.Count;
+                return user.CartItems.Count;
             }
             else
             {

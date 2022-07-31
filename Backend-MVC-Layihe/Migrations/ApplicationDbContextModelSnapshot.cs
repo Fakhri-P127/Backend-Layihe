@@ -90,7 +90,7 @@ namespace Backend_MVC_Layihe.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Backend_MVC_Layihe.Models.BasketItem", b =>
+            modelBuilder.Entity("Backend_MVC_Layihe.Models.CartItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -126,7 +126,7 @@ namespace Backend_MVC_Layihe.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("BasketItems");
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("Backend_MVC_Layihe.Models.Category", b =>
@@ -276,6 +276,38 @@ namespace Backend_MVC_Layihe.Migrations
                     b.ToTable("Colors");
                 });
 
+            modelBuilder.Entity("Backend_MVC_Layihe.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("MessageText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(1000)")
+                        .HasMaxLength(1000);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(25)")
+                        .HasMaxLength(25);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("Backend_MVC_Layihe.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -289,6 +321,14 @@ namespace Backend_MVC_Layihe.Migrations
 
                     b.Property<string>("AppUserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CountryCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -535,10 +575,10 @@ namespace Backend_MVC_Layihe.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Backend_MVC_Layihe.Models.BasketItem", b =>
+            modelBuilder.Entity("Backend_MVC_Layihe.Models.CartItem", b =>
                 {
                     b.HasOne("Backend_MVC_Layihe.Models.AppUser", "AppUser")
-                        .WithMany("BasketItems")
+                        .WithMany("CartItems")
                         .HasForeignKey("AppUserId");
 
                     b.HasOne("Backend_MVC_Layihe.Models.Clothes", "Clothes")
@@ -548,7 +588,7 @@ namespace Backend_MVC_Layihe.Migrations
                         .IsRequired();
 
                     b.HasOne("Backend_MVC_Layihe.Models.Order", null)
-                        .WithMany("BasketItems")
+                        .WithMany("CartItems")
                         .HasForeignKey("OrderId");
                 });
 

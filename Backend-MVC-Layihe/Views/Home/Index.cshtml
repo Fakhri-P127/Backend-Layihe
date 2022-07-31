@@ -2,6 +2,17 @@
 @{
     int count = 0;
 }
+
+<!-- checkout ugurlu olduqdan sonra message -->
+@if (TempData["OrderSucc"] != null)
+{
+    <div class="alert alert-success">@TempData["OrderSucc"]</div>
+}
+<!-- contactda message gonderenden sonra successfull message -->
+@if (TempData["Successfull"] != null)
+{
+    <div class="alert alert-success">@TempData["Successfull"]</div>
+}
 <!-- Carousel Start -->
 <div class="container-fluid mb-3">
     <div class="row px-xl-5">
@@ -26,13 +37,13 @@
                             </div>
                         </div>
                         @(count = 1);
-}
+                    }
 
                 </div>
             </div>
         </div>
         <div class="col-lg-4">
-            @foreach (SpecialOffer offer in Model.SpecialOffers.OrderByDescending(s=>s.Id).Take(2))
+            @foreach (SpecialOffer offer in Model.SpecialOffers.OrderByDescending(s => s.Id).Take(2))
             {
                 <div class="product-offer mb-30" style="height: 200px;">
                     <img class="img-fluid" src="~/assets/img/@offer.Image" alt="@offer.Title">
@@ -83,19 +94,19 @@
     <div class="row px-xl-5 pb-3">
         @foreach (Category category in Model.Categories)
         {
-        <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <a class="text-decoration-none" asp-controller="shop" asp-action="index" asp-route-categoryId="@category.Id">
-                <div class="cat-item d-flex align-items-center mb-4">
-                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="~/assets/img/@category.Image" alt="@category.Name">
+            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                <a class="text-decoration-none" asp-controller="shop" asp-action="index" asp-route-categoryId="@category.Id">
+                    <div class="cat-item d-flex align-items-center mb-4">
+                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
+                            <img class="img-fluid" src="~/assets/img/@category.Image" alt="@category.Name">
+                        </div>
+                        <div class="flex-fill pl-3">
+                            <h6>@category.Name</h6>
+                            <small class="text-body">@category.Clothes.Count</small>
+                        </div>
                     </div>
-                    <div class="flex-fill pl-3">
-                        <h6>@category.Name</h6>
-                        <small class="text-body">@category.Clothes.Count</small>
-                    </div>
-                </div>
-            </a>
-        </div>
+                </a>
+            </div>
         }
 
     </div>
@@ -112,20 +123,20 @@
 <!-- Offer Start -->
 <div class="container-fluid pt-5 pb-3">
     <div class="row px-xl-5">
-        @foreach (SpecialOffer bigOffer in Model.SpecialOffers.OrderByDescending(s=>s.Id).Take(2))
-	{
-        <div class="col-md-6">
-            <div class="product-offer mb-30" style="height: 300px;">
-                <img class="img-fluid" src="~/assets/img/@bigOffer.Image" alt="@bigOffer.Title">
-                <div class="offer-text">
-                    <h6 class="text-white text-uppercase">@bigOffer.Discount</h6>
-                    <h3 class="text-white mb-3">@bigOffer.Title</h3>
-                    <a asp-controller="shop" asp-action="index" class="btn btn-primary">Shop Now</a>
+        @foreach (SpecialOffer bigOffer in Model.SpecialOffers.OrderByDescending(s => s.Id).Take(2))
+        {
+            <div class="col-md-6">
+                <div class="product-offer mb-30" style="height: 300px;">
+                    <img class="img-fluid" src="~/assets/img/@bigOffer.Image" alt="@bigOffer.Title">
+                    <div class="offer-text">
+                        <h6 class="text-white text-uppercase">@bigOffer.Discount</h6>
+                        <h3 class="text-white mb-3">@bigOffer.Title</h3>
+                        <a asp-controller="shop" asp-action="index" class="btn btn-primary">Shop Now</a>
+                    </div>
                 </div>
             </div>
-        </div>
-	}
-        
+        }
+
     </div>
 </div>
 <!-- Offer End -->
@@ -133,7 +144,7 @@
 <div class="container-fluid pt-5 pb-3">
     <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Recent Products</span></h2>
     <div class="row px-xl-5">
-        @await Html.PartialAsync("_ClothesPartialView",Model.Clothes.OrderByDescending(c=>c.Id).Take(8))
+        @await Html.PartialAsync("_ClothesPartialView", Model.Clothes.OrderByDescending(c => c.Id).Take(8))
     </div>
 </div>
 <!-- Products End -->
@@ -172,19 +183,19 @@
 </div>-->
 <!-- Vendor End -->
 @*<script>
-    const colorSection = document.querySelector("#color-section");
-    const colorElements = colorSection.querySelectorAll("form div a");
-    console.log(colorSection);
-    colorElements.forEach(color => color.addEventListener("click", function (e) {
-        e.preventDefault();
-        console.log(e.target);
-        const colorHrefAttribute = e.target.getAttribute("href");
-        console.log(colorHrefAttribute);
-        const inputElement = color.previousElementSibling.previousElementSibling;
+        const colorSection = document.querySelector("#color-section");
+        const colorElements = colorSection.querySelectorAll("form div a");
+        console.log(colorSection);
+        colorElements.forEach(color => color.addEventListener("click", function (e) {
+            e.preventDefault();
+            console.log(e.target);
+            const colorHrefAttribute = e.target.getAttribute("href");
+            console.log(colorHrefAttribute);
+            const inputElement = color.previousElementSibling.previousElementSibling;
 
-        colorElements.forEach(clr => clr.previousElementSibling.previousElementSibling.checked = false)
-        inputElement.checked = true;
-        fetch(colorHrefAttribute).then(res => res.text())
-            .then(data => partialProductContainer.innerHTML = data);
-    }))
-</script>*@
+            colorElements.forEach(clr => clr.previousElementSibling.previousElementSibling.checked = false)
+            inputElement.checked = true;
+            fetch(colorHrefAttribute).then(res => res.text())
+                .then(data => partialProductContainer.innerHTML = data);
+        }))
+    </script>*@

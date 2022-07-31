@@ -47,8 +47,15 @@ using Newtonsoft.Json;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 6 "C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\Views\_ViewImports.cshtml"
+using Backend_MVC_Layihe.Service;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"54eabf8e6620563acb6a837aa9da34609adb9779", @"/Views/Product/Detail.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"c0d4ca94a8013697373ec71c45dfc13307502328", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"93b583dd00810623065cc906dd241f09a48fa316", @"/Views/_ViewImports.cshtml")]
     public class Views_Product_Detail : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<ProductVM>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("breadcrumb-item text-dark"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -100,7 +107,7 @@ using Newtonsoft.Json;
 #line hidden
 #nullable disable
             WriteLiteral("\r\n<!-- Breadcrumb Start -->\r\n<div class=\"container-fluid\">\r\n    <div class=\"row px-xl-5\">\r\n        <div class=\"col-12\">\r\n            <nav class=\"breadcrumb bg-light mb-30\">\r\n                ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "54eabf8e6620563acb6a837aa9da34609adb97798514", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "54eabf8e6620563acb6a837aa9da34609adb97798721", async() => {
                 WriteLiteral("Home");
             }
             );
@@ -119,7 +126,7 @@ using Newtonsoft.Json;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "54eabf8e6620563acb6a837aa9da34609adb97799972", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "54eabf8e6620563acb6a837aa9da34609adb977910179", async() => {
                 WriteLiteral("Shop");
             }
             );
@@ -173,7 +180,7 @@ WriteAttributeValue(" ", 1054, count == 0 ? "active":"" , 1055, 28, false);
 #nullable disable
             EndWriteAttribute();
             WriteLiteral(">\r\n                            ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "54eabf8e6620563acb6a837aa9da34609adb977912710", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "54eabf8e6620563acb6a837aa9da34609adb977912918", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -308,7 +315,7 @@ AddHtmlAttributeValue("", 1219, clothesImage.Alternative, 1219, 25, false);
 #line hidden
 #nullable disable
             WriteLiteral("                </p>\r\n                <div class=\"d-flex mb-4\">\r\n                    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "54eabf8e6620563acb6a837aa9da34609adb977918642", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "54eabf8e6620563acb6a837aa9da34609adb977918850", async() => {
                 WriteLiteral(@"
                         <div class=""d-flex"">
                             <div class=""form-check"">
@@ -327,7 +334,7 @@ AddHtmlAttributeValue("", 1219, clothesImage.Alternative, 1219, 25, false);
 #line hidden
 #nullable disable
                 WriteLiteral("                                            ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "54eabf8e6620563acb6a837aa9da34609adb977919697", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "54eabf8e6620563acb6a837aa9da34609adb977919905", async() => {
 #nullable restore
 #line 84 "C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\Views\Product\Detail.cshtml"
                                                                  Write(color.Name);
@@ -512,7 +519,7 @@ AddHtmlAttributeValue("", 1219, clothesImage.Alternative, 1219, 25, false);
                                 <h4 class=""mb-4"">1 review for ""Product Name""</h4>
                                 <div class=""media mb-4"">
                                     ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "54eabf8e6620563acb6a837aa9da34609adb977930984", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "54eabf8e6620563acb6a837aa9da34609adb977931192", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -557,7 +564,7 @@ AddHtmlAttributeValue("", 1219, clothesImage.Alternative, 1219, 25, false);
                                     </div>
                                 </div>
                                 ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "54eabf8e6620563acb6a837aa9da34609adb977934199", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "54eabf8e6620563acb6a837aa9da34609adb977934407", async() => {
                 WriteLiteral(@"
                                     <div class=""form-group"">
                                         <label for=""message"">Your Review *</label>

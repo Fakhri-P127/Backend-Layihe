@@ -25,8 +25,10 @@ namespace Backend_MVC_Layihe.DAL
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<SpecialOffer> SpecialOffers { get; set; }
         public DbSet<ClothesColorSize> ClothesColorSizes { get; set; }
-        public DbSet<CartItem> BasketItems { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Message> Messages { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

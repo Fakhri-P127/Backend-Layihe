@@ -1,6 +1,7 @@
 ﻿using Backend_MVC_Layihe.DAL;
 using Backend_MVC_Layihe.Models;
 using Backend_MVC_Layihe.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,8 @@ using System.Threading.Tasks;
 namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
 {
     [Area("adminpanel")]
+    [Authorize(Roles = "Moderator,Admin")]
+
     public class ClothesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -41,6 +44,8 @@ namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
 
             return View(clothes);
         }
+
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewBag.Categories = _context.Categories.Include(c=>c.Clothes).ToList();
@@ -55,6 +60,7 @@ namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(Clothes clothes)
         {
             if (!ModelState.IsValid)
@@ -277,6 +283,7 @@ namespace Backend_MVC_Layihe.Areas.adminPanel.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Remove(int? id)
         {
             if (id is null || id == 0) return NotFound();

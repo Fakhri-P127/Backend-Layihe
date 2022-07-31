@@ -3,6 +3,7 @@
     ViewData["Title"] = "Cart";
     List<Color> colors = ViewBag.Colors;
     List<Size> sizes = ViewBag.Sizes;
+    int allProductQuantity = 0;
 }
 
 @if(TempData["Message"] != null)
@@ -43,6 +44,7 @@
                 <tbody class="align-middle">
                     @foreach (CartItemVM cartItem in Model.CartItemVMs)
                     {
+                        allProductQuantity += cartItem.Quantity;
                     <tr>
                         <td class="align-middle">
                             <img src="~/assets/img/@cartItem.Clothes.ClothesImages.FirstOrDefault(c=>c.IsMain==true)?.Name"
@@ -99,7 +101,7 @@
             <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Cart Summary</span></h5>
             @if (ViewBag.Empty is null)
             {
-                decimal shippinCost = 14 * Model.CartItemVMs.Count;
+                decimal shippinCost = 4.5M * allProductQuantity;
 
                 <div class="bg-light p-30 mb-5">
                     <div class="border-bottom pb-2">
@@ -117,7 +119,7 @@
                             <h5>Total</h5>
                             <h5>$@(Model.TotalPrice+shippinCost)</h5>
                         </div>
-                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
+                        <a asp-controller="order" asp-action="checkout" class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</a>
                     </div>
                 </div>
             }
@@ -139,7 +141,7 @@
                             <h5>Total</h5>
                             <h5>$0.00</h5>
                         </div>
-                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
+                        <a asp-controller="order" asp-action="checkout" class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</a>
                     </div>
                 </div>
             }
@@ -148,27 +150,3 @@
     </div>
 </div>
 <!-- Cart End -->
-
-<script>
-    const btnPlus = document.querySelectorAll(".btn-plus");
-    let quantityInputs = document.querySelectorAll("#quantityInput");
-    @*if (quantityInput.value >= 10) {
-        btn
-    }*@
-    @*console.log(quantityInputs)*@
-    let isHigher = false;
-    let higherValueInput;
-    quantityInputs.forEach(c => {
-        if (Number(c.value) >= 10) {
-            isHigher = true;
-            higherValueInput = c;
-            @*c.setAttribute("disabled", "");*@
-        }
-    });
-    console.log(isHigher);
-    console.log(higherValueInput);
-    @*if (isHigher) {
-
-    }*@
-   
-</script>

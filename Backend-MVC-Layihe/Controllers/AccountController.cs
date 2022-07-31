@@ -69,7 +69,7 @@ namespace Backend_MVC_Layihe.Controllers
             await _userManager.AddToRoleAsync(user, "Member");
             
 
-            return RedirectToAction("Home", "Index");
+            return RedirectToAction("Index", "Home");
         }
         
         public IActionResult Login()
@@ -88,7 +88,7 @@ namespace Backend_MVC_Layihe.Controllers
                 ModelState.AddModelError(string.Empty, "Username or password incorrect.");
                 return View();
             } 
-            user.BasketItems = await _context.BasketItems.Include(b => b.AppUser).Include(b => b.Clothes)
+            user.CartItems = await _context.CartItems.Include(b => b.AppUser).Include(b => b.Clothes)
                 .Where(b => b.AppUserId == user.Id).ToListAsync();
             
             Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager
@@ -112,12 +112,12 @@ namespace Backend_MVC_Layihe.Controllers
                 cartCookie = JsonConvert.DeserializeObject<CartCookieVM>(cartCookieStr);
                 foreach (CartCookieItemVM cookieItem in cartCookie.CartCookieItemVMs)
                 {
-                    // Eger eyni mehsuldan userBasket de varsa onda quantitysini artir, birde mehsulu yeniden yaratma.
-                    CartItem existedBasketItem = user.BasketItems.FirstOrDefault(b => b.ClothesId == cookieItem.Id 
+                    // Eger eyni mehsuldan userCart da varsa onda quantitysini artir, birde mehsulu yeniden yaratma.
+                    CartItem existedCartItem = user.CartItems.FirstOrDefault(b => b.ClothesId == cookieItem.Id 
                     && b.SizeId== cookieItem.SizeId && b.ColorId == cookieItem.ColorId);
-                    if(existedBasketItem != null)
+                    if(existedCartItem != null)
                     {
-                        existedBasketItem.Quantity += cookieItem.Quantity;
+                        existedCartItem.Quantity += cookieItem.Quantity;
                         continue;
                     }
                     
@@ -130,7 +130,7 @@ namespace Backend_MVC_Layihe.Controllers
 
                     if (clothesColor is null) return NotFound();
 
-                    CartItem basketItem = new CartItem
+                    CartItem cartItem = new CartItem
                     {
                         Quantity = cookieItem.Quantity,
                         Clothes = clothesColor.Clothes,
@@ -139,7 +139,7 @@ namespace Backend_MVC_Layihe.Controllers
                         ColorId=cookieItem.ColorId,
                         SizeId=cookieItem.SizeId
                     };
-                    _context.BasketItems.Add(basketItem);
+                    _context.CartItems.Add(cartItem);
 
                     // layout service den instance almaqimin sebebi odur ki, normalda login olanda cookie deki datalardan basketItem yaradiriq(Database) amma bunlar basket e dushmur. Bunun uchun getBasket() metodunu cagiririq. 
                     
@@ -162,12 +162,12 @@ namespace Backend_MVC_Layihe.Controllers
             return Json(User.Identity.IsAuthenticated);
         }
 
-        public async Task CreateRoles()
-        {
-            await _roleInManager.CreateAsync(new IdentityRole("Member"));
-            await _roleInManager.CreateAsync(new IdentityRole("Moderator"));
-            await _roleInManager.CreateAsync(new IdentityRole("Admin"));
-        }
+        //public async Task CreateRoles()
+        //{
+        //    await _roleInManager.CreateAsync(new IdentityRole("Member"));
+        //    await _roleInManager.CreateAsync(new IdentityRole("Moderator"));
+        //    await _roleInManager.CreateAsync(new IdentityRole("Admin"));
+        //}
 
     }
 }

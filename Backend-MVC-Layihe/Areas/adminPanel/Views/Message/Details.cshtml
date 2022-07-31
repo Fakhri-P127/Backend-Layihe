@@ -1,0 +1,45 @@
+﻿@model Backend_MVC_Layihe.Models.Message
+
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<div class="main-panel container mt-4">
+    <div class="d-flex justify-content-between">
+        <h1>Detail</h1>
+            <a class="text-decoration-none text-secondary" asp-action="Index">Back to List</a>
+    </div>
+
+    <div>
+        <h4>Message</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Subject)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Subject)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.MessageText)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.MessageText)
+            </dd>
+        </dl>
+    </div>
+   
+
+</div>

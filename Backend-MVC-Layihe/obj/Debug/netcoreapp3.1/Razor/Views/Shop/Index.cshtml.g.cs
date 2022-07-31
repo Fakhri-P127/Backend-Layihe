@@ -47,8 +47,15 @@ using Newtonsoft.Json;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 6 "C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\Views\_ViewImports.cshtml"
+using Backend_MVC_Layihe.Service;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"d29676b6101f88bb9df583ccd20de492c9c541db", @"/Views/Shop/Index.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"c0d4ca94a8013697373ec71c45dfc13307502328", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"93b583dd00810623065cc906dd241f09a48fa316", @"/Views/_ViewImports.cshtml")]
     public class Views_Shop_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<List<Clothes>>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("breadcrumb-item text-dark"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -99,7 +106,7 @@ using Newtonsoft.Json;
 #line hidden
 #nullable disable
             WriteLiteral("\r\n\r\n<!-- Breadcrumb Start -->\r\n<div class=\"container-fluid\">\r\n    <div class=\"row px-xl-5\">\r\n        <div class=\"col-12\">\r\n            <nav class=\"breadcrumb bg-light mb-30\">\r\n                ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db8452", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db8659", async() => {
                 WriteLiteral("Home");
             }
             );
@@ -118,7 +125,7 @@ using Newtonsoft.Json;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db9910", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db10117", async() => {
                 WriteLiteral("Shop");
             }
             );
@@ -152,7 +159,7 @@ using Newtonsoft.Json;
             <h5 class=""section-title position-relative text-uppercase mb-3""><span class=""bg-secondary pr-3"">Filter by price</span></h5>
             <div class=""bg-light p-4 mb-30"">
                 ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db11911", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db12119", async() => {
                 WriteLiteral(@"
                     <div class=""custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"">
                         <input type=""checkbox"" class=""custom-control-input"" checked id=""price-all"">
@@ -207,7 +214,7 @@ using Newtonsoft.Json;
             <h5 class=""section-title position-relative text-uppercase mb-3""><span class=""bg-secondary pr-3"">Filter by color</span></h5>
             <div id=""color-section"" class=""bg-light p-4 mb-30"">
                 ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db16131", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db16339", async() => {
                 WriteLiteral("\r\n");
 #nullable restore
 #line 67 "C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\Views\Shop\Index.cshtml"
@@ -230,7 +237,7 @@ using Newtonsoft.Json;
                         <input style=""width:100%"" type=""checkbox"" class=""custom-control-input"" checked id=""color-all"">
                         <label style=""width:120px"" class=""custom-control-label"" for=""color-all"">All colors</label>
                         ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db17338", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db17546", async() => {
                     WriteLiteral(" ");
                 }
                 );
@@ -280,7 +287,7 @@ using Newtonsoft.Json;
 #line hidden
 #nullable disable
                 WriteLiteral("</label>\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db20513", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db20721", async() => {
                     WriteLiteral(" ");
                 }
                 );
@@ -349,13 +356,13 @@ using Newtonsoft.Json;
             <h5 class=""section-title position-relative text-uppercase mb-3""><span class=""bg-secondary pr-3"">Filter by size</span></h5>
             <div id=""size-section"" class=""bg-light p-4 mb-30"">
                 ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db24851", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db25059", async() => {
                 WriteLiteral("\r\n");
                 WriteLiteral(@"                    <div class=""custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"">
                         <input style=""width:100%"" type=""checkbox"" class=""custom-control-input"" checked>
                         <label style=""width:120px"" class=""custom-control-label"" for=""size-all"">All Sizes</label>
                         ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db25524", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db25732", async() => {
                     WriteLiteral(" ");
                 }
                 );
@@ -405,7 +412,7 @@ using Newtonsoft.Json;
 #line hidden
 #nullable disable
                 WriteLiteral("</label>\r\n                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db28677", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db28885", async() => {
                     WriteLiteral(" ");
                 }
                 );
@@ -485,7 +492,7 @@ using Newtonsoft.Json;
                                 <button type=""button"" class=""btn btn-sm btn-light dropdown-toggle"" data-toggle=""dropdown"">Sorting</button>
                                 <div class=""dropdown-menu dropdown-menu-right"">
                                     ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db33763", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db33971", async() => {
                 WriteLiteral("Latest");
             }
             );
@@ -520,7 +527,7 @@ using Newtonsoft.Json;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                                    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db36464", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db36672", async() => {
                 WriteLiteral("A-Z");
             }
             );
@@ -555,7 +562,7 @@ using Newtonsoft.Json;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                                    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db39157", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db39365", async() => {
                 WriteLiteral("Z-A");
             }
             );
@@ -590,7 +597,7 @@ using Newtonsoft.Json;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                                    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db41850", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db42058", async() => {
                 WriteLiteral("Price by ascending");
             }
             );
@@ -625,7 +632,7 @@ using Newtonsoft.Json;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                                    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db44573", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d29676b6101f88bb9df583ccd20de492c9c541db44781", async() => {
                 WriteLiteral("Price by descending");
             }
             );

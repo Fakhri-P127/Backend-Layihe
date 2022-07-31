@@ -154,7 +154,6 @@ C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netc
 C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Views\Order\Checkout.cshtml.g.cs
 C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Backend-MVC-Layihe.csproj.AssemblyReference.cache
 C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ClothesPartialView.cshtml.g.cs
-C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Views\Home\CategoryPage.cshtml.g.cs
 C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Areas\adminPanel\Views\Dashboard\Index.cshtml.g.cs
 C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Areas\adminPanel\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Areas\adminPanel\Views\_ViewImports.cshtml.g.cs
@@ -194,3 +193,5 @@ C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\bin\Debug\netc
 C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Views\Account\Register.cshtml.g.cs
 C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Views\Account\Login.cshtml.g.cs
+C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Areas\adminPanel\Views\Message\Index.cshtml.g.cs
+C:\Users\efend\source\repos\Backend-MVC-Layihe\Backend-MVC-Layihe\obj\Debug\netcoreapp3.1\Razor\Areas\adminPanel\Views\Message\Details.cshtml.g.cs
